@@ -1,0 +1,2605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Digital Library & E-Books Portal | DR. RVR NRI Institute of Technology</title>
+  <meta name="description" content="Official Central Digital Library Portal of DR. RVR NRI Institute of Technology (Deemed to be University). Access 150,000+ e-books, journals, research publications, and academic resources 24/7.">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- GSAP CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+
+  <style>
+    /* Light Theme (DEFAULT): Pure Pristine White & Vibrant #ed6b10 Orange */
+    :root {
+      --bg-primary: #fcfcfd;
+      --bg-secondary: #ffffff;
+      --bg-card: rgba(255, 255, 255, 0.92);
+      --bg-glass: rgba(255, 255, 255, 0.94);
+      --accent-orange: #ed6b10;
+      --accent-orange-bright: #d15802;
+      --accent-gold: #d97706;
+      --accent-amber: #c25710;
+      --accent-blue: #ed6b10;
+      --accent-cyan: #d97706;
+      --accent-emerald: #059669;
+      --accent-purple: #c25710;
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --text-dim: #64748b;
+      --border-light: rgba(237, 107, 16, 0.15);
+      --border-glow: rgba(237, 107, 16, 0.35);
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --radius-xl: 28px;
+      --shadow-glow: 0 10px 30px -8px rgba(237, 107, 16, 0.25);
+      --shadow-card: 0 15px 35px rgba(237, 107, 16, 0.08);
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+      --font-heading: 'Space Grotesk', sans-serif;
+    }
+
+    /* Dark Theme: Obsidian Black & Glowing #ed6b10 Orange */
+    [data-theme="dark"] {
+      --bg-primary: #07080c;
+      --bg-secondary: #0f1118;
+      --bg-card: rgba(18, 20, 29, 0.8);
+      --bg-glass: rgba(12, 14, 21, 0.88);
+      --accent-orange: #ed6b10;
+      --accent-orange-bright: #ff7d26;
+      --accent-gold: #ffab00;
+      --accent-amber: #ed6b10;
+      --accent-blue: #ed6b10;
+      --accent-cyan: #ff944d;
+      --accent-emerald: #10b981;
+      --accent-purple: #d15802;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --border-light: rgba(255, 255, 255, 0.08);
+      --border-glow: rgba(237, 107, 16, 0.45);
+      --shadow-glow: 0 10px 35px -8px rgba(237, 107, 16, 0.4);
+      --shadow-card: 0 18px 40px rgba(0, 0, 0, 0.65);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      width: 100%;
+      max-width: 100vw;
+      overflow-x: hidden;
+      position: relative;
+      font-family: var(--font-body);
+      background-color: var(--bg-primary);
+      color: var(--text-main);
+      line-height: 1.6;
+      transition: background-color 0.4s ease, color 0.4s ease;
+    }
+
+    /* Scroll Progress Bar */
+    .scroll-progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #ed6b10, #ff944d, #ffab00);
+      z-index: 1000;
+      width: 100%;
+      transform-origin: left;
+      transform: scaleX(0);
+      transition: transform 0.1s linear;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--bg-primary);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #ed6b10;
+      border-radius: 5px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #d15802;
+    }
+
+    /* Utility SVG Container */
+    .icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 1em;
+      height: 1em;
+      fill: currentColor;
+      vertical-align: -0.125em;
+    }
+
+    /* Container with generous corner padding */
+    .container {
+      width: 100%;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 36px;
+    }
+
+    /* Navigation Bar */
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--bg-glass);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-light);
+      transition: all 0.3s ease;
+    }
+
+    .nav-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 84px;
+      gap: 32px;
+      padding: 0 8px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--text-main);
+      flex-shrink: 0;
+    }
+
+    .brand-logo-img {
+      width: 48px;
+      height: 48px;
+      object-fit: contain;
+      border-radius: 12px;
+      background: #ffffff;
+      padding: 3px;
+      box-shadow: 0 4px 14px rgba(237, 107, 16, 0.35);
+      border: 1px solid rgba(237, 107, 16, 0.3);
+      flex-shrink: 0;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .brand-logo-img:hover {
+      transform: scale(1.06);
+      box-shadow: 0 6px 20px rgba(237, 107, 16, 0.5);
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+    }
+    .brand-title {
+      font-family: var(--font-heading);
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: -0.2px;
+      line-height: 1.2;
+      color: var(--text-main);
+      white-space: nowrap;
+    }
+    .brand-subtitle {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--accent-orange-bright);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      list-style: none;
+      flex-wrap: nowrap;
+    }
+
+    .nav-link {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.92rem;
+      transition: all 0.25s ease;
+      position: relative;
+      padding: 6px 0;
+      white-space: nowrap;
+    }
+    .nav-link:hover, .nav-link.active {
+      color: var(--text-main);
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0%;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent-orange), var(--accent-gold));
+      transition: width 0.3s ease;
+      border-radius: 2px;
+    }
+    .nav-link:hover::after, .nav-link.active::after {
+      width: 100%;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-shrink: 0;
+      white-space: nowrap;
+    }
+
+    /* Desktop Theme Toggle Button (Shown on Desktop > 1100px) */
+    .desktop-theme-btn {
+      display: flex;
+    }
+
+    /* Hamburger Menu Button (HIDDEN on Laptop > 1100px, SHOWN on Mobile <= 1100px) */
+    .hamburger-btn {
+      display: none !important;
+    }
+
+    /* Mobile Navigation Dropdown Menu */
+    .nav-dropdown-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: 998;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+    .nav-dropdown-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .nav-dropdown-menu {
+      position: fixed;
+      top: 90px;
+      right: 36px;
+      width: 310px;
+      max-width: 92vw;
+      background: var(--bg-glass);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--border-glow);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      box-shadow: 0 18px 45px rgba(0,0,0,0.35), var(--shadow-glow);
+      z-index: 999;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-12px) scale(0.95);
+      transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .nav-dropdown-menu.active {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0) scale(1);
+    }
+
+    .dropdown-item {
+      color: var(--text-main);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.92rem;
+      padding: 11px 14px;
+      border-radius: var(--radius-md);
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.25s ease;
+    }
+    .dropdown-item:hover {
+      border-color: var(--accent-orange);
+      color: var(--accent-orange-bright);
+      transform: translateX(4px);
+    }
+
+    .btn-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      border: 1px solid var(--border-light);
+      background: var(--bg-card);
+      color: var(--text-main);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      position: relative;
+      flex-shrink: 0;
+    }
+    .btn-icon:hover {
+      border-color: var(--accent-orange);
+      color: var(--accent-orange);
+      transform: translateY(-2px);
+    }
+    .btn-icon .badge-count {
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      background: var(--accent-orange);
+      color: #fff;
+      font-size: 0.7rem;
+      font-weight: 800;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 6px rgba(237, 107, 16, 0.4);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #ed6b10, #d15802);
+      color: #fff;
+      padding: 10px 22px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.92rem;
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 16px rgba(237, 107, 16, 0.4);
+      transition: all 0.3s ease;
+      white-space: nowrap;
+      flex-shrink: 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-primary::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(60deg, transparent, rgba(255,255,255,0.25), transparent);
+      transform: rotate(30deg) translateY(-100%);
+      transition: transform 0.6s ease;
+    }
+    .btn-primary:hover::after {
+      transform: rotate(30deg) translateY(100%);
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(237, 107, 16, 0.55);
+      background: linear-gradient(135deg, #ff7d26, #ed6b10);
+    }
+
+    /* Hero Section */
+    .hero {
+      position: relative;
+      padding: 75px 0 95px 0;
+      overflow: hidden;
+    }
+
+    #heroCanvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: none;
+      opacity: 0.6;
+    }
+
+    .hero-glow-1 {
+      position: absolute;
+      top: -100px;
+      left: 10%;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(237, 107, 16, 0.22) 0%, rgba(0,0,0,0) 70%);
+      pointer-events: none;
+    }
+    .hero-glow-2 {
+      position: absolute;
+      top: 100px;
+      right: 5%;
+      width: 450px;
+      height: 450px;
+      background: radial-gradient(circle, rgba(255, 148, 77, 0.18) 0%, rgba(0,0,0,0) 70%);
+      pointer-events: none;
+    }
+
+    .hero-grid {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 50px;
+      align-items: center;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      border-radius: 30px;
+      background: rgba(237, 107, 16, 0.12);
+      border: 1px solid rgba(237, 107, 16, 0.35);
+      color: var(--accent-orange-bright);
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-bottom: 24px;
+    }
+
+    .live-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 10px #10b981;
+      animation: pulseDot 2s infinite;
+    }
+    @keyframes pulseDot {
+      0% { transform: scale(0.95); opacity: 0.8; }
+      50% { transform: scale(1.3); opacity: 1; }
+      100% { transform: scale(0.95); opacity: 0.8; }
+    }
+
+    .hero-title {
+      font-family: var(--font-heading);
+      font-size: 3.4rem;
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -1px;
+      margin-bottom: 20px;
+    }
+    .hero-title .highlight {
+      background: linear-gradient(135deg, #ff944d, #ed6b10, #ffc107);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-subtitle {
+      font-size: 1.12rem;
+      color: var(--text-muted);
+      margin-bottom: 36px;
+      max-width: 580px;
+      font-weight: 400;
+    }
+
+    /* Search Box */
+    .search-box-wrap {
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      padding: 10px;
+      border-radius: var(--radius-lg);
+      backdrop-filter: blur(12px);
+      box-shadow: var(--shadow-card);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 40px;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    .search-box-wrap:focus-within {
+      border-color: var(--accent-orange);
+      box-shadow: 0 0 25px rgba(237, 107, 16, 0.35);
+    }
+
+    .search-input-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex: 1;
+      padding-left: 14px;
+    }
+
+    .search-input-group svg {
+      width: 22px;
+      height: 22px;
+      color: var(--accent-orange);
+    }
+
+    .search-input {
+      width: 100%;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--text-main);
+      font-size: 1.02rem;
+      font-family: var(--font-body);
+    }
+    .search-input::placeholder {
+      color: var(--text-dim);
+    }
+
+    .search-filter-select {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-light);
+      color: var(--text-main);
+      padding: 10px 14px;
+      border-radius: var(--radius-md);
+      font-family: var(--font-body);
+      font-size: 0.88rem;
+      cursor: pointer;
+      outline: none;
+    }
+
+    /* Hero Stats Bar */
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border-light);
+    }
+
+    .stat-item h3 {
+      font-family: var(--font-heading);
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--accent-orange-bright);
+    }
+    .stat-item p {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    /* 3D Animated Book Container in Hero */
+    .hero-visual {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      perspective: 1200px;
+    }
+
+    .book-3d-wrapper {
+      position: relative;
+      width: 270px;
+      height: 380px;
+      transform-style: preserve-3d;
+      transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+      cursor: pointer;
+    }
+
+    .book-3d-card {
+      width: 100%;
+      height: 100%;
+      border-radius: 12px 18px 18px 12px;
+      background: linear-gradient(135deg, #ed6b10, #7c2d12);
+      border: 2px solid rgba(255, 255, 255, 0.25);
+      box-shadow: 
+        -14px 18px 45px rgba(0, 0, 0, 0.65),
+        inset -3px 0 10px rgba(255, 255, 255, 0.2);
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .book-3d-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 14px;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.2);
+      box-shadow: inset -1px 0 2px rgba(0,0,0,0.4);
+    }
+
+    .book-tag {
+      align-self: flex-start;
+      background: #ffffff;
+      color: #ed6b10;
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 6px;
+      text-transform: uppercase;
+      margin-left: 10px;
+    }
+
+    .book-icon-bg {
+      margin: 20px 0;
+      color: rgba(255, 255, 255, 0.95);
+      text-align: center;
+    }
+
+    .book-title-3d {
+      font-family: var(--font-heading);
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: #fff;
+      margin-left: 10px;
+      line-height: 1.3;
+    }
+
+    .book-author-3d {
+      font-size: 0.85rem;
+      color: rgba(255, 255, 255, 0.85);
+      margin-left: 10px;
+    }
+
+    /* Orbiting floating elements */
+    .orbit-element {
+      position: absolute;
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      backdrop-filter: blur(10px);
+      padding: 12px 18px;
+      border-radius: 16px;
+      box-shadow: var(--shadow-card);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      z-index: 10;
+      animation: float 4s ease-in-out infinite alternate;
+    }
+    .orbit-1 {
+      top: 10%;
+      left: -20px;
+      animation-delay: 0s;
+    }
+    .orbit-2 {
+      bottom: 12%;
+      right: -20px;
+      animation-delay: 2s;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0px) rotate(0deg); }
+      100% { transform: translateY(-14px) rotate(2deg); }
+    }
+
+    /* Section Styling */
+    .section {
+      padding: 80px 0;
+      position: relative;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 44px;
+    }
+
+    .section-subtitle {
+      color: var(--accent-orange-bright);
+      font-size: 0.88rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-title {
+      font-family: var(--font-heading);
+      font-size: 2.2rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: var(--text-main);
+    }
+
+    /* Department Categories Filter */
+    .filter-tabs {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      padding-bottom: 12px;
+      margin-bottom: 36px;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    .filter-tabs::-webkit-scrollbar {
+      display: none;
+    }
+
+    .tab-btn {
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      color: var(--text-muted);
+      padding: 10px 20px;
+      border-radius: 30px;
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .tab-btn .tab-count {
+      font-size: 0.75rem;
+      background: rgba(237, 107, 16, 0.12);
+      padding: 2px 8px;
+      border-radius: 12px;
+      color: var(--accent-orange-bright);
+    }
+    .tab-btn:hover {
+      color: var(--text-main);
+      border-color: var(--accent-orange);
+    }
+    .tab-btn.active {
+      background: linear-gradient(135deg, #ed6b10, #d15802);
+      color: #fff;
+      border-color: transparent;
+      box-shadow: 0 4px 16px rgba(237, 107, 16, 0.4);
+    }
+    .tab-btn.active .tab-count {
+      background: rgba(0,0,0,0.25);
+      color: #fff;
+    }
+
+    /* E-Books Grid */
+    .books-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 28px;
+    }
+
+    .book-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      transition: all 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(10px);
+    }
+    .book-card:hover {
+      transform: translateY(-8px) scale(1.01);
+      border-color: var(--border-glow);
+      box-shadow: var(--shadow-glow), var(--shadow-card);
+    }
+
+    .book-cover-container {
+      width: 100%;
+      height: 240px;
+      border-radius: var(--radius-md);
+      margin-bottom: 18px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-size: cover;
+      background-position: center;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .book-cover-style-1 { background: linear-gradient(135deg, #d15802, #ed6b10); }
+    .book-cover-style-2 { background: linear-gradient(135deg, #c25710, #ff944d); }
+    .book-cover-style-3 { background: linear-gradient(135deg, #18181b, #ed6b10); }
+    .book-cover-style-4 { background: linear-gradient(135deg, #7c2d12, #ffab00); }
+    .book-cover-style-5 { background: linear-gradient(135deg, #090a0f, #431407); }
+
+    .book-cover-content {
+      text-align: center;
+      padding: 20px;
+      color: #fff;
+      z-index: 2;
+    }
+    .book-cover-title {
+      font-family: var(--font-heading);
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-top: 10px;
+      line-height: 1.3;
+    }
+    .book-spine {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 10px;
+      background: rgba(255, 255, 255, 0.22);
+    }
+
+    .book-dept-tag {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(6px);
+      color: var(--accent-orange-bright);
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+      border: 1px solid rgba(237, 107, 16, 0.4);
+      z-index: 3;
+    }
+
+    .book-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .book-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      margin-bottom: 6px;
+    }
+
+    .book-card-title {
+      font-family: var(--font-heading);
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 6px;
+      line-height: 1.35;
+    }
+
+    .book-author {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+    }
+
+    .book-footer {
+      margin-top: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 14px;
+      border-top: 1px solid var(--border-light);
+    }
+
+    .book-actions {
+      display: flex;
+      gap: 8px;
+      width: 100%;
+    }
+
+    .btn-read {
+      flex: 1;
+      background: rgba(237, 107, 16, 0.12);
+      color: var(--accent-orange-bright);
+      border: 1px solid rgba(237, 107, 16, 0.3);
+      padding: 8px 14px;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.25s ease;
+    }
+    .btn-read:hover {
+      background: var(--accent-orange);
+      color: #fff;
+    }
+
+    .btn-bookmark {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-light);
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.25s ease;
+    }
+    .btn-bookmark:hover, .btn-bookmark.saved {
+      color: var(--accent-orange-bright);
+      border-color: var(--accent-orange);
+      background: rgba(237, 107, 16, 0.12);
+    }
+
+    /* Database / Journals Direct Access Section */
+    .journals-section {
+      background: linear-gradient(180deg, transparent, rgba(237, 107, 16, 0.05), transparent);
+    }
+
+    .journals-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .journal-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      padding: 24px;
+      border-radius: var(--radius-md);
+      text-align: center;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .journal-card:hover {
+      border-color: var(--accent-orange);
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-glow);
+    }
+
+    .journal-icon-box {
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      background: rgba(237, 107, 16, 0.12);
+      color: var(--accent-orange-bright);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+      font-size: 1.5rem;
+    }
+
+    .journal-name {
+      font-family: var(--font-heading);
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 6px;
+    }
+
+    .journal-desc {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    /* LibAI Research Assistant Banner */
+    .ai-assistant-banner {
+      background: linear-gradient(135deg, rgba(237, 107, 16, 0.88), rgba(209, 88, 2, 0.9));
+      border: 1px solid rgba(237, 107, 16, 0.4);
+      border-radius: var(--radius-xl);
+      padding: 40px;
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(14px);
+    }
+
+    .ai-banner-content {
+      max-width: 650px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .ai-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      color: #fff;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      margin-bottom: 14px;
+    }
+
+    .ai-banner-title {
+      font-family: var(--font-heading);
+      font-size: 2rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 12px;
+    }
+
+    .ai-banner-desc {
+      color: rgba(255, 255, 255, 0.9);
+      margin-bottom: 24px;
+      font-size: 0.98rem;
+    }
+
+    .ai-query-box {
+      display: flex;
+      gap: 10px;
+      background: rgba(255, 255, 255, 0.95);
+      padding: 8px;
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .ai-query-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: #0f172a;
+      padding-left: 12px;
+      font-family: var(--font-body);
+    }
+
+    /* Sound Visualizer Bars inside Modal */
+    .audio-visualizer {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      height: 24px;
+      margin-top: 10px;
+    }
+    .audio-bar {
+      width: 4px;
+      background: var(--accent-orange-bright);
+      border-radius: 2px;
+      animation: soundWave 1.2s ease-in-out infinite alternate;
+    }
+    .audio-bar:nth-child(1) { height: 30%; animation-delay: 0.1s; }
+    .audio-bar:nth-child(2) { height: 80%; animation-delay: 0.3s; }
+    .audio-bar:nth-child(3) { height: 100%; animation-delay: 0.2s; }
+    .audio-bar:nth-child(4) { height: 50%; animation-delay: 0.4s; }
+    .audio-bar:nth-child(5) { height: 90%; animation-delay: 0.15s; }
+    @keyframes soundWave {
+      0% { transform: scaleY(0.3); }
+      100% { transform: scaleY(1); }
+    }
+
+    /* Modal Styling */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-glow);
+      width: 100%;
+      max-width: 900px;
+      max-height: 90vh;
+      border-radius: var(--radius-xl);
+      overflow-y: auto;
+      position: relative;
+      box-shadow: var(--shadow-glow), 0 25px 50px rgba(0,0,0,0.4);
+      transform: scale(0.95);
+      transition: transform 0.3s ease;
+    }
+    .modal-overlay.active .modal-card {
+      transform: scale(1);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      color: var(--text-main);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+    }
+
+    .modal-body {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 30px;
+      padding: 36px;
+    }
+
+    .modal-book-preview {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .reader-sample-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      font-size: 0.92rem;
+      max-height: 320px;
+      overflow-y: auto;
+      line-height: 1.7;
+      color: var(--text-muted);
+    }
+
+    /* Shelf Drawer Side Panel - FIXED OVERFLOW */
+    .drawer-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.65);
+      z-index: 999;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .drawer-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .shelf-drawer {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 380px;
+      max-width: 100vw;
+      height: 100%;
+      background: var(--bg-secondary);
+      border-left: 1px solid var(--border-glow);
+      z-index: 1000;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      transition: right 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+      box-shadow: -10px 0 30px rgba(0,0,0,0.4);
+    }
+    .shelf-drawer.active {
+      right: 0;
+    }
+
+    .drawer-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .shelf-item-list {
+      flex: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .shelf-item {
+      display: flex;
+      gap: 14px;
+      background: var(--bg-card);
+      padding: 12px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-light);
+      align-items: center;
+    }
+
+    /* Floating Back-To-Top Button */
+    .back-to-top {
+      position: fixed;
+      bottom: 30px;
+      left: 30px;
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: var(--accent-orange);
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 6px 20px rgba(237, 107, 16, 0.4);
+      z-index: 99;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s ease;
+    }
+    .back-to-top.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .back-to-top:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 25px rgba(237, 107, 16, 0.6);
+    }
+
+    /* Toast Notification */
+    .toast-notification {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: var(--bg-card);
+      border: 1px solid var(--accent-orange);
+      color: var(--text-main);
+      padding: 14px 22px;
+      border-radius: var(--radius-md);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      z-index: 2000;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s ease;
+    }
+    .toast-notification.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    /* Footer */
+    .footer {
+      background: var(--bg-secondary);
+      border-top: 1px solid var(--border-light);
+      padding: 70px 0 30px 0;
+      position: relative;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.5fr repeat(3, 1fr);
+      gap: 40px;
+      margin-bottom: 50px;
+    }
+
+    .footer-brand p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-top: 14px;
+      max-width: 320px;
+    }
+
+    .footer-title {
+      font-family: var(--font-heading);
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      color: var(--text-main);
+    }
+
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.88rem;
+      transition: color 0.25s ease;
+    }
+    .footer-links a:hover {
+      color: var(--accent-orange-bright);
+    }
+
+    .footer-bottom {
+      padding-top: 30px;
+      border-top: 1px solid var(--border-light);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.82rem;
+      color: var(--text-dim);
+    }
+
+    /* Comprehensive Multi-Device Media Queries */
+    @media (min-width: 1600px) {
+      .container {
+        max-width: 1560px;
+        padding: 0 48px;
+      }
+      .hero-title {
+        font-size: 3.8rem;
+      }
+      .books-grid {
+        grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+      }
+    }
+
+    @media (max-width: 1100px) {
+      .nav-links {
+        display: none;
+      }
+      .desktop-theme-btn {
+        display: none;
+      }
+      #openShelfBtn {
+        display: none;
+      }
+      .hamburger-btn {
+        display: flex !important;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+      .hero-subtitle {
+        margin: 0 auto 36px auto;
+      }
+      .hero-visual {
+        margin-top: 30px;
+      }
+      .search-box-wrap {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .search-input-group {
+        padding-left: 0;
+        margin-bottom: 8px;
+      }
+      .search-filter-select, .search-box-wrap .btn-primary {
+        width: 100%;
+        justify-content: center;
+      }
+      .footer-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .container {
+        padding: 0 16px;
+      }
+      .nav-container {
+        height: 72px;
+        padding: 0 4px;
+      }
+      .brand-title {
+        font-size: 0.85rem;
+        white-space: normal;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+      .brand-subtitle {
+        font-size: 0.65rem;
+      }
+      .hero {
+        padding: 40px 0 60px 0;
+      }
+      .hero-title {
+        font-size: 2.1rem;
+        letter-spacing: -0.5px;
+      }
+      .hero-subtitle {
+        font-size: 0.95rem;
+      }
+      .hero-stats {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 14px;
+      }
+      .stat-item h3 {
+        font-size: 1.4rem;
+      }
+      .book-3d-wrapper {
+        width: 220px;
+        height: 310px;
+      }
+      .orbit-element {
+        font-size: 0.75rem;
+        padding: 8px 12px;
+      }
+      .orbit-1 {
+        left: -10px;
+        top: 5%;
+      }
+      .orbit-2 {
+        right: -10px;
+        bottom: 5%;
+      }
+      .books-grid {
+        grid-template-columns: 1fr;
+      }
+      .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+      }
+      .footer-bottom {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+      }
+      .modal-card {
+        width: 95vw;
+        max-height: 94vh;
+        border-radius: 18px;
+      }
+      .modal-body {
+        grid-template-columns: 1fr;
+        padding: 20px;
+        gap: 20px;
+      }
+      .toast-notification {
+        right: 15px;
+        left: 15px;
+        bottom: 15px;
+      }
+      .nav-dropdown-menu {
+        right: 16px;
+        top: 78px;
+        width: 290px;
+      }
+    }
+
+    @media (max-width: 380px) {
+      .hero-title {
+        font-size: 1.8rem;
+      }
+      .btn-primary {
+        padding: 8px 14px;
+        font-size: 0.82rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Scroll Progress Bar -->
+  <div class="scroll-progress-bar" id="progressBar"></div>
+
+  <!-- Main Navigation Header -->
+  <header class="header">
+    <div class="container nav-container">
+      
+      <!-- Brand Logo on the FAR LEFT -->
+      <a href="#" class="brand">
+        <img src="nrilogo.png" alt="DR. RVR NRI Logo" class="brand-logo-img">
+        <div class="brand-text">
+          <span class="brand-title">DR. RVR NRI INSTITUTE OF TECHNOLOGY</span>
+          <span class="brand-subtitle">DEEMED TO BE UNIVERSITY • DIGITAL LIBRARY</span>
+        </div>
+      </a>
+
+      <!-- Desktop Navbar Links (Visible on Laptop/Desktop screens > 1100px) -->
+      <ul class="nav-links">
+        <li><a href="#hero" class="nav-link active">Home</a></li>
+        <li><a href="#catalog" class="nav-link">E-Books Catalog</a></li>
+        <li><a href="#journals" class="nav-link">Research Databases</a></li>
+        <li><a href="#ai-assistant" class="nav-link">LibAI Assistant</a></li>
+        <li><a href="#footer" class="nav-link">Help & Contact</a></li>
+      </ul>
+
+      <!-- Action Buttons on the FAR RIGHT -->
+      <div class="nav-actions">
+        <!-- Desktop Theme Toggle Button (Positioned on LEFT side of Saved Books Button) -->
+        <button class="btn-icon desktop-theme-btn" id="desktopThemeToggleBtn" title="Toggle Light / Dark Theme">
+          <svg class="icon" viewBox="0 0 24 24" style="font-size: 20px;">
+            <path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z"/>
+          </svg>
+        </button>
+
+        <!-- Bookshelf Drawer Button -->
+        <button class="btn-icon" id="openShelfBtn" title="My Saved Bookshelf">
+          <svg class="icon" viewBox="0 0 24 24" style="font-size: 20px;">
+            <path d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2zm0 15l-5-2.18L7 18V5h10v13z"/>
+          </svg>
+          <span class="badge-count" id="shelfCount">0</span>
+        </button>
+
+        <!-- Student Portal Login Button -->
+        <button class="btn-primary" id="loginModalTrigger">
+          <svg class="icon" viewBox="0 0 24 24" style="font-size: 18px;">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
+          </svg>
+          Library ID Login
+        </button>
+
+        <!-- Mobile/Tablet Hamburger Menu Button on FAR RIGHT (HIDDEN on Laptop > 1100px) -->
+        <button class="btn-icon hamburger-btn" id="openNavDropdownBtn" title="Open Navigation Menu">
+          <svg class="icon" viewBox="0 0 24 24" style="font-size: 22px;">
+            <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Dropdown Menu with SVG Icons (No Emojis) -->
+  <div class="nav-dropdown-overlay" id="navDropdownOverlay"></div>
+  <div class="nav-dropdown-menu" id="navDropdown">
+    <div style="display: flex; align-items: center; justify-content: space-between; padding-bottom: 12px; margin-bottom: 14px; border-bottom: 1px solid var(--border-light);">
+      <div style="font-family: var(--font-heading); font-size: 0.95rem; font-weight: 700; color: var(--text-main);">
+        Navigation Menu
+      </div>
+      <span style="font-size: 0.72rem; color: var(--accent-orange-bright); font-weight: 700;">RVR NRI 2026</span>
+    </div>
+
+    <!-- Theme Toggle inside Mobile Hamburger Dropdown -->
+    <div style="margin-bottom: 14px; padding: 10px 12px; background: var(--bg-card); border: 1px solid var(--border-light); border-radius: 12px; display: flex; align-items: center; justify-content: space-between;">
+      <span style="font-size: 0.85rem; font-weight: 600; color: var(--text-main);">Appearance Theme</span>
+      <button class="btn-primary" id="themeToggleBtn" style="padding: 5px 12px; font-size: 0.78rem; height: 32px;">
+        <svg class="icon" id="themeIcon" viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z"/></svg>
+        <span id="themeBtnText">Dark Mode</span>
+      </button>
+    </div>
+
+    <!-- Mobile Links with Pure SVG Icons -->
+    <ul style="list-style: none; display: flex; flex-direction: column; gap: 8px;">
+      <li>
+        <a href="#hero" class="dropdown-item">
+          <svg class="icon" viewBox="0 0 24 24" style="color: var(--accent-orange); font-size: 18px;"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          <span>Home</span>
+        </a>
+      </li>
+      <li>
+        <a href="#catalog" class="dropdown-item">
+          <svg class="icon" viewBox="0 0 24 24" style="color: var(--accent-orange); font-size: 18px;"><path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H8V4h12v12z"/></svg>
+          <span>E-Books Catalog</span>
+        </a>
+      </li>
+      <li>
+        <a href="#journals" class="dropdown-item">
+          <svg class="icon" viewBox="0 0 24 24" style="color: var(--accent-orange); font-size: 18px;"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+          <span>Research Databases</span>
+        </a>
+      </li>
+      <li>
+        <a href="#ai-assistant" class="dropdown-item">
+          <svg class="icon" viewBox="0 0 24 24" style="color: var(--accent-orange); font-size: 18px;"><path d="M19 9l1.25-2.75L23 5l-2.75-1.25L19 1l-1.25 2.75L15 5l2.75 1.25zm-7.5.5L9 4 6.5 9.5 1 12l5.5 2.5L9 20l2.5-5.5L17 12z"/></svg>
+          <span>LibAI Assistant</span>
+        </a>
+      </li>
+      <li>
+        <a href="#footer" class="dropdown-item">
+          <svg class="icon" viewBox="0 0 24 24" style="color: var(--accent-orange); font-size: 18px;"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+          <span>Help & Contact</span>
+        </a>
+      </li>
+      <li>
+        <a href="#" class="dropdown-item" id="mobileShelfBtn">
+          <svg class="icon" viewBox="0 0 24 24" style="color: var(--accent-orange); font-size: 18px;">
+            <path d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2zm0 15l-5-2.18L7 18V5h10v13z"/>
+          </svg>
+          <span style="flex:1;">My Saved Books</span>
+          <span style="background: var(--accent-orange); color: #fff; font-size: 0.7rem; font-weight: 800; padding: 2px 8px; border-radius: 12px;" id="mobileShelfCount">0</span>
+        </a>
+      </li>
+    </ul>
+
+    <div style="margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border-light);">
+      <button class="btn-primary" style="width: 100%; justify-content: center;" onclick="closeDropdown(); document.getElementById('loginModal').classList.add('active');">
+        Library ID Single Sign-On
+      </button>
+    </div>
+  </div>
+
+  <!-- Hero Section with Canvas Mesh Particles -->
+  <section class="hero" id="hero">
+    <canvas id="heroCanvas"></canvas>
+    <div class="hero-glow-1"></div>
+    <div class="hero-glow-2"></div>
+    
+    <div class="container hero-grid">
+      
+      <div class="hero-content">
+        <div class="hero-badge">
+          <span class="live-dot"></span>
+          Central Digital Knowledge Portal • 24/7 Access
+        </div>
+
+        <h1 class="hero-title">
+          Gateway to Unlimited <span class="highlight">Academic Knowledge</span> & Discovery
+        </h1>
+
+        <p class="hero-subtitle">
+          Explore over 150,000+ textbooks, peer-reviewed journals, lab manuals, and research databases. Designed for students, researchers, and faculty of RVR NRI Institute of Technology.
+        </p>
+
+        <!-- Search Box -->
+        <div class="search-box-wrap">
+          <div class="search-input-group">
+            <svg class="icon" viewBox="0 0 24 24">
+              <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+            </svg>
+            <input type="text" id="searchInput" class="search-input" placeholder="Search by Book Title, Author, ISBN, Subject or Topic (e.g., Artificial Intelligence, VLSI, Thermo)...">
+          </div>
+          
+          <select id="departmentFilter" class="search-filter-select">
+            <option value="all">All Departments</option>
+            <option value="CSE">CSE & AI/DS</option>
+            <option value="ECE">Electronics (ECE)</option>
+            <option value="EEE">Electrical (EEE)</option>
+            <option value="MECH">Mechanical Engg</option>
+            <option value="CIVIL">Civil Engg</option>
+            <option value="PHARM">Pharmacy</option>
+            <option value="MBA">MBA & Management</option>
+          </select>
+
+          <button class="btn-primary" id="searchSubmitBtn">Search</button>
+        </div>
+
+        <!-- Live Digital Stats -->
+        <div class="hero-stats">
+          <div class="stat-item">
+            <h3 class="counter" data-target="150000">0</h3>
+            <p>E-Books Available</p>
+          </div>
+          <div class="stat-item">
+            <h3 class="counter" data-target="12500">0</h3>
+            <p>E-Journals Access</p>
+          </div>
+          <div class="stat-item">
+            <h3 class="counter" data-target="45000">0</h3>
+            <p>Active Readers</p>
+          </div>
+          <div class="stat-item">
+            <h3 style="color: var(--accent-orange-bright);">24/7</h3>
+            <p>Remote Access</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3D Animated Book Visual Showcase -->
+      <div class="hero-visual">
+        <div class="orbit-element orbit-1">
+          <svg class="icon" viewBox="0 0 24 24" style="color: var(--accent-orange-bright); font-size: 22px;">
+            <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+          </svg>
+          <div>
+            <div style="font-size: 0.75rem; color: var(--text-dim);">Top Rated</div>
+            <div>AI & Deep Learning 2026</div>
+          </div>
+        </div>
+
+        <div class="orbit-element orbit-2">
+          <svg class="icon" viewBox="0 0 24 24" style="color: var(--accent-orange); font-size: 22px;">
+            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+          </svg>
+          <div>
+            <div style="font-size: 0.75rem; color: var(--text-dim);">Instant Download</div>
+            <div>Full PDF + Source Codes</div>
+          </div>
+        </div>
+
+        <div class="book-3d-wrapper" id="heroBook3D">
+          <div class="book-3d-card">
+            <span class="book-tag">FEATURED READ</span>
+            
+            <div class="book-icon-bg">
+              <svg class="icon" viewBox="0 0 24 24" style="font-size: 64px; color: #fff;">
+                <path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zM5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z"/>
+              </svg>
+            </div>
+
+            <div>
+              <div class="book-title-3d">Advanced Quantum Computing & Neural Nets</div>
+              <div class="book-author-3d">Dr. RVR Research Press</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- E-Books Catalog Section -->
+  <section class="section" id="catalog">
+    <div class="container">
+      
+      <div class="section-header">
+        <div>
+          <div class="section-subtitle">
+            <svg class="icon" viewBox="0 0 24 24">
+              <path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H8V4h12v12z"/>
+            </svg>
+            CURATED DIGITAL REPOSITORY
+          </div>
+          <h2 class="section-title">Explore Academic E-Books</h2>
+        </div>
+      </div>
+
+      <!-- Department Filter Tabs with Count Pills -->
+      <div class="filter-tabs" id="deptTabs">
+        <button class="tab-btn active" data-dept="all">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M12 2l-5.5 9h11zM12 22l5.5-9h-11z"/></svg>
+          All Departments <span class="tab-count">150K</span>
+        </button>
+        <button class="tab-btn" data-dept="CSE">CSE & AI/DS <span class="tab-count">42K</span></button>
+        <button class="tab-btn" data-dept="ECE">ECE Electronics <span class="tab-count">31K</span></button>
+        <button class="tab-btn" data-dept="EEE">EEE Electrical <span class="tab-count">24K</span></button>
+        <button class="tab-btn" data-dept="MECH">Mechanical <span class="tab-count">19K</span></button>
+        <button class="tab-btn" data-dept="CIVIL">Civil Engg <span class="tab-count">15K</span></button>
+        <button class="tab-btn" data-dept="PHARM">Pharmacy <span class="tab-count">12K</span></button>
+        <button class="tab-btn" data-dept="MBA">MBA & Management <span class="tab-count">7K</span></button>
+      </div>
+
+      <!-- Books Grid -->
+      <div class="books-grid" id="booksGrid">
+        <!-- Rendered dynamically via JS -->
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Research Databases Direct Access -->
+  <section class="section journals-section" id="journals">
+    <div class="container">
+      
+      <div class="section-header">
+        <div>
+          <div class="section-subtitle">
+            <svg class="icon" viewBox="0 0 24 24">
+              <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+            </svg>
+            INSTITUTIONAL ACCESS
+          </div>
+          <h2 class="section-title">International Research Databases</h2>
+        </div>
+      </div>
+
+      <div class="journals-grid">
+        
+        <div class="journal-card" onclick="openExternalPortal('IEEE Xplore Digital Library')">
+          <div class="journal-icon-box">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg>
+          </div>
+          <h3 class="journal-name">IEEE Xplore</h3>
+          <p class="journal-desc">Electrical, CSE & Telecommunications journals & standards.</p>
+        </div>
+
+        <div class="journal-card" onclick="openExternalPortal('ScienceDirect (Elsevier)')">
+          <div class="journal-icon-box">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/></svg>
+          </div>
+          <h3 class="journal-name">ScienceDirect</h3>
+          <p class="journal-desc">Full-text scientific, technical, and medical research papers.</p>
+        </div>
+
+        <div class="journal-card" onclick="openExternalPortal('Springer Link')">
+          <div class="journal-icon-box">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3z"/></svg>
+          </div>
+          <h3 class="journal-name">Springer Link</h3>
+          <p class="journal-desc">Peer-reviewed books, protocols, and reference works.</p>
+        </div>
+
+        <div class="journal-card" onclick="openExternalPortal('JSTOR Academic Library')">
+          <div class="journal-icon-box">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
+          </div>
+          <h3 class="journal-name">JSTOR Archives</h3>
+          <p class="journal-desc">Digital archive of primary sources, humanities, and sciences.</p>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- LibAI Research Assistant Banner -->
+  <section class="section" id="ai-assistant">
+    <div class="container">
+      <div class="ai-assistant-banner">
+        <div class="ai-banner-content">
+          <div class="ai-badge">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M19 9l1.25-2.75L23 5l-2.75-1.25L19 1l-1.25 2.75L15 5l2.75 1.25zm-7.5.5L9 4 6.5 9.5 1 12l5.5 2.5L9 20l2.5-5.5L17 12z"/></svg>
+            SMART LIB-AI ASSISTANT
+          </div>
+          <h2 class="ai-banner-title">Need help finding research papers or textbook topics?</h2>
+          <p class="ai-banner-desc">Ask LibAI to summarize chapters, synthesize reference topics, or generate customized reading lists for your syllabus!</p>
+
+          <div class="ai-query-box">
+            <input type="text" id="aiQueryInput" class="ai-query-input" placeholder="Ask LibAI: e.g., Recommend top books for Gate CSE 2026 or Data Structures...">
+            <button class="btn-primary" id="aiQueryBtn">Ask LibAI</button>
+          </div>
+          
+          <div id="aiResponseBox" style="margin-top: 16px; font-size: 0.9rem; color: #e2e8f0; display: none; background: rgba(0,0,0,0.4); padding: 14px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.15);"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer" id="footer">
+    <div class="container">
+      <div class="footer-grid">
+        
+        <div class="footer-brand">
+          <a href="#" class="brand">
+            <img src="nrilogo.png" alt="DR. RVR NRI Logo" class="brand-logo-img">
+            <div class="brand-text">
+              <span class="brand-title">DR. RVR NRI INSTITUTE OF TECHNOLOGY</span>
+              <span class="brand-subtitle">DEEMED TO BE UNIVERSITY</span>
+            </div>
+          </a>
+          <p>Empowering faculty, researchers, and students with state-of-the-art digital knowledge infrastructure and open academic resources.</p>
+        </div>
+
+        <div>
+          <h4 class="footer-title">Digital Library</h4>
+          <ul class="footer-links">
+            <li><a href="#catalog">Engineering Textbooks</a></li>
+            <li><a href="#catalog">Pharmacy Journals</a></li>
+            <li><a href="#catalog">Management Case Studies</a></li>
+            <li><a href="#journals">Scopus Indexed Journals</a></li>
+            <li><a href="#catalog">Faculty Publications</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-title">Library Services</h4>
+          <ul class="footer-links">
+            <li><a href="javascript:void(0)" onclick="showToast('Digital Remote Access Active')">Remote Off-Campus Access</a></li>
+            <li><a href="javascript:void(0)" onclick="showToast('Requesting Book Renewal...')">Book Renewal Portal</a></li>
+            <li><a href="javascript:void(0)" onclick="showToast('Study Room Reservation Ready')">Study Room Reservation</a></li>
+            <li><a href="javascript:void(0)" onclick="showToast('Inter-Library Loan Desk Open')">Inter-Library Loan (ILL)</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-title">University Address</h4>
+          <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.6;">
+            DR. RVR NRI Institute of Technology<br>
+            Deemed to be University Campus<br>
+            Pothavarappadu (V), Agiripalli (M)<br>
+            Vijayawada / Eluru Road, AP - 521212<br>
+            <strong style="color: var(--accent-orange-bright);">Email:</strong> library@rvrnriit.edu.in
+          </p>
+        </div>
+
+      </div>
+
+      <div class="footer-bottom">
+        <div>© 2026 DR. RVR NRI INSTITUTE OF TECHNOLOGY (Deemed to be University). All Rights Reserved.</div>
+        <div>Designed with GSAP Micro-Animations for High Performance UI/UX</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Floating Back-to-Top Button -->
+  <button class="back-to-top" id="backToTopBtn" title="Scroll back to top">
+    <svg class="icon" viewBox="0 0 24 24" style="font-size: 24px;"><path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/></svg>
+  </button>
+
+  <!-- Book Details & Interactive Reader Modal -->
+  <div class="modal-overlay" id="bookModal">
+    <div class="modal-card">
+      <button class="modal-close" id="closeModalBtn">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+      </button>
+      <div class="modal-body">
+        
+        <div class="modal-book-preview">
+          <div id="modalCover" class="book-cover-container book-cover-style-1" style="height: 280px;">
+            <div class="book-cover-content">
+              <svg class="icon" viewBox="0 0 24 24" style="font-size: 48px; color: #fff;"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3z"/></svg>
+              <div class="book-cover-title" id="modalCoverTitle">Title</div>
+            </div>
+          </div>
+          
+          <button class="btn-primary" id="modalDownloadBtn" style="width: 100%; justify-content: center;">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+            Download Digital PDF
+          </button>
+          
+          <button class="btn-read" id="modalSaveBtn" style="width: 100%; justify-content: center; height: 42px;">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2z"/></svg>
+            Save to My Bookshelf
+          </button>
+
+          <!-- Audio Reader Sample Player -->
+          <div style="background: var(--bg-card); padding: 14px; border-radius: 12px; border: 1px solid var(--border-light); margin-top: 8px;">
+            <div style="font-size: 0.8rem; color: var(--accent-orange-bright); font-weight: 700; display: flex; align-items: center; justify-content: space-between;">
+              <span>🎧 AI Audiobook Preview</span>
+              <span>Playing Sample...</span>
+            </div>
+            <div class="audio-visualizer">
+              <div class="audio-bar"></div>
+              <div class="audio-bar"></div>
+              <div class="audio-bar"></div>
+              <div class="audio-bar"></div>
+              <div class="audio-bar"></div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <span class="book-dept-tag" id="modalDeptTag" style="position: static; display: inline-block; margin-bottom: 12px;">CSE</span>
+          <h2 id="modalTitle" style="font-family: var(--font-heading); font-size: 1.8rem; margin-bottom: 8px;">Book Title</h2>
+          <p id="modalAuthor" style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 20px;">By Author Name</p>
+
+          <h4 style="font-family: var(--font-heading); margin-bottom: 10px;">Executive Overview</h4>
+          <p id="modalDesc" style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 24px; line-height: 1.6;">
+            Detailed synopsis of the academic title will appear here...
+          </p>
+
+          <h4 style="font-family: var(--font-heading); margin-bottom: 10px;">Interactive Sample Chapter Preview</h4>
+          <div class="reader-sample-box" id="modalSampleReader">
+            <strong>Chapter 1: Foundations & Architecture</strong><br><br>
+            In modern computing paradigms, scalable systemic designs demand a deep synergy between algorithm design, memory layout, and hardware acceleration vectors. This textbook outlines key principles used in engineering resilient systems across modern cloud and high-performance environments...
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Login Modal -->
+  <div class="modal-overlay" id="loginModal">
+    <div class="modal-card" style="max-width: 440px;">
+      <button class="modal-close" id="closeLoginBtn">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+      </button>
+      <div style="padding: 36px; text-align: center;">
+        <img src="nrilogo.png" alt="DR. RVR NRI Logo" style="width: 64px; height: 64px; object-fit: contain; background: #fff; padding: 5px; border-radius: 16px; margin: 0 auto 16px auto; display: block; box-shadow: 0 6px 18px rgba(237, 107, 16, 0.35); border: 1px solid rgba(237, 107, 16, 0.3);">
+        <h3 style="font-family: var(--font-heading); font-size: 1.5rem; margin-bottom: 6px;">Library Single Sign-On</h3>
+        <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 24px;">Enter your RVR NRI Roll Number / Faculty ID</p>
+
+        <input type="text" placeholder="Roll No / Employee ID (e.g. 24RVR0102)" style="width: 100%; background: var(--bg-card); border: 1px solid var(--border-light); padding: 12px; border-radius: 10px; color: var(--text-main); margin-bottom: 14px; font-family: var(--font-body);">
+        <input type="password" placeholder="Library Password / PIN" style="width: 100%; background: var(--bg-card); border: 1px solid var(--border-light); padding: 12px; border-radius: 10px; color: var(--text-main); margin-bottom: 20px; font-family: var(--font-body);">
+
+        <button class="btn-primary" style="width: 100%; justify-content: center;" onclick="handleLoginSubmit()">Log In to Digital Portal</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bookshelf Drawer Side Panel -->
+  <div class="drawer-overlay" id="drawerOverlay"></div>
+  <div class="shelf-drawer" id="shelfDrawer">
+    <div class="drawer-header">
+      <h3 style="font-family: var(--font-heading); font-size: 1.2rem; display: flex; align-items: center; gap: 8px;">
+        <svg class="icon" viewBox="0 0 24 24" style="color: var(--accent-orange-bright);"><path d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2z"/></svg>
+        My Saved Bookshelf
+      </h3>
+      <button class="btn-icon" id="closeShelfBtn" style="width: 32px; height: 32px;">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+      </button>
+    </div>
+
+    <div class="shelf-item-list" id="shelfItemList">
+      <!-- Items dynamically injected -->
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast-notification" id="toast">
+    <svg class="icon" viewBox="0 0 24 24" style="color: var(--accent-orange-bright); font-size: 22px;"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+    <span id="toastMsg">Action completed successfully!</span>
+  </div>
+
+  <!-- JavaScript Logic & GSAP Animations -->
+  <script>
+    // Sample Books Dataset for DR. RVR NRI Digital Library
+    const booksData = [
+      {
+        id: 1,
+        title: "Deep Learning & Neural Network Architectures",
+        author: "Dr. K. Srinivas & Prof. R. V. Rao",
+        dept: "CSE",
+        style: "book-cover-style-1",
+        rating: "4.9",
+        edition: "2026 Edition",
+        desc: "Comprehensive guide to deep learning primitives, transformer models, reinforcement learning, and PyTorch implementations tailored for advanced computer science curriculum."
+      },
+      {
+        id: 2,
+        title: "VLSI System Design & Microelectronics",
+        author: "Dr. P. V. Ramana",
+        dept: "ECE",
+        style: "book-cover-style-2",
+        rating: "4.8",
+        edition: "5th Edition",
+        desc: "In-depth treatment of CMOS digital circuit design, timing analysis, FPGA prototyping, and low-power semiconductor layout techniques."
+      },
+      {
+        id: 3,
+        title: "Smart Microgrids & Renewable Energy",
+        author: "Prof. M. Venkateswarlu",
+        dept: "EEE",
+        style: "book-cover-style-3",
+        rating: "4.7",
+        edition: "2025 Revised",
+        desc: "Covers grid modernization, solar-wind hybrid integration, power electronics converters, and IoT monitoring systems for clean energy networks."
+      },
+      {
+        id: 4,
+        title: "Robotics Kinematics & Mechatronics System",
+        author: "Dr. A. Sudhakar",
+        dept: "MECH",
+        style: "book-cover-style-4",
+        rating: "4.9",
+        edition: "3rd Edition",
+        desc: "Mathematical modeling of manipulator kinematics, dynamics, sensor integration, and industrial automation controller designs."
+      },
+      {
+        id: 5,
+        title: "Structural Engineering & Earthquake Resistant Design",
+        author: "Dr. K. Narendra",
+        dept: "CIVIL",
+        style: "book-cover-style-5",
+        rating: "4.8",
+        edition: "4th Edition",
+        desc: "Advanced concrete structures, seismic analysis, finite element modeling, and sustainable infrastructure engineering guidelines."
+      },
+      {
+        id: 6,
+        title: "Modern Biopharmaceutics & Molecular Delivery",
+        author: "Dr. S. Lakshmi & Dr. T. Murali",
+        dept: "PHARM",
+        style: "book-cover-style-2",
+        rating: "4.9",
+        edition: "2026 Edition",
+        desc: "Principles of pharmacokinetics, targeted drug delivery systems, nano-medicine formulation, and clinical trial compliance."
+      },
+      {
+        id: 7,
+        title: "Strategic Tech Management & Financial Analytics",
+        author: "Dr. G. Radhakrishna",
+        dept: "MBA",
+        style: "book-cover-style-1",
+        rating: "4.6",
+        edition: "2nd Edition",
+        desc: "Business model innovation, corporate financial modeling, digital transformation strategies, and decision analytics for tech enterprises."
+      },
+      {
+        id: 8,
+        title: "Distributed Systems & Cloud Architecture",
+        author: "Prof. B. Prasad",
+        dept: "CSE",
+        style: "book-cover-style-3",
+        rating: "4.9",
+        edition: "2025 Edition",
+        desc: "Consensus protocols, Kubernetes orchestration, serverless computing, and fault-tolerant cloud-native design principles."
+      }
+    ];
+
+    // State (Default Light Mode)
+    let savedBooks = JSON.parse(localStorage.getItem('rvr_nri_shelf') || '[]');
+    let currentDept = 'all';
+    let isDark = false; 
+
+    // DOM Elements
+    const booksGrid = document.getElementById('booksGrid');
+    const deptTabs = document.getElementById('deptTabs');
+    const searchInput = document.getElementById('searchInput');
+    const departmentFilter = document.getElementById('departmentFilter');
+    const searchSubmitBtn = document.getElementById('searchSubmitBtn');
+    const bookModal = document.getElementById('bookModal');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    const loginModal = document.getElementById('loginModal');
+    const loginModalTrigger = document.getElementById('loginModalTrigger');
+    const closeLoginBtn = document.getElementById('closeLoginBtn');
+    const themeToggleBtn = document.getElementById('themeToggleBtn');
+    const desktopThemeToggleBtn = document.getElementById('desktopThemeToggleBtn');
+    const themeBtnText = document.getElementById('themeBtnText');
+    const shelfDrawer = document.getElementById('shelfDrawer');
+    const drawerOverlay = document.getElementById('drawerOverlay');
+    const openShelfBtn = document.getElementById('openShelfBtn');
+    const closeShelfBtn = document.getElementById('closeShelfBtn');
+    const shelfItemList = document.getElementById('shelfItemList');
+    const shelfCount = document.getElementById('shelfCount');
+    const toast = document.getElementById('toast');
+    const toastMsg = document.getElementById('toastMsg');
+    const aiQueryBtn = document.getElementById('aiQueryBtn');
+    const aiQueryInput = document.getElementById('aiQueryInput');
+    const aiResponseBox = document.getElementById('aiResponseBox');
+    const backToTopBtn = document.getElementById('backToTopBtn');
+    const progressBar = document.getElementById('progressBar');
+    
+    // Hamburger Dropdown DOM Elements
+    const openNavDropdownBtn = document.getElementById('openNavDropdownBtn');
+    const navDropdown = document.getElementById('navDropdown');
+    const navDropdownOverlay = document.getElementById('navDropdownOverlay');
+
+    // Initialize Page
+    document.addEventListener('DOMContentLoaded', () => {
+      renderBooks();
+      updateShelfUI();
+      initGSAPAnimations();
+      initHeroParticleCanvas();
+      initScrollProgress();
+      initDropdownNav();
+      initThemeToggle();
+    });
+
+    // Dropdown Navigation logic
+    function initDropdownNav() {
+      if (openNavDropdownBtn) {
+        openNavDropdownBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const isActive = navDropdown.classList.contains('active');
+          if (isActive) {
+            closeDropdown();
+          } else {
+            navDropdown.classList.add('active');
+            navDropdownOverlay.classList.add('active');
+          }
+        });
+      }
+      if (navDropdownOverlay) {
+        navDropdownOverlay.addEventListener('click', closeDropdown);
+      }
+      document.querySelectorAll('.dropdown-item').forEach(link => {
+        link.addEventListener('click', closeDropdown);
+      });
+    }
+
+    function closeDropdown() {
+      if (navDropdown) navDropdown.classList.remove('active');
+      if (navDropdownOverlay) navDropdownOverlay.classList.remove('active');
+    }
+
+    // Scroll Progress & Back to Top logic
+    function initScrollProgress() {
+      window.addEventListener('scroll', () => {
+        const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const progress = totalHeight > 0 ? (window.scrollY / totalHeight) : 0;
+        progressBar.style.transform = `scaleX(${progress})`;
+
+        if (window.scrollY > 300) {
+          backToTopBtn.classList.add('visible');
+        } else {
+          backToTopBtn.classList.remove('visible');
+        }
+      });
+
+      backToTopBtn.addEventListener('click', () => {
+        if (window.gsap && gsap.plugins && gsap.plugins.scrollTo) {
+          gsap.to(window, { duration: 0.8, scrollTo: 0, ease: 'power3.inOut' });
+        } else {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      });
+    }
+
+    // Interactive Particle Canvas in Hero Background
+    function initHeroParticleCanvas() {
+      const canvas = document.getElementById('heroCanvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+
+      let width = canvas.width = canvas.offsetWidth;
+      let height = canvas.height = canvas.offsetHeight;
+
+      window.addEventListener('resize', () => {
+        width = canvas.width = canvas.offsetWidth;
+        height = canvas.height = canvas.offsetHeight;
+      });
+
+      const particles = [];
+      const particleCount = window.innerWidth < 600 ? 18 : 35;
+
+      for (let i = 0; i < particleCount; i++) {
+        particles.push({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          vx: (Math.random() - 0.5) * 0.8,
+          vy: (Math.random() - 0.5) * 0.8,
+          radius: Math.random() * 2 + 1
+        });
+      }
+
+      function draw() {
+        ctx.clearRect(0, 0, width, height);
+
+        for (let i = 0; i < particleCount; i++) {
+          const p = particles[i];
+          p.x += p.vx;
+          p.y += p.vy;
+
+          if (p.x < 0 || p.x > width) p.vx *= -1;
+          if (p.y < 0 || p.y > height) p.vy *= -1;
+
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+          ctx.fillStyle = '#ed6b10';
+          ctx.fill();
+
+          for (let j = i + 1; j < particleCount; j++) {
+            const p2 = particles[j];
+            const dx = p.x - p2.x;
+            const dy = p.y - p2.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+
+            if (dist < 130) {
+              ctx.beginPath();
+              ctx.moveTo(p.x, p.y);
+              ctx.lineTo(p2.x, p2.y);
+              ctx.strokeStyle = `rgba(237, 107, 16, ${0.2 * (1 - dist / 130)})`;
+              ctx.lineWidth = 0.8;
+              ctx.stroke();
+            }
+          }
+        }
+        requestAnimationFrame(draw);
+      }
+      draw();
+    }
+
+    // Render Books
+    function renderBooks(filterQuery = '') {
+      booksGrid.innerHTML = '';
+
+      const filtered = booksData.filter(book => {
+        const matchesDept = (currentDept === 'all') || (book.dept === currentDept);
+        const matchesQuery = book.title.toLowerCase().includes(filterQuery.toLowerCase()) ||
+                             book.author.toLowerCase().includes(filterQuery.toLowerCase()) ||
+                             book.dept.toLowerCase().includes(filterQuery.toLowerCase());
+        return matchesDept && matchesQuery;
+      });
+
+      if (filtered.length === 0) {
+        booksGrid.innerHTML = `
+          <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px;">
+            <svg class="icon" viewBox="0 0 24 24" style="font-size: 48px; color: var(--text-dim); margin-bottom: 12px;">
+              <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5z"/>
+            </svg>
+            <h3 style="color: var(--text-main); font-family: var(--font-heading);">No E-Books Found</h3>
+            <p style="color: var(--text-muted); font-size: 0.9rem;">Try adjusting your search keywords or department filters.</p>
+          </div>
+        `;
+        return;
+      }
+
+      filtered.forEach(book => {
+        const isSaved = savedBooks.some(b => b.id === book.id);
+        const card = document.createElement('div');
+        card.className = 'book-card';
+        card.dataset.id = book.id;
+
+        card.innerHTML = `
+          <div class="book-dept-tag">${book.dept}</div>
+          <div class="book-cover-container ${book.style}">
+            <div class="book-spine"></div>
+            <div class="book-cover-content">
+              <svg class="icon" viewBox="0 0 24 24" style="font-size: 40px; color: #fff;">
+                <path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3z"/>
+              </svg>
+              <div class="book-cover-title">${book.title}</div>
+            </div>
+          </div>
+
+          <div class="book-info">
+            <div class="book-meta">
+              <span>★ ${book.rating} / 5.0</span>
+              <span>${book.edition}</span>
+            </div>
+            <h3 class="book-card-title">${book.title}</h3>
+            <p class="book-author">${book.author}</p>
+            
+            <div class="book-footer">
+              <div class="book-actions">
+                <button class="btn-read" onclick="openBookModal(${book.id})">
+                  <svg class="icon" viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+                  Preview & Read
+                </button>
+                <button class="btn-bookmark ${isSaved ? 'saved' : ''}" onclick="toggleSaveBook(${book.id}, event)" title="Bookmark Book">
+                  <svg class="icon" viewBox="0 0 24 24"><path d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2z"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+        booksGrid.appendChild(card);
+      });
+
+      // Animate Cards with GSAP
+      if (window.gsap) {
+        gsap.fromTo('.book-card', 
+          { opacity: 0, y: 30 }, 
+          { opacity: 1, y: 0, duration: 0.5, stagger: 0.08, ease: "power2.out" }
+        );
+      }
+    }
+
+    // Filter Tab Click Handlers
+    deptTabs.addEventListener('click', (e) => {
+      const btn = e.target.closest('.tab-btn');
+      if (!btn) return;
+
+      document.querySelectorAll('#deptTabs .tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentDept = btn.dataset.dept;
+      renderBooks(searchInput.value);
+    });
+
+    // Search Box Listener
+    searchSubmitBtn.addEventListener('click', () => {
+      if (departmentFilter.value !== 'all') {
+        currentDept = departmentFilter.value;
+        document.querySelectorAll('#deptTabs .tab-btn').forEach(b => {
+          b.classList.toggle('active', b.dataset.dept === currentDept);
+        });
+      }
+      renderBooks(searchInput.value);
+    });
+
+    searchInput.addEventListener('keyup', (e) => {
+      if (e.key === 'Enter') {
+        renderBooks(searchInput.value);
+      }
+    });
+
+    // Modal Operations
+    function openBookModal(id) {
+      const book = booksData.find(b => b.id === id);
+      if (!book) return;
+
+      document.getElementById('modalCover').className = `book-cover-container ${book.style}`;
+      document.getElementById('modalCoverTitle').innerText = book.title;
+      document.getElementById('modalTitle').innerText = book.title;
+      document.getElementById('modalAuthor').innerText = `By ${book.author}`;
+      document.getElementById('modalDeptTag').innerText = book.dept;
+      document.getElementById('modalDesc').innerText = book.desc;
+
+      const isSaved = savedBooks.some(b => b.id === book.id);
+      const modalSaveBtn = document.getElementById('modalSaveBtn');
+      modalSaveBtn.onclick = () => toggleSaveBook(book.id);
+      modalSaveBtn.innerText = isSaved ? 'Remove from Bookshelf' : 'Save to My Bookshelf';
+
+      document.getElementById('modalDownloadBtn').onclick = () => {
+        showToast(`Downloading PDF for "${book.title}"...`);
+      };
+
+      bookModal.classList.add('active');
+    }
+
+    closeModalBtn.addEventListener('click', () => bookModal.classList.remove('active'));
+    bookModal.addEventListener('click', (e) => {
+      if (e.target === bookModal) bookModal.classList.remove('active');
+    });
+
+    // Bookmark Toggle & LocalStorage
+    function toggleSaveBook(id, event) {
+      if (event) event.stopPropagation();
+
+      const book = booksData.find(b => b.id === id);
+      const index = savedBooks.findIndex(b => b.id === id);
+
+      if (index > -1) {
+        savedBooks.splice(index, 1);
+        showToast(`Removed "${book.title}" from bookshelf`);
+      } else {
+        savedBooks.push(book);
+        showToast(`Saved "${book.title}" to your bookshelf!`);
+      }
+
+      localStorage.setItem('rvr_nri_shelf', JSON.stringify(savedBooks));
+      updateShelfUI();
+      renderBooks(searchInput.value);
+    }
+
+    function updateShelfUI() {
+      shelfCount.innerText = savedBooks.length;
+      if (document.getElementById('mobileShelfCount')) {
+        document.getElementById('mobileShelfCount').innerText = savedBooks.length;
+      }
+      shelfItemList.innerHTML = '';
+
+      if (savedBooks.length === 0) {
+        shelfItemList.innerHTML = `
+          <div style="text-align: center; color: var(--text-muted); padding: 40px 10px;">
+            <p>Your bookshelf is currently empty.</p>
+            <p style="font-size: 0.8rem; margin-top: 6px;">Click the bookmark icon on any book to save it here for offline reading.</p>
+          </div>
+        `;
+        return;
+      }
+
+      savedBooks.forEach(book => {
+        const item = document.createElement('div');
+        item.className = 'shelf-item';
+        item.innerHTML = `
+          <div style="flex: 1;">
+            <div style="font-size: 0.72rem; color: var(--accent-orange-bright); font-weight: 700;">${book.dept}</div>
+            <div style="font-family: var(--font-heading); font-size: 0.92rem; font-weight: 700;">${book.title}</div>
+            <div style="font-size: 0.78rem; color: var(--text-muted);">${book.author}</div>
+          </div>
+          <button class="btn-icon" style="width: 32px; height: 32px;" onclick="toggleSaveBook(${book.id})">
+            <svg class="icon" viewBox="0 0 24 24" style="font-size: 16px;"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+          </button>
+        `;
+        shelfItemList.appendChild(item);
+      });
+    }
+
+    // Shelf Drawer Side Panel Toggle
+    openShelfBtn.addEventListener('click', () => {
+      shelfDrawer.classList.add('active');
+      drawerOverlay.classList.add('active');
+    });
+    const mobileShelfBtn = document.getElementById('mobileShelfBtn');
+    if (mobileShelfBtn) {
+      mobileShelfBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        closeDropdown();
+        shelfDrawer.classList.add('active');
+        drawerOverlay.classList.add('active');
+      });
+    }
+    closeShelfBtn.addEventListener('click', () => {
+      shelfDrawer.classList.remove('active');
+      drawerOverlay.classList.remove('active');
+    });
+    drawerOverlay.addEventListener('click', () => {
+      shelfDrawer.classList.remove('active');
+      drawerOverlay.classList.remove('active');
+    });
+
+    // Theme Toggle Handler (Light Default / Dark Option)
+    function initThemeToggle() {
+      const toggleTheme = () => {
+        isDark = !isDark;
+        if (isDark) {
+          document.body.setAttribute('data-theme', 'dark');
+          if (themeBtnText) themeBtnText.innerText = "Light Mode";
+        } else {
+          document.body.removeAttribute('data-theme');
+          if (themeBtnText) themeBtnText.innerText = "Dark Mode";
+        }
+        showToast(`Switched to ${isDark ? 'Dark Theme' : 'Light Theme'}`);
+      };
+
+      if (themeToggleBtn) themeToggleBtn.addEventListener('click', toggleTheme);
+      if (desktopThemeToggleBtn) desktopThemeToggleBtn.addEventListener('click', toggleTheme);
+    }
+
+    // Student Login Modal
+    loginModalTrigger.addEventListener('click', () => loginModal.classList.add('active'));
+    closeLoginBtn.addEventListener('click', () => loginModal.classList.remove('active'));
+    function handleLoginSubmit() {
+      loginModal.classList.remove('active');
+      showToast("Authentication Successful! Access Granted.");
+    }
+
+    // External Database Action
+    function openExternalPortal(name) {
+      showToast(`Redirecting to RVR NRI SSO Portal for ${name}...`);
+    }
+
+    // Toast Notification helper
+    function showToast(msg) {
+      toastMsg.innerText = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3500);
+    }
+
+    // AI Query Demo Response
+    aiQueryBtn.addEventListener('click', () => {
+      const q = aiQueryInput.value.trim();
+      if (!q) {
+        showToast("Please enter a question or syllabus topic for LibAI!");
+        return;
+      }
+
+      aiResponseBox.style.display = 'block';
+      aiResponseBox.innerHTML = `<strong>LibAI Analysis:</strong> Searching RVR NRI repository for "<em>${q}</em>"... Found 4 matching core textbooks and 12 IEEE research papers. Recommended starting read: <em>"Deep Learning & Neural Network Architectures" (Dr. K. Srinivas)</em>.`;
+      showToast("LibAI search completed!");
+    });
+
+    // GSAP Micro-Animations & Interactivity
+    function initGSAPAnimations() {
+      if (!window.gsap) return;
+      gsap.registerPlugin(ScrollTrigger);
+
+      // Hero Title Entrance
+      gsap.from('.hero-title', {
+        duration: 1,
+        y: 40,
+        opacity: 0,
+        ease: 'power3.out',
+        delay: 0.2
+      });
+
+      gsap.from('.hero-subtitle', {
+        duration: 1,
+        y: 30,
+        opacity: 0,
+        ease: 'power3.out',
+        delay: 0.4
+      });
+
+      gsap.from('.search-box-wrap', {
+        duration: 1,
+        scale: 0.95,
+        opacity: 0,
+        ease: 'back.out(1.7)',
+        delay: 0.6
+      });
+
+      // 3D Parallax Tilt Effect on Mouse Move in Hero
+      const bookWrapper = document.getElementById('heroBook3D');
+      if (bookWrapper && window.innerWidth > 768) {
+        document.addEventListener('mousemove', (e) => {
+          const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
+          const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
+          bookWrapper.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+        });
+      }
+
+      // Counter Animation
+      const counters = document.querySelectorAll('.counter');
+      counters.forEach(counter => {
+        const target = +counter.getAttribute('data-target');
+        gsap.to(counter, {
+          innerText: target,
+          duration: 2.5,
+          snap: { innerText: 1 },
+          scrollTrigger: {
+            trigger: counter,
+            start: 'top 85%'
+          },
+          onUpdate: function() {
+            counter.innerText = Math.floor(counter.innerText).toLocaleString() + '+';
+          }
+        });
+      });
+
+      // ScrollTrigger Section Animations
+      gsap.from('.journal-card', {
+        scrollTrigger: {
+          trigger: '.journals-section',
+          start: 'top 80%'
+        },
+        duration: 0.6,
+        y: 40,
+        opacity: 0,
+        stagger: 0.15,
+        ease: 'power2.out'
+      });
+
+      gsap.from('.ai-assistant-banner', {
+        scrollTrigger: {
+          trigger: '#ai-assistant',
+          start: 'top 80%'
+        },
+        duration: 0.8,
+        scale: 0.95,
+        opacity: 0,
+        ease: 'power2.out'
+      });
+    }
+  </script>
+</body>
+</html>
