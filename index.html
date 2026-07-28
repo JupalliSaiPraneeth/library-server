@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Digital Library & E-Books Portal | DR. RVR NRI Institute of Technology</title>
-  <meta name="description" content="Official Central Digital Library Portal of DR. RVR NRI Institute of Technology (Deemed to be University). Access 150,000+ e-books, journals, research publications, and academic resources 24/7.">
+  <title>Digital Library & Interactive E-Books Portal | DR. RVR NRI Institute of Technology</title>
+  <meta name="description" content="Official Central Digital Library & Interactive E-Book Reader Portal of DR. RVR NRI Institute of Technology (Deemed to be University). Access 150,000+ interactive demo e-books, research journals, and academic resources 24/7.">
   
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
   
   <!-- GSAP CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -17,20 +17,17 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
 
   <style>
-    /* Light Theme (DEFAULT): Pure Pristine White & Vibrant #ed6b10 Orange */
+    /* Theme Tokens (DEFAULT LIGHT: Pure White & Vibrant #ed6b10 Orange) */
     :root {
-      --bg-primary: #fcfcfd;
+      --bg-primary: #f8fafc;
       --bg-secondary: #ffffff;
-      --bg-card: rgba(255, 255, 255, 0.92);
-      --bg-glass: rgba(255, 255, 255, 0.94);
+      --bg-card: rgba(255, 255, 255, 0.94);
+      --bg-glass: rgba(255, 255, 255, 0.92);
       --accent-orange: #ed6b10;
       --accent-orange-bright: #d15802;
       --accent-gold: #d97706;
       --accent-amber: #c25710;
-      --accent-blue: #ed6b10;
-      --accent-cyan: #d97706;
       --accent-emerald: #059669;
-      --accent-purple: #c25710;
       --text-main: #0f172a;
       --text-muted: #475569;
       --text-dim: #64748b;
@@ -44,22 +41,25 @@
       --shadow-card: 0 15px 35px rgba(237, 107, 16, 0.08);
       --font-body: 'Plus Jakarta Sans', sans-serif;
       --font-heading: 'Space Grotesk', sans-serif;
+      --font-code: 'Fira Code', monospace;
+      
+      /* Reader Modes */
+      --reader-bg: #ffffff;
+      --reader-text: #1e293b;
+      --reader-border: #e2e8f0;
     }
 
-    /* Dark Theme: Obsidian Black & Glowing #ed6b10 Orange */
+    /* Dark Theme */
     [data-theme="dark"] {
       --bg-primary: #07080c;
       --bg-secondary: #0f1118;
-      --bg-card: rgba(18, 20, 29, 0.8);
-      --bg-glass: rgba(12, 14, 21, 0.88);
+      --bg-card: rgba(18, 20, 29, 0.85);
+      --bg-glass: rgba(12, 14, 21, 0.92);
       --accent-orange: #ed6b10;
       --accent-orange-bright: #ff7d26;
       --accent-gold: #ffab00;
       --accent-amber: #ed6b10;
-      --accent-blue: #ed6b10;
-      --accent-cyan: #ff944d;
       --accent-emerald: #10b981;
-      --accent-purple: #d15802;
       --text-main: #f8fafc;
       --text-muted: #94a3b8;
       --text-dim: #64748b;
@@ -67,6 +67,29 @@
       --border-glow: rgba(237, 107, 16, 0.45);
       --shadow-glow: 0 10px 35px -8px rgba(237, 107, 16, 0.4);
       --shadow-card: 0 18px 40px rgba(0, 0, 0, 0.65);
+      
+      --reader-bg: #0f172a;
+      --reader-text: #f1f5f9;
+      --reader-border: #334155;
+    }
+
+    /* Sepia Reader Mode */
+    [data-reader-theme="sepia"] {
+      --reader-bg: #fbf0d9;
+      --reader-text: #432818;
+      --reader-border: #e6ccb2;
+    }
+    /* Dark Reader Mode */
+    [data-reader-theme="dark"] {
+      --reader-bg: #0f172a;
+      --reader-text: #f1f5f9;
+      --reader-border: #334155;
+    }
+    /* Light Reader Mode */
+    [data-reader-theme="light"] {
+      --reader-bg: #ffffff;
+      --reader-text: #1e293b;
+      --reader-border: #e2e8f0;
     }
 
     * {
@@ -92,7 +115,7 @@
       position: fixed;
       top: 0;
       left: 0;
-      height: 3px;
+      height: 3.5px;
       background: linear-gradient(90deg, #ed6b10, #ff944d, #ffab00);
       z-index: 1000;
       width: 100%;
@@ -103,7 +126,8 @@
 
     /* Custom Scrollbar */
     ::-webkit-scrollbar {
-      width: 10px;
+      width: 8px;
+      height: 8px;
     }
     ::-webkit-scrollbar-track {
       background: var(--bg-primary);
@@ -116,7 +140,6 @@
       background: #d15802;
     }
 
-    /* Utility SVG Container */
     .icon {
       display: inline-flex;
       align-items: center;
@@ -127,7 +150,6 @@
       vertical-align: -0.125em;
     }
 
-    /* Container with generous corner padding */
     .container {
       width: 100%;
       max-width: 1400px;
@@ -152,14 +174,14 @@
       align-items: center;
       justify-content: space-between;
       height: 84px;
-      gap: 32px;
+      gap: 24px;
       padding: 0 8px;
     }
 
     .brand {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 14px;
       text-decoration: none;
       color: var(--text-main);
       flex-shrink: 0;
@@ -207,7 +229,7 @@
     .nav-links {
       display: flex;
       align-items: center;
-      gap: 28px;
+      gap: 26px;
       list-style: none;
       flex-wrap: nowrap;
     }
@@ -243,17 +265,15 @@
     .nav-actions {
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 12px;
       flex-shrink: 0;
       white-space: nowrap;
     }
 
-    /* Desktop Theme Toggle Button (Shown on Desktop > 1100px) */
     .desktop-theme-btn {
       display: flex;
     }
 
-    /* Hamburger Menu Button (HIDDEN on Laptop > 1100px, SHOWN on Mobile <= 1100px) */
     .hamburger-btn {
       display: none !important;
     }
@@ -395,6 +415,26 @@
       background: linear-gradient(135deg, #ff7d26, #ed6b10);
     }
 
+    .btn-secondary {
+      background: var(--bg-card);
+      color: var(--text-main);
+      border: 1px solid var(--border-light);
+      padding: 10px 20px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.3s ease;
+    }
+    .btn-secondary:hover {
+      border-color: var(--accent-orange);
+      color: var(--accent-orange-bright);
+      transform: translateY(-2px);
+    }
+
     /* Hero Section */
     .hero {
       position: relative;
@@ -491,7 +531,7 @@
       font-weight: 400;
     }
 
-    /* Search Box */
+    /* Search Box & Multi Filters */
     .search-box-wrap {
       background: var(--bg-card);
       border: 1px solid var(--border-light);
@@ -502,7 +542,7 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      margin-bottom: 40px;
+      margin-bottom: 24px;
       transition: border-color 0.3s ease, box-shadow 0.3s ease;
     }
     .search-box-wrap:focus-within {
@@ -549,6 +589,32 @@
       outline: none;
     }
 
+    /* Resource Type Chips */
+    .type-chips-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 32px;
+      flex-wrap: wrap;
+    }
+
+    .type-chip {
+      padding: 6px 14px;
+      border-radius: 20px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      color: var(--text-muted);
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+    .type-chip:hover, .type-chip.active {
+      background: rgba(237, 107, 16, 0.14);
+      color: var(--accent-orange-bright);
+      border-color: var(--accent-orange);
+    }
+
     /* Hero Stats Bar */
     .hero-stats {
       display: grid;
@@ -581,8 +647,8 @@
 
     .book-3d-wrapper {
       position: relative;
-      width: 270px;
-      height: 380px;
+      width: 280px;
+      height: 390px;
       transform-style: preserve-3d;
       transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
       cursor: pointer;
@@ -692,7 +758,9 @@
       display: flex;
       align-items: flex-end;
       justify-content: space-between;
-      margin-bottom: 44px;
+      margin-bottom: 36px;
+      flex-wrap: wrap;
+      gap: 20px;
     }
 
     .section-subtitle {
@@ -767,10 +835,30 @@
       color: #fff;
     }
 
+    /* Sort Control */
+    .sort-control-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+    .sort-select {
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      color: var(--text-main);
+      padding: 8px 14px;
+      border-radius: var(--radius-md);
+      font-family: var(--font-body);
+      font-size: 0.88rem;
+      outline: none;
+      cursor: pointer;
+    }
+
     /* E-Books Grid */
     .books-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
       gap: 28px;
     }
 
@@ -794,7 +882,7 @@
 
     .book-cover-container {
       width: 100%;
-      height: 240px;
+      height: 250px;
       border-radius: var(--radius-md);
       margin-bottom: 18px;
       position: relative;
@@ -805,6 +893,7 @@
       background-size: cover;
       background-position: center;
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+      cursor: pointer;
     }
 
     .book-cover-style-1 { background: linear-gradient(135deg, #d15802, #ed6b10); }
@@ -812,6 +901,9 @@
     .book-cover-style-3 { background: linear-gradient(135deg, #18181b, #ed6b10); }
     .book-cover-style-4 { background: linear-gradient(135deg, #7c2d12, #ffab00); }
     .book-cover-style-5 { background: linear-gradient(135deg, #090a0f, #431407); }
+    .book-cover-style-6 { background: linear-gradient(135deg, #0f766e, #ed6b10); }
+    .book-cover-style-7 { background: linear-gradient(135deg, #431407, #d97706); }
+    .book-cover-style-8 { background: linear-gradient(135deg, #1e1b4b, #ed6b10); }
 
     .book-cover-content {
       text-align: center;
@@ -825,6 +917,7 @@
       font-weight: 700;
       margin-top: 10px;
       line-height: 1.3;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.5);
     }
     .book-spine {
       position: absolute;
@@ -848,6 +941,23 @@
       border-radius: 20px;
       border: 1px solid rgba(237, 107, 16, 0.4);
       z-index: 3;
+    }
+
+    .book-interactive-badge {
+      position: absolute;
+      bottom: 12px;
+      left: 12px;
+      background: rgba(16, 185, 129, 0.9);
+      color: #fff;
+      font-size: 0.68rem;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 6px;
+      z-index: 3;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
     }
 
     .book-info {
@@ -900,7 +1010,7 @@
       background: rgba(237, 107, 16, 0.12);
       color: var(--accent-orange-bright);
       border: 1px solid rgba(237, 107, 16, 0.3);
-      padding: 8px 14px;
+      padding: 9px 14px;
       border-radius: 10px;
       font-size: 0.85rem;
       font-weight: 600;
@@ -914,11 +1024,13 @@
     .btn-read:hover {
       background: var(--accent-orange);
       color: #fff;
+      border-color: var(--accent-orange);
+      transform: translateY(-1px);
     }
 
     .btn-bookmark {
-      width: 36px;
-      height: 36px;
+      width: 38px;
+      height: 38px;
       border-radius: 10px;
       background: var(--bg-secondary);
       border: 1px solid var(--border-light);
@@ -930,6 +1042,25 @@
       transition: all 0.25s ease;
     }
     .btn-bookmark:hover, .btn-bookmark.saved {
+      color: var(--accent-orange-bright);
+      border-color: var(--accent-orange);
+      background: rgba(237, 107, 16, 0.12);
+    }
+
+    .btn-cite {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-light);
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.25s ease;
+    }
+    .btn-cite:hover {
       color: var(--accent-orange-bright);
       border-color: var(--accent-orange);
       background: rgba(237, 107, 16, 0.12);
@@ -992,17 +1123,17 @@
 
     /* LibAI Research Assistant Banner */
     .ai-assistant-banner {
-      background: linear-gradient(135deg, rgba(237, 107, 16, 0.88), rgba(209, 88, 2, 0.9));
+      background: linear-gradient(135deg, rgba(237, 107, 16, 0.92), rgba(209, 88, 2, 0.95));
       border: 1px solid rgba(237, 107, 16, 0.4);
       border-radius: var(--radius-xl);
-      padding: 40px;
+      padding: 44px;
       position: relative;
       overflow: hidden;
       backdrop-filter: blur(14px);
     }
 
     .ai-banner-content {
-      max-width: 650px;
+      max-width: 720px;
       position: relative;
       z-index: 2;
     }
@@ -1023,14 +1154,14 @@
 
     .ai-banner-title {
       font-family: var(--font-heading);
-      font-size: 2rem;
+      font-size: 2.1rem;
       font-weight: 700;
       color: #fff;
       margin-bottom: 12px;
     }
 
     .ai-banner-desc {
-      color: rgba(255, 255, 255, 0.9);
+      color: rgba(255, 255, 255, 0.92);
       margin-bottom: 24px;
       font-size: 0.98rem;
     }
@@ -1042,6 +1173,7 @@
       padding: 8px;
       border-radius: var(--radius-md);
       border: 1px solid rgba(255, 255, 255, 0.3);
+      margin-bottom: 16px;
     }
 
     .ai-query-input {
@@ -1052,6 +1184,299 @@
       color: #0f172a;
       padding-left: 12px;
       font-family: var(--font-body);
+      font-size: 0.95rem;
+    }
+
+    .ai-prompt-chips {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .prompt-chip {
+      background: rgba(255, 255, 255, 0.18);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: #fff;
+      padding: 5px 12px;
+      border-radius: 16px;
+      font-size: 0.78rem;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+    .prompt-chip:hover {
+      background: rgba(255, 255, 255, 0.32);
+    }
+
+    /* FULLSCREEN / MODAL E-BOOK READER SYSTEM */
+    .reader-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(14px);
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s ease;
+    }
+    .reader-modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .reader-window {
+      width: 96vw;
+      height: 94vh;
+      background: var(--reader-bg);
+      color: var(--reader-text);
+      border: 1px solid var(--reader-border);
+      border-radius: var(--radius-xl);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.6);
+      transform: scale(0.96);
+      transition: transform 0.3s ease, background 0.3s ease, color 0.3s ease, width 0.3s ease, height 0.3s ease, border-radius 0.3s ease;
+    }
+    .reader-modal-overlay.active .reader-window {
+      transform: scale(1);
+    }
+    .reader-window.is-fullscreen {
+      width: 100vw !important;
+      height: 100vh !important;
+      border-radius: 0 !important;
+      border: none !important;
+      max-width: 100vw !important;
+      max-height: 100vh !important;
+    }
+
+    /* Reader Header Bar */
+    .reader-header {
+      height: 64px;
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--reader-border);
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+      gap: 16px;
+    }
+
+    .reader-header-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      overflow: hidden;
+    }
+
+    .reader-book-title {
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: 1.05rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      color: var(--text-main);
+    }
+
+    .reader-toolbar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .reader-tool-btn {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-light);
+      color: var(--text-main);
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+    .reader-tool-btn:hover {
+      border-color: var(--accent-orange);
+      color: var(--accent-orange-bright);
+    }
+
+    /* Reader Layout Body */
+    .reader-body-layout {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      overflow: hidden;
+      position: relative;
+    }
+    .reader-body-layout.toc-collapsed {
+      grid-template-columns: 0px 1fr;
+    }
+
+    /* TOC Sidebar */
+    .reader-toc-sidebar {
+      background: var(--bg-secondary);
+      border-right: 1px solid var(--reader-border);
+      overflow-y: auto;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      transition: all 0.3s ease;
+    }
+
+    .toc-title {
+      font-family: var(--font-heading);
+      font-size: 0.9rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--accent-orange-bright);
+      margin-bottom: 8px;
+    }
+
+    .toc-item {
+      padding: 10px 12px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .toc-item:hover, .toc-item.active {
+      background: var(--bg-card);
+      color: var(--text-main);
+      border-color: var(--border-light);
+      font-weight: 600;
+    }
+
+    /* Main Reader Viewport */
+    .reader-viewport {
+      padding: 40px 60px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      line-height: 1.8;
+      font-size: 1.05rem;
+    }
+
+    .reader-paper {
+      max-width: 820px;
+      width: 100%;
+      background: transparent;
+    }
+
+    .reader-chapter-title {
+      font-family: var(--font-heading);
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 20px;
+      color: var(--accent-orange-bright);
+      border-bottom: 2px solid var(--border-light);
+      padding-bottom: 12px;
+    }
+
+    .reader-section-title {
+      font-family: var(--font-heading);
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin: 28px 0 14px 0;
+    }
+
+    .reader-code-block {
+      background: #0f172a;
+      color: #38bdf8;
+      padding: 18px;
+      border-radius: 12px;
+      font-family: var(--font-code);
+      font-size: 0.9rem;
+      margin: 20px 0;
+      overflow-x: auto;
+      position: relative;
+      border: 1px solid #1e293b;
+    }
+    .copy-code-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(255,255,255,0.1);
+      color: #fff;
+      border: none;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      cursor: pointer;
+    }
+
+    .reader-callout {
+      background: rgba(237, 107, 16, 0.1);
+      border-left: 4px solid var(--accent-orange);
+      padding: 16px 20px;
+      border-radius: 0 12px 12px 0;
+      margin: 24px 0;
+      font-size: 0.95rem;
+    }
+
+    /* Reader Footer Navigation Bar */
+    .reader-footer {
+      height: 60px;
+      background: var(--bg-card);
+      border-top: 1px solid var(--reader-border);
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+
+    .page-slider-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex: 1;
+      max-width: 400px;
+      margin: 0 20px;
+    }
+    .page-slider {
+      flex: 1;
+      accent-color: var(--accent-orange);
+      cursor: pointer;
+    }
+
+    /* Citation Modal */
+    .citation-modal-card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-glow);
+      width: 100%;
+      max-width: 580px;
+      border-radius: var(--radius-xl);
+      padding: 30px;
+      position: relative;
+      box-shadow: var(--shadow-glow);
+    }
+
+    .citation-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      padding: 14px;
+      border-radius: 10px;
+      font-family: var(--font-code);
+      font-size: 0.85rem;
+      margin-bottom: 14px;
+      word-break: break-all;
     }
 
     /* Sound Visualizer Bars inside Modal */
@@ -1060,7 +1485,7 @@
       align-items: center;
       gap: 4px;
       height: 24px;
-      margin-top: 10px;
+      margin-top: 6px;
     }
     .audio-bar {
       width: 4px;
@@ -1132,32 +1557,7 @@
       z-index: 10;
     }
 
-    .modal-body {
-      display: grid;
-      grid-template-columns: 320px 1fr;
-      gap: 30px;
-      padding: 36px;
-    }
-
-    .modal-book-preview {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    .reader-sample-box {
-      background: var(--bg-card);
-      border: 1px solid var(--border-light);
-      border-radius: var(--radius-md);
-      padding: 20px;
-      font-size: 0.92rem;
-      max-height: 320px;
-      overflow-y: auto;
-      line-height: 1.7;
-      color: var(--text-muted);
-    }
-
-    /* Shelf Drawer Side Panel - FIXED OVERFLOW */
+    /* Shelf Drawer Side Panel */
     .drawer-overlay {
       position: fixed;
       inset: 0;
@@ -1176,7 +1576,7 @@
       position: fixed;
       top: 0;
       right: -100%;
-      width: 380px;
+      width: 390px;
       max-width: 100vw;
       height: 100%;
       background: var(--bg-secondary);
@@ -1213,13 +1613,13 @@
       display: flex;
       gap: 14px;
       background: var(--bg-card);
-      padding: 12px;
+      padding: 14px;
       border-radius: var(--radius-md);
       border: 1px solid var(--border-light);
       align-items: center;
     }
 
-    /* Floating Back-To-Top Button */
+    /* Back-To-Top Button */
     .back-to-top {
       position: fixed;
       bottom: 30px;
@@ -1263,7 +1663,7 @@
       display: flex;
       align-items: center;
       gap: 12px;
-      z-index: 2000;
+      z-index: 20000;
       transform: translateY(100px);
       opacity: 0;
       transition: all 0.3s ease;
@@ -1329,7 +1729,7 @@
       color: var(--text-dim);
     }
 
-    /* Comprehensive Multi-Device Media Queries */
+    /* Responsive Media Queries */
     @media (min-width: 1600px) {
       .container {
         max-width: 1560px;
@@ -1384,6 +1784,15 @@
       .footer-grid {
         grid-template-columns: 1fr 1fr;
       }
+      .reader-body-layout {
+        grid-template-columns: 1fr;
+      }
+      .reader-toc-sidebar {
+        display: none;
+      }
+      .reader-viewport {
+        padding: 24px 20px;
+      }
     }
 
     @media (max-width: 640px) {
@@ -1410,75 +1819,20 @@
       }
       .hero-title {
         font-size: 2.1rem;
-        letter-spacing: -0.5px;
-      }
-      .hero-subtitle {
-        font-size: 0.95rem;
       }
       .hero-stats {
         grid-template-columns: repeat(2, 1fr);
-        gap: 14px;
-      }
-      .stat-item h3 {
-        font-size: 1.4rem;
-      }
-      .book-3d-wrapper {
-        width: 220px;
-        height: 310px;
-      }
-      .orbit-element {
-        font-size: 0.75rem;
-        padding: 8px 12px;
-      }
-      .orbit-1 {
-        left: -10px;
-        top: 5%;
-      }
-      .orbit-2 {
-        right: -10px;
-        bottom: 5%;
       }
       .books-grid {
         grid-template-columns: 1fr;
       }
       .footer-grid {
         grid-template-columns: 1fr;
-        gap: 30px;
       }
-      .footer-bottom {
-        flex-direction: column;
-        gap: 10px;
-        text-align: center;
-      }
-      .modal-card {
-        width: 95vw;
-        max-height: 94vh;
-        border-radius: 18px;
-      }
-      .modal-body {
-        grid-template-columns: 1fr;
-        padding: 20px;
-        gap: 20px;
-      }
-      .toast-notification {
-        right: 15px;
-        left: 15px;
-        bottom: 15px;
-      }
-      .nav-dropdown-menu {
-        right: 16px;
-        top: 78px;
-        width: 290px;
-      }
-    }
-
-    @media (max-width: 380px) {
-      .hero-title {
-        font-size: 1.8rem;
-      }
-      .btn-primary {
-        padding: 8px 14px;
-        font-size: 0.82rem;
+      .reader-window {
+        width: 100vw;
+        height: 100vh;
+        border-radius: 0;
       }
     }
   </style>
@@ -1492,7 +1846,7 @@
   <header class="header">
     <div class="container nav-container">
       
-      <!-- Brand Logo on the FAR LEFT -->
+      <!-- Brand Logo on FAR LEFT -->
       <a href="#" class="brand">
         <img src="nrilogo.png" alt="DR. RVR NRI Logo" class="brand-logo-img">
         <div class="brand-text">
@@ -1501,18 +1855,18 @@
         </div>
       </a>
 
-      <!-- Desktop Navbar Links (Visible on Laptop/Desktop screens > 1100px) -->
+      <!-- Desktop Navbar Links -->
       <ul class="nav-links">
         <li><a href="#hero" class="nav-link active">Home</a></li>
-        <li><a href="#catalog" class="nav-link">E-Books Catalog</a></li>
+        <li><a href="#catalog" class="nav-link">E-Books Reader</a></li>
         <li><a href="#journals" class="nav-link">Research Databases</a></li>
         <li><a href="#ai-assistant" class="nav-link">LibAI Assistant</a></li>
         <li><a href="#footer" class="nav-link">Help & Contact</a></li>
       </ul>
 
-      <!-- Action Buttons on the FAR RIGHT -->
+      <!-- Action Buttons on FAR RIGHT -->
       <div class="nav-actions">
-        <!-- Desktop Theme Toggle Button (Positioned on LEFT side of Saved Books Button) -->
+        <!-- Theme Toggle Button -->
         <button class="btn-icon desktop-theme-btn" id="desktopThemeToggleBtn" title="Toggle Light / Dark Theme">
           <svg class="icon" viewBox="0 0 24 24" style="font-size: 20px;">
             <path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z"/>
@@ -1532,10 +1886,10 @@
           <svg class="icon" viewBox="0 0 24 24" style="font-size: 18px;">
             <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
           </svg>
-          Library ID Login
+          <span id="loginStatusText">Library ID Login</span>
         </button>
 
-        <!-- Mobile/Tablet Hamburger Menu Button on FAR RIGHT (HIDDEN on Laptop > 1100px) -->
+        <!-- Mobile Hamburger Button -->
         <button class="btn-icon hamburger-btn" id="openNavDropdownBtn" title="Open Navigation Menu">
           <svg class="icon" viewBox="0 0 24 24" style="font-size: 22px;">
             <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
@@ -1545,7 +1899,7 @@
     </div>
   </header>
 
-  <!-- Mobile Dropdown Menu with SVG Icons (No Emojis) -->
+  <!-- Mobile Dropdown Menu -->
   <div class="nav-dropdown-overlay" id="navDropdownOverlay"></div>
   <div class="nav-dropdown-menu" id="navDropdown">
     <div style="display: flex; align-items: center; justify-content: space-between; padding-bottom: 12px; margin-bottom: 14px; border-bottom: 1px solid var(--border-light);">
@@ -1564,7 +1918,6 @@
       </button>
     </div>
 
-    <!-- Mobile Links with Pure SVG Icons -->
     <ul style="list-style: none; display: flex; flex-direction: column; gap: 8px;">
       <li>
         <a href="#hero" class="dropdown-item">
@@ -1591,17 +1944,9 @@
         </a>
       </li>
       <li>
-        <a href="#footer" class="dropdown-item">
-          <svg class="icon" viewBox="0 0 24 24" style="color: var(--accent-orange); font-size: 18px;"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-          <span>Help & Contact</span>
-        </a>
-      </li>
-      <li>
         <a href="#" class="dropdown-item" id="mobileShelfBtn">
-          <svg class="icon" viewBox="0 0 24 24" style="color: var(--accent-orange); font-size: 18px;">
-            <path d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2zm0 15l-5-2.18L7 18V5h10v13z"/>
-          </svg>
-          <span style="flex:1;">My Saved Books</span>
+          <svg class="icon" viewBox="0 0 24 24" style="color: var(--accent-orange); font-size: 18px;"><path d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2zm0 15l-5-2.18L7 18V5h10v13z"/></svg>
+          <span style="flex:1;">Saved Bookshelf</span>
           <span style="background: var(--accent-orange); color: #fff; font-size: 0.7rem; font-weight: 800; padding: 2px 8px; border-radius: 12px;" id="mobileShelfCount">0</span>
         </a>
       </li>
@@ -1614,7 +1959,7 @@
     </div>
   </div>
 
-  <!-- Hero Section with Canvas Mesh Particles -->
+  <!-- Hero Section -->
   <section class="hero" id="hero">
     <canvas id="heroCanvas"></canvas>
     <div class="hero-glow-1"></div>
@@ -1625,24 +1970,24 @@
       <div class="hero-content">
         <div class="hero-badge">
           <span class="live-dot"></span>
-          Central Digital Knowledge Portal • 24/7 Access
+          Central Digital Knowledge Portal • Interactive Demo E-Books
         </div>
 
         <h1 class="hero-title">
-          Gateway to Unlimited <span class="highlight">Academic Knowledge</span> & Discovery
+          Gateway to Unlimited <span class="highlight">Academic E-Books</span> & Research
         </h1>
 
         <p class="hero-subtitle">
-          Explore over 150,000+ textbooks, peer-reviewed journals, lab manuals, and research databases. Designed for students, researchers, and faculty of RVR NRI Institute of Technology.
+          Read, search, listen to, and cite 150,000+ interactive engineering textbooks, peer-reviewed journals, and lab manuals directly in your browser. Designed for students and faculty of RVR NRI.
         </p>
 
-        <!-- Search Box -->
+        <!-- Search Box & Filter Bar -->
         <div class="search-box-wrap">
           <div class="search-input-group">
             <svg class="icon" viewBox="0 0 24 24">
               <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
             </svg>
-            <input type="text" id="searchInput" class="search-input" placeholder="Search by Book Title, Author, ISBN, Subject or Topic (e.g., Artificial Intelligence, VLSI, Thermo)...">
+            <input type="text" id="searchInput" class="search-input" placeholder="Search by Title, Author, Topic (e.g., Deep Learning, VLSI, Microgrids, Kinematics)...">
           </div>
           
           <select id="departmentFilter" class="search-filter-select">
@@ -1656,18 +2001,27 @@
             <option value="MBA">MBA & Management</option>
           </select>
 
-          <button class="btn-primary" id="searchSubmitBtn">Search</button>
+          <button class="btn-primary" id="searchSubmitBtn">Search E-Books</button>
+        </div>
+
+        <!-- Resource Type Chips Bar -->
+        <div class="type-chips-bar" id="typeChipsBar">
+          <span class="type-chip active" data-type="all">All Materials</span>
+          <span class="type-chip" data-type="textbook">Core Textbooks</span>
+          <span class="type-chip" data-type="reference">Reference Manuals</span>
+          <span class="type-chip" data-type="research">Research Publications</span>
+          <span class="type-chip" data-type="lab">Lab Guides</span>
         </div>
 
         <!-- Live Digital Stats -->
         <div class="hero-stats">
           <div class="stat-item">
             <h3 class="counter" data-target="150000">0</h3>
-            <p>E-Books Available</p>
+            <p>E-Books & Papers</p>
           </div>
           <div class="stat-item">
             <h3 class="counter" data-target="12500">0</h3>
-            <p>E-Journals Access</p>
+            <p>Peer-Reviewed Journals</p>
           </div>
           <div class="stat-item">
             <h3 class="counter" data-target="45000">0</h3>
@@ -1675,7 +2029,7 @@
           </div>
           <div class="stat-item">
             <h3 style="color: var(--accent-orange-bright);">24/7</h3>
-            <p>Remote Access</p>
+            <p>Instant Browser Reader</p>
           </div>
         </div>
       </div>
@@ -1687,24 +2041,24 @@
             <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
           </svg>
           <div>
-            <div style="font-size: 0.75rem; color: var(--text-dim);">Top Rated</div>
-            <div>AI & Deep Learning 2026</div>
+            <div style="font-size: 0.75rem; color: var(--text-dim);">FEATURED DEMO READ</div>
+            <div>Deep Learning 2026 Edition</div>
           </div>
         </div>
 
         <div class="orbit-element orbit-2">
-          <svg class="icon" viewBox="0 0 24 24" style="color: var(--accent-orange); font-size: 22px;">
-            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+          <svg class="icon" viewBox="0 0 24 24" style="color: var(--accent-emerald); font-size: 22px;">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/>
           </svg>
           <div>
-            <div style="font-size: 0.75rem; color: var(--text-dim);">Instant Download</div>
-            <div>Full PDF + Source Codes</div>
+            <div style="font-size: 0.75rem; color: var(--text-dim);">AI AUDIOBOOK MODE</div>
+            <div>Listen To Any Chapter</div>
           </div>
         </div>
 
-        <div class="book-3d-wrapper" id="heroBook3D">
+        <div class="book-3d-wrapper" id="heroBook3D" onclick="openInteractiveReader(1)">
           <div class="book-3d-card">
-            <span class="book-tag">FEATURED READ</span>
+            <span class="book-tag">CLICK TO READ DEMO</span>
             
             <div class="book-icon-bg">
               <svg class="icon" viewBox="0 0 24 24" style="font-size: 64px; color: #fff;">
@@ -1713,8 +2067,8 @@
             </div>
 
             <div>
-              <div class="book-title-3d">Advanced Quantum Computing & Neural Nets</div>
-              <div class="book-author-3d">Dr. RVR Research Press</div>
+              <div class="book-title-3d">Deep Learning & Neural Network Architectures</div>
+              <div class="book-author-3d">Dr. K. Srinivas & Prof. R. V. Rao</div>
             </div>
           </div>
         </div>
@@ -1733,9 +2087,18 @@
             <svg class="icon" viewBox="0 0 24 24">
               <path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H8V4h12v12z"/>
             </svg>
-            CURATED DIGITAL REPOSITORY
+            INTERACTIVE DIGITAL REPOSITORY
           </div>
-          <h2 class="section-title">Explore Academic E-Books</h2>
+          <h2 class="section-title">Explore Academic E-Books & Manuals</h2>
+        </div>
+
+        <div class="sort-control-wrap">
+          <label for="sortSelect">Sort By:</label>
+          <select id="sortSelect" class="sort-select">
+            <option value="rating">Highest Rated ★</option>
+            <option value="title">Title (A - Z)</option>
+            <option value="newest">Newest 2026</option>
+          </select>
         </div>
       </div>
 
@@ -1743,20 +2106,20 @@
       <div class="filter-tabs" id="deptTabs">
         <button class="tab-btn active" data-dept="all">
           <svg class="icon" viewBox="0 0 24 24"><path d="M12 2l-5.5 9h11zM12 22l5.5-9h-11z"/></svg>
-          All Departments <span class="tab-count">150K</span>
+          All Departments <span class="tab-count" id="countAll">16</span>
         </button>
-        <button class="tab-btn" data-dept="CSE">CSE & AI/DS <span class="tab-count">42K</span></button>
-        <button class="tab-btn" data-dept="ECE">ECE Electronics <span class="tab-count">31K</span></button>
-        <button class="tab-btn" data-dept="EEE">EEE Electrical <span class="tab-count">24K</span></button>
-        <button class="tab-btn" data-dept="MECH">Mechanical <span class="tab-count">19K</span></button>
-        <button class="tab-btn" data-dept="CIVIL">Civil Engg <span class="tab-count">15K</span></button>
-        <button class="tab-btn" data-dept="PHARM">Pharmacy <span class="tab-count">12K</span></button>
-        <button class="tab-btn" data-dept="MBA">MBA & Management <span class="tab-count">7K</span></button>
+        <button class="tab-btn" data-dept="CSE">CSE & AI/DS <span class="tab-count">4</span></button>
+        <button class="tab-btn" data-dept="ECE">ECE Electronics <span class="tab-count">3</span></button>
+        <button class="tab-btn" data-dept="EEE">EEE Electrical <span class="tab-count">2</span></button>
+        <button class="tab-btn" data-dept="MECH">Mechanical <span class="tab-count">2</span></button>
+        <button class="tab-btn" data-dept="CIVIL">Civil Engg <span class="tab-count">2</span></button>
+        <button class="tab-btn" data-dept="PHARM">Pharmacy <span class="tab-count">2</span></button>
+        <button class="tab-btn" data-dept="MBA">MBA & Management <span class="tab-count">1</span></button>
       </div>
 
-      <!-- Books Grid -->
+      <!-- E-Books Grid -->
       <div class="books-grid" id="booksGrid">
-        <!-- Rendered dynamically via JS -->
+        <!-- Dynamically rendered via JS -->
       </div>
 
     </div>
@@ -1772,7 +2135,7 @@
             <svg class="icon" viewBox="0 0 24 24">
               <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
             </svg>
-            INSTITUTIONAL ACCESS
+            INSTITUTIONAL ACCESS PORTAL
           </div>
           <h2 class="section-title">International Research Databases</h2>
         </div>
@@ -1806,7 +2169,7 @@
 
         <div class="journal-card" onclick="openExternalPortal('JSTOR Academic Library')">
           <div class="journal-icon-box">
-            <svg class="icon" viewBox="0 0 24 24"><path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
+            <svg class="icon" viewBox="0 0 24 24"><path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2z"/></svg>
           </div>
           <h3 class="journal-name">JSTOR Archives</h3>
           <p class="journal-desc">Digital archive of primary sources, humanities, and sciences.</p>
@@ -1824,17 +2187,24 @@
         <div class="ai-banner-content">
           <div class="ai-badge">
             <svg class="icon" viewBox="0 0 24 24"><path d="M19 9l1.25-2.75L23 5l-2.75-1.25L19 1l-1.25 2.75L15 5l2.75 1.25zm-7.5.5L9 4 6.5 9.5 1 12l5.5 2.5L9 20l2.5-5.5L17 12z"/></svg>
-            SMART LIB-AI ASSISTANT
+            SMART LIB-AI RESEARCH ASSISTANT
           </div>
-          <h2 class="ai-banner-title">Need help finding research papers or textbook topics?</h2>
-          <p class="ai-banner-desc">Ask LibAI to summarize chapters, synthesize reference topics, or generate customized reading lists for your syllabus!</p>
+          <h2 class="ai-banner-title">Need help finding textbooks or research topics?</h2>
+          <p class="ai-banner-desc">Ask LibAI to summarize chapters, synthesize GATE syllabus reference topics, or recommend core textbooks!</p>
 
           <div class="ai-query-box">
-            <input type="text" id="aiQueryInput" class="ai-query-input" placeholder="Ask LibAI: e.g., Recommend top books for Gate CSE 2026 or Data Structures...">
+            <input type="text" id="aiQueryInput" class="ai-query-input" placeholder="Ask LibAI: e.g., Recommend top books for Gate CSE 2026, VLSI timing analysis, or Deep Learning...">
             <button class="btn-primary" id="aiQueryBtn">Ask LibAI</button>
           </div>
+
+          <div class="ai-prompt-chips">
+            <span class="prompt-chip" onclick="setAiPrompt('Recommend core textbooks for GATE CSE 2026')">GATE CSE 2026 List</span>
+            <span class="prompt-chip" onclick="setAiPrompt('Summarize key concepts in Deep Learning Chapter 1')">Deep Learning Summary</span>
+            <span class="prompt-chip" onclick="setAiPrompt('Best E-Books for VLSI System & CMOS Inverter design')">VLSI & CMOS Books</span>
+            <span class="prompt-chip" onclick="setAiPrompt('Which books cover Smart Microgrids & Solar energy?')">Smart Microgrids</span>
+          </div>
           
-          <div id="aiResponseBox" style="margin-top: 16px; font-size: 0.9rem; color: #e2e8f0; display: none; background: rgba(0,0,0,0.4); padding: 14px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.15);"></div>
+          <div id="aiResponseBox" style="margin-top: 16px; font-size: 0.9rem; color: #e2e8f0; display: none; background: rgba(0,0,0,0.5); padding: 18px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.2); line-height: 1.6;"></div>
         </div>
       </div>
     </div>
@@ -1892,7 +2262,7 @@
 
       <div class="footer-bottom">
         <div>© 2026 DR. RVR NRI INSTITUTE OF TECHNOLOGY (Deemed to be University). All Rights Reserved.</div>
-        <div>Designed with GSAP Micro-Animations for High Performance UI/UX</div>
+        <div>Interactive E-Book Reader Engine built for high-performance academic UI/UX</div>
       </div>
     </div>
   </footer>
@@ -1902,70 +2272,136 @@
     <svg class="icon" viewBox="0 0 24 24" style="font-size: 24px;"><path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/></svg>
   </button>
 
-  <!-- Book Details & Interactive Reader Modal -->
-  <div class="modal-overlay" id="bookModal">
-    <div class="modal-card">
-      <button class="modal-close" id="closeModalBtn">
-        <svg class="icon" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
-      </button>
-      <div class="modal-body">
-        
-        <div class="modal-book-preview">
-          <div id="modalCover" class="book-cover-container book-cover-style-1" style="height: 280px;">
-            <div class="book-cover-content">
-              <svg class="icon" viewBox="0 0 24 24" style="font-size: 48px; color: #fff;"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3z"/></svg>
-              <div class="book-cover-title" id="modalCoverTitle">Title</div>
-            </div>
-          </div>
-          
-          <button class="btn-primary" id="modalDownloadBtn" style="width: 100%; justify-content: center;">
-            <svg class="icon" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
-            Download Digital PDF
+  <!-- FULLSCREEN INTERACTIVE DEMO E-BOOK READER MODAL -->
+  <div class="reader-modal-overlay" id="interactiveReaderModal">
+    <div class="reader-window">
+      
+      <!-- Reader Header Bar -->
+      <div class="reader-header">
+        <div class="reader-header-info">
+          <button class="reader-tool-btn" id="toggleTocBtn" title="Toggle Table of Contents Sidebar">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
+            TOC
           </button>
           
-          <button class="btn-read" id="modalSaveBtn" style="width: 100%; justify-content: center; height: 42px;">
-            <svg class="icon" viewBox="0 0 24 24"><path d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2z"/></svg>
-            Save to My Bookshelf
-          </button>
-
-          <!-- Audio Reader Sample Player -->
-          <div style="background: var(--bg-card); padding: 14px; border-radius: 12px; border: 1px solid var(--border-light); margin-top: 8px;">
-            <div style="font-size: 0.8rem; color: var(--accent-orange-bright); font-weight: 700; display: flex; align-items: center; justify-content: space-between;">
-              <span>🎧 AI Audiobook Preview</span>
-              <span>Playing Sample...</span>
-            </div>
-            <div class="audio-visualizer">
-              <div class="audio-bar"></div>
-              <div class="audio-bar"></div>
-              <div class="audio-bar"></div>
-              <div class="audio-bar"></div>
-              <div class="audio-bar"></div>
-            </div>
+          <div style="display: flex; flex-direction: column;">
+            <span class="reader-book-title" id="readerBookTitle">Book Title Loading...</span>
+            <span style="font-size: 0.75rem; color: var(--text-dim);" id="readerBookAuthor">Author Name</span>
           </div>
         </div>
 
-        <div>
-          <span class="book-dept-tag" id="modalDeptTag" style="position: static; display: inline-block; margin-bottom: 12px;">CSE</span>
-          <h2 id="modalTitle" style="font-family: var(--font-heading); font-size: 1.8rem; margin-bottom: 8px;">Book Title</h2>
-          <p id="modalAuthor" style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 20px;">By Author Name</p>
+        <div class="reader-toolbar">
+          <!-- Fullscreen Toggle Button -->
+          <button class="reader-tool-btn" id="readerFullscreenBtn" title="Toggle Fullscreen Reading Mode (Shortcut: F)" style="border-color: var(--accent-orange); color: var(--accent-orange-bright);">
+            <svg class="icon" id="fullscreenIcon" viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>
+            <span id="fullscreenBtnText">Fullscreen</span>
+          </button>
 
-          <h4 style="font-family: var(--font-heading); margin-bottom: 10px;">Executive Overview</h4>
-          <p id="modalDesc" style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 24px; line-height: 1.6;">
-            Detailed synopsis of the academic title will appear here...
-          </p>
+          <!-- Audio Narrator (TTS) Button -->
+          <button class="reader-tool-btn" id="audioNarratorBtn" title="Listen to AI Audiobook Voice">
+            <svg class="icon" viewBox="0 0 24 24" style="color: var(--accent-emerald);"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+            <span id="audioNarratorText">Listen AI</span>
+          </button>
 
-          <h4 style="font-family: var(--font-heading); margin-bottom: 10px;">Interactive Sample Chapter Preview</h4>
-          <div class="reader-sample-box" id="modalSampleReader">
-            <strong>Chapter 1: Foundations & Architecture</strong><br><br>
-            In modern computing paradigms, scalable systemic designs demand a deep synergy between algorithm design, memory layout, and hardware acceleration vectors. This textbook outlines key principles used in engineering resilient systems across modern cloud and high-performance environments...
+          <!-- Reader Theme Switcher -->
+          <button class="reader-tool-btn" id="readerThemeBtn" title="Cycle Reading Theme (Light / Sepia / Dark)">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z"/></svg>
+            <span id="readerThemeText">Sepia</span>
+          </button>
+
+          <!-- Font Size Adjusters -->
+          <button class="reader-tool-btn" onclick="adjustReaderFontSize(-1)" title="Decrease Text Size">A-</button>
+          <button class="reader-tool-btn" onclick="adjustReaderFontSize(1)" title="Increase Text Size">A+</button>
+
+          <!-- Citation Button -->
+          <button class="reader-tool-btn" id="readerCiteBtn" title="Generate Academic Citation">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M14 17h3l2-4V7h-6v6h3M6 17h3l2-4V7H5v6h3"/></svg>
+            Cite
+          </button>
+
+          <!-- Bookmark / Save Button -->
+          <button class="reader-tool-btn" id="readerBookmarkBtn" title="Save to My Bookshelf">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2z"/></svg>
+            Save
+          </button>
+
+          <!-- Close Reader Window -->
+          <button class="btn-icon" id="closeReaderBtn" style="width: 36px; height: 36px;" title="Exit E-Book Reader">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Reader Body Layout -->
+      <div class="reader-body-layout" id="readerBodyLayout">
+        
+        <!-- Table of Contents Sidebar -->
+        <div class="reader-toc-sidebar" id="readerTocSidebar">
+          <div class="toc-title">TABLE OF CONTENTS</div>
+          <div id="tocItemList">
+            <!-- Dynamically populated TOC -->
+          </div>
+        </div>
+
+        <!-- Main Viewport -->
+        <div class="reader-viewport" id="readerViewport">
+          <div class="reader-paper" id="readerPaperContent">
+            <!-- Dynamically populated page chapter content -->
           </div>
         </div>
 
       </div>
+
+      <!-- Reader Footer Bar -->
+      <div class="reader-footer">
+        <button class="btn-secondary" id="prevPageBtn">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+          Prev Page
+        </button>
+
+        <div class="page-slider-wrap">
+          <span style="font-size: 0.85rem; font-weight: 600; white-space: nowrap;" id="pageIndicatorText">Page 1 of 5</span>
+          <input type="range" min="1" max="5" value="1" class="page-slider" id="pageSlider">
+        </div>
+
+        <button class="btn-primary" id="nextPageBtn">
+          Next Page
+          <svg class="icon" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+        </button>
+      </div>
+
     </div>
   </div>
 
-  <!-- Login Modal -->
+  <!-- Academic Citation Modal -->
+  <div class="modal-overlay" id="citationModal">
+    <div class="citation-modal-card">
+      <button class="modal-close" id="closeCitationBtn">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+      </button>
+
+      <h3 style="font-family: var(--font-heading); font-size: 1.4rem; margin-bottom: 6px;" id="citationBookTitle">Academic Citation</h3>
+      <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 20px;">Copy formatted citation for research papers, thesis references, and reports.</p>
+
+      <div style="display: flex; gap: 8px; margin-bottom: 14px;">
+        <button class="tab-btn active" id="citeIeeeTab" onclick="switchCitationStyle('IEEE')">IEEE Format</button>
+        <button class="tab-btn" id="citeApaTab" onclick="switchCitationStyle('APA')">APA 7th</button>
+        <button class="tab-btn" id="citeMlaTab" onclick="switchCitationStyle('MLA')">MLA 9th</button>
+        <button class="tab-btn" id="citeBibTab" onclick="switchCitationStyle('BibTeX')">BibTeX</button>
+      </div>
+
+      <div class="citation-box" id="citationText">
+        Loading citation...
+      </div>
+
+      <button class="btn-primary" style="width: 100%; justify-content: center;" onclick="copyCitationToClipboard()">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+        Copy Citation to Clipboard
+      </button>
+    </div>
+  </div>
+
+  <!-- Student Login Modal -->
   <div class="modal-overlay" id="loginModal">
     <div class="modal-card" style="max-width: 440px;">
       <button class="modal-close" id="closeLoginBtn">
@@ -1976,7 +2412,7 @@
         <h3 style="font-family: var(--font-heading); font-size: 1.5rem; margin-bottom: 6px;">Library Single Sign-On</h3>
         <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 24px;">Enter your RVR NRI Roll Number / Faculty ID</p>
 
-        <input type="text" placeholder="Roll No / Employee ID (e.g. 24RVR0102)" style="width: 100%; background: var(--bg-card); border: 1px solid var(--border-light); padding: 12px; border-radius: 10px; color: var(--text-main); margin-bottom: 14px; font-family: var(--font-body);">
+        <input type="text" id="loginRollInput" placeholder="Roll No / Employee ID (e.g. 24RVR0102)" style="width: 100%; background: var(--bg-card); border: 1px solid var(--border-light); padding: 12px; border-radius: 10px; color: var(--text-main); margin-bottom: 14px; font-family: var(--font-body);">
         <input type="password" placeholder="Library Password / PIN" style="width: 100%; background: var(--bg-card); border: 1px solid var(--border-light); padding: 12px; border-radius: 10px; color: var(--text-main); margin-bottom: 20px; font-family: var(--font-body);">
 
         <button class="btn-primary" style="width: 100%; justify-content: center;" onclick="handleLoginSubmit()">Log In to Digital Portal</button>
@@ -1998,7 +2434,7 @@
     </div>
 
     <div class="shelf-item-list" id="shelfItemList">
-      <!-- Items dynamically injected -->
+      <!-- Dynamically injected -->
     </div>
   </div>
 
@@ -2010,103 +2446,891 @@
 
   <!-- JavaScript Logic & GSAP Animations -->
   <script>
-    // Sample Books Dataset for DR. RVR NRI Digital Library
+    // 16 Comprehensive Demo Academic E-Books with Multi-Chapter Contents
     const booksData = [
       {
         id: 1,
         title: "Deep Learning & Neural Network Architectures",
         author: "Dr. K. Srinivas & Prof. R. V. Rao",
         dept: "CSE",
+        type: "textbook",
         style: "book-cover-style-1",
         rating: "4.9",
         edition: "2026 Edition",
-        desc: "Comprehensive guide to deep learning primitives, transformer models, reinforcement learning, and PyTorch implementations tailored for advanced computer science curriculum."
+        year: 2026,
+        pagesCount: 5,
+        desc: "Comprehensive guide to deep learning primitives, transformer models, reinforcement learning, and PyTorch implementations tailored for advanced computer science curriculum.",
+        chapters: [
+          {
+            title: "Chapter 1: Foundations of Deep Learning & Perceptrons",
+            content: `
+              <div class="reader-chapter-title">Chapter 1: Foundations of Deep Learning & Perceptrons</div>
+              <p>Modern artificial intelligence relies heavily on deep neural architectures capable of extracting hierarchical representations from complex, unstructured data streams. The artificial neuron, or <strong>perceptron</strong>, maps an input vector \\( \\mathbf{x} = [x_1, x_2, \\dots, x_n]^T \\) through parameterized weights \\( \\mathbf{w} \\) and bias \\( b \\):</p>
+              
+              <div class="reader-callout">
+                <strong>Mathematical Formulation:</strong><br>
+                \\( y = \\sigma\\left( \\sum_{i=1}^{n} w_i x_i + b \\right) = \\sigma(\\mathbf{w}^T \\mathbf{x} + b) \\)
+              </div>
+              
+              <p>where \\( \\sigma(z) \\) represents a non-linear activation function such as the Rectified Linear Unit (ReLU): \\( \\text{ReLU}(z) = \\max(0, z) \\), or Softmax for multi-class classification.</p>
+              
+              <div class="reader-section-title">1.1 PyTorch Implementation Example</div>
+              <div class="reader-code-block">
+                <button class="copy-code-btn" onclick="copyCode(this)">Copy</button>
+import torch
+import torch.nn as nn
+
+class DeepPerceptronNet(nn.Module):
+    def __init__(self, input_dim=784, hidden_dim=256, num_classes=10):
+        super(DeepPerceptronNet, self).__init__()
+        self.fc1 = nn.Linear(input_dim, hidden_dim)
+        self.relu = nn.ReLU()
+        self.fc2 = nn.Linear(hidden_dim, num_classes)
+        
+    def forward(self, x):
+        out = self.fc1(x)
+        out = self.relu(out)
+        out = self.fc2(out)
+        return out
+              </div>
+              <p>This architecture forms the basic building block for multi-layer feedforward neural networks (MLPs) utilized across autonomous systems and vision models.</p>
+            `
+          },
+          {
+            title: "Chapter 2: Backpropagation & Stochastic Gradient Descent",
+            content: `
+              <div class="reader-chapter-title">Chapter 2: Backpropagation & Stochastic Gradient Descent</div>
+              <p>Optimization in deep neural networks relies on computing the gradient of a loss function \\( \\mathcal{L} \\) with respect to every weight parameter using the <strong>Chain Rule of Calculus</strong>.</p>
+
+              <div class="reader-section-title">2.1 Gradient Calculation</div>
+              <p>For a parameter \\( w_{ij}^{(l)} \\) in layer \\( l \\), the partial derivative is calculated as:</p>
+              <div class="reader-callout">
+                \\( \\frac{\\partial \\mathcal{L}}{\\partial w_{ij}^{(l)}} = \\delta_i^{(l)} \\cdot a_j^{(l-1)} \\)
+              </div>
+              <p>where \\( \\delta_i^{(l)} \\) is the error term propagated backwards from layer \\( l+1 \\), and \\( a_j^{(l-1)} \\) is the activation output from the preceding layer.</p>
+
+              <div class="reader-section-title">2.2 Adam Optimizer Update Rule</div>
+              <p>Adaptive Moment Estimation (Adam) maintains exponentially decaying averages of past gradients (\\( m_t \\)) and squared gradients (\\( v_t \\)):</p>
+              <div class="reader-code-block">
+                <button class="copy-code-btn" onclick="copyCode(this)">Copy</button>
+# Adam Optimization Update Step
+m_t = beta1 * m_{t-1} + (1 - beta1) * g_t
+v_t = beta2 * v_{t-1} + (1 - beta2) * (g_t ** 2)
+
+m_hat = m_t / (1 - beta1 ** t)
+v_hat = v_t / (1 - beta2 ** t)
+
+theta_t = theta_{t-1} - lr * m_hat / (sqrt(v_hat) + epsilon)
+              </div>
+            `
+          },
+          {
+            title: "Chapter 3: Convolutional Neural Networks (CNNs)",
+            content: `
+              <div class="reader-chapter-title">Chapter 3: Convolutional Neural Networks (CNNs)</div>
+              <p>Convolutional layers enforce <strong>spatial locality</strong> and <strong>translation invariance</strong> by sharing weight kernels across feature maps.</p>
+              
+              <div class="reader-section-title">3.1 2D Discrete Convolution Operator</div>
+              <p>Given an input image \\( I \\) and a kernel \\( K \\) of size \\( (k_h \\times k_w) \\):</p>
+              <div class="reader-callout">
+                \\( S(i, j) = (I * K)(i, j) = \\sum_{m} \\sum_{n} I(i-m, j-n) K(m, n) \\)
+              </div>
+              <p>Pooling layers (Max Pooling, Average Pooling) reduce spatial dimensions while maintaining robust salient features against minor translations.</p>
+            `
+          },
+          {
+            title: "Chapter 4: Transformer Architecture & Attention",
+            content: `
+              <div class="reader-chapter-title">Chapter 4: Transformer Architecture & Scaled Dot-Product Attention</div>
+              <p>The Transformer model replaces recurrent connections with <strong>Multi-Head Self-Attention</strong>, allowing parallelized processing over long context windows.</p>
+              
+              <div class="reader-section-title">4.1 Scaled Dot-Product Attention</div>
+              <div class="reader-callout">
+                \\( \\text{Attention}(Q, K, V) = \\text{softmax}\\left( \\frac{Q K^T}{\\sqrt{d_k}} \\right) V \\)
+              </div>
+              <p>where \\( Q, K, V \\) correspond to Queries, Keys, and Values matrices projected into dimension \\( d_k \\).</p>
+            `
+          },
+          {
+            title: "Chapter 5: Reinforcement Learning & Model Fine-Tuning",
+            content: `
+              <div class="reader-chapter-title">Chapter 5: Reinforcement Learning & Fine-Tuning</div>
+              <p>Fine-tuning foundational models using Reinforcement Learning from Human Feedback (RLHF) optimizes policy models via Proximal Policy Optimization (PPO) loss objectives.</p>
+              <div class="reader-section-title">Summary & Key Takeaways</div>
+              <ul>
+                <li>Deep Learning models scale exponentially with compute and data volume.</li>
+                <li>Transformers form the foundation for modern Generative AI & LLMs.</li>
+                <li>PyTorch provides dynamic computational graph execution for scalable deployment.</li>
+              </ul>
+            `
+          }
+        ]
       },
       {
         id: 2,
         title: "VLSI System Design & Microelectronics",
         author: "Dr. P. V. Ramana",
         dept: "ECE",
+        type: "textbook",
         style: "book-cover-style-2",
         rating: "4.8",
         edition: "5th Edition",
-        desc: "In-depth treatment of CMOS digital circuit design, timing analysis, FPGA prototyping, and low-power semiconductor layout techniques."
+        year: 2025,
+        pagesCount: 4,
+        desc: "In-depth treatment of CMOS digital circuit design, timing analysis, FPGA prototyping, and low-power semiconductor layout techniques.",
+        chapters: [
+          {
+            title: "Chapter 1: MOSFET Physics & CMOS Inverters",
+            content: `
+              <div class="reader-chapter-title">Chapter 1: MOSFET Physics & CMOS Inverter Basics</div>
+              <p>Complementary Metal-Oxide-Semiconductor (CMOS) technology powers modern integrated circuits. A standard CMOS inverter comprises an nMOS pull-down network and a pMOS pull-up network.</p>
+              <div class="reader-callout">
+                <strong>Drain Current Equation (Saturation Region):</strong><br>
+                \\( I_{DS} = \\frac{1}{2} \\mu_n C_{ox} \\frac{W}{L} (V_{GS} - V_{TH})^2 \\)
+              </div>
+              <p>Static power dissipation in ideal CMOS inverters approaches zero, with energy consumed primarily during dynamic switching transitions: \\( P_{dynamic} = \\alpha C_L V_{DD}^2 f \\).</p>
+            `
+          },
+          {
+            title: "Chapter 2: Verilog HDL Synthesizable Modules",
+            content: `
+              <div class="reader-chapter-title">Chapter 2: Verilog HDL & Synthesis</div>
+              <p>Hardware Description Languages (HDLs) allow engineers to model complex digital systems at the Register-Transfer Level (RTL).</p>
+              <div class="reader-code-block">
+                <button class="copy-code-btn" onclick="copyCode(this)">Copy</button>
+module CMOS_Inverter (
+    input wire in,
+    output wire out
+);
+    assign out = ~in;
+endmodule
+              </div>
+            `
+          },
+          {
+            title: "Chapter 3: Timing Analysis & Setup/Hold Times",
+            content: `
+              <div class="reader-chapter-title">Chapter 3: Static Timing Analysis (STA)</div>
+              <p>Static Timing Analysis verifies that digital logic meets clock frequency targets without violating setup or hold conditions.</p>
+              <div class="reader-callout">
+                <strong>Setup Time Constraint:</strong> \\( T_{clk} \\ge T_{C-Q} + T_{comb} + T_{setup} \\)<br>
+                <strong>Hold Time Constraint:</strong> \\( T_{C-Q} + T_{comb} \\ge T_{hold} \\)
+              </div>
+            `
+          },
+          {
+            title: "Chapter 4: Low-Power Clock Gating & Layout Design",
+            content: `
+              <div class="reader-chapter-title">Chapter 4: Low Power Techniques & Layout Rules</div>
+              <p>Clock gating disables clock trees for idle logic blocks, reducing dynamic power dissipation across nanometer VLSI nodes.</p>
+            `
+          }
+        ]
       },
       {
         id: 3,
         title: "Smart Microgrids & Renewable Energy",
         author: "Prof. M. Venkateswarlu",
         dept: "EEE",
+        type: "textbook",
         style: "book-cover-style-3",
         rating: "4.7",
         edition: "2025 Revised",
-        desc: "Covers grid modernization, solar-wind hybrid integration, power electronics converters, and IoT monitoring systems for clean energy networks."
+        year: 2025,
+        pagesCount: 4,
+        desc: "Covers grid modernization, solar-wind hybrid integration, power electronics converters, and IoT monitoring systems for clean energy networks.",
+        chapters: [
+          {
+            title: "Chapter 1: Microgrid Architecture & Topology",
+            content: `
+              <div class="reader-chapter-title">Chapter 1: Microgrid Topologies</div>
+              <p>Microgrids integrate distributed energy resources (DERs)—such as solar photovoltaics, wind turbines, and battery storage—with local load centers operating in grid-tied or islanded modes.</p>
+              <div class="reader-callout">
+                <strong>Power Balance Equation:</strong><br>
+                \\( P_{Gen}(t) + P_{Storage}(t) = P_{Load}(t) + P_{Losses}(t) \\)
+              </div>
+            `
+          },
+          {
+            title: "Chapter 2: Power Electronics Converters & MPPT",
+            content: `
+              <div class="reader-chapter-title">Chapter 2: Solar Inverters & MPPT</div>
+              <p>Maximum Power Point Tracking (MPPT) algorithms like Perturb & Observe (P&O) dynamically adjust DC-DC converter duty cycles to extract maximum solar energy.</p>
+            `
+          },
+          {
+            title: "Chapter 3: Energy Storage Systems & Battery Management",
+            content: `
+              <div class="reader-chapter-title">Chapter 3: Battery Management Systems (BMS)</div>
+              <p>LiFePO4 battery banks monitored by IoT microcontrollers balance cell voltages and prevent thermal runaway during rapid charge cycles.</p>
+            `
+          },
+          {
+            title: "Chapter 4: Smart Grid Protection Protocols",
+            content: `
+              <div class="reader-chapter-title">Chapter 4: Smart Grid Protection & SCADA</div>
+              <p>Digital relays and IEC 61850 communication standards enable high-speed fault isolation in decentralized microgrids.</p>
+            `
+          }
+        ]
       },
       {
         id: 4,
         title: "Robotics Kinematics & Mechatronics System",
         author: "Dr. A. Sudhakar",
         dept: "MECH",
+        type: "textbook",
         style: "book-cover-style-4",
         rating: "4.9",
         edition: "3rd Edition",
-        desc: "Mathematical modeling of manipulator kinematics, dynamics, sensor integration, and industrial automation controller designs."
+        year: 2024,
+        pagesCount: 4,
+        desc: "Mathematical modeling of manipulator kinematics, dynamics, sensor integration, and industrial automation controller designs.",
+        chapters: [
+          {
+            title: "Chapter 1: Denavit-Hartenberg (D-H) Transformation Matrices",
+            content: `
+              <div class="reader-chapter-title">Chapter 1: D-H Parameter Modeling</div>
+              <p>Spatial modeling of robotic links utilizes 4x4 homogeneous transformation matrices based on Denavit-Hartenberg conventions.</p>
+              <div class="reader-callout">
+                \\( A_i = \\text{Rot}_z(\\theta_i) \\cdot \\text{Trans}_z(d_i) \\cdot \\text{Trans}_x(a_i) \\cdot \\text{Rot}_x(\\alpha_i) \\)
+              </div>
+            `
+          },
+          {
+            title: "Chapter 2: Inverse Kinematics & Jacobian Matrix",
+            content: `
+              <div class="reader-chapter-title">Chapter 2: Manipulator Inverse Kinematics</div>
+              <p>Mapping end-effector spatial velocity \\( \\dot{x} \\) to joint velocities \\( \\dot{q} \\) relies on the Jacobian matrix \\( J(q) \\): \\( \\dot{x} = J(q) \\dot{q} \\).</p>
+            `
+          },
+          {
+            title: "Chapter 3: Servo Controllers & ROS Control",
+            content: `
+              <div class="reader-chapter-title">Chapter 3: ROS 2 Control Architecture</div>
+              <p>Robot Operating System (ROS 2) provides middleware node messaging over DDS for real-time motor trajectory tracking.</p>
+            `
+          },
+          {
+            title: "Chapter 4: Mobile Robots & SLAM Navigation",
+            content: `
+              <div class="reader-chapter-title">Chapter 4: Simultaneous Localization and Mapping</div>
+              <p>LiDAR-based SLAM algorithms build occupancy grid maps of unknown environments while tracking robot pose estimations.</p>
+            `
+          }
+        ]
       },
       {
         id: 5,
-        title: "Structural Engineering & Earthquake Resistant Design",
+        title: "Structural Engineering & Earthquake Design",
         author: "Dr. K. Narendra",
         dept: "CIVIL",
+        type: "textbook",
         style: "book-cover-style-5",
         rating: "4.8",
         edition: "4th Edition",
-        desc: "Advanced concrete structures, seismic analysis, finite element modeling, and sustainable infrastructure engineering guidelines."
+        year: 2025,
+        pagesCount: 4,
+        desc: "Advanced concrete structures, seismic analysis, finite element modeling, and sustainable infrastructure engineering guidelines.",
+        chapters: [
+          {
+            title: "Chapter 1: Seismic Dynamics & Structural Response",
+            content: `
+              <div class="reader-chapter-title">Chapter 1: Seismic Dynamics</div>
+              <p>Seismic waves generate dynamic ground accelerations modeled by single-degree-of-freedom (SDOF) equations of motion:</p>
+              <div class="reader-callout">
+                \\( m \\ddot{u}(t) + c \\dot{u}(t) + k u(t) = -m \\ddot{u}_g(t) \\)
+              </div>
+            `
+          },
+          {
+            title: "Chapter 2: Reinforced Concrete Ductile Detailing",
+            content: `
+              <div class="reader-chapter-title">Chapter 2: Ductile Detailing Rules (IS 13920)</div>
+              <p>Proper confinement ties in RC columns prevent brittle shear failure during cyclic earthquake loading.</p>
+            `
+          },
+          {
+            title: "Chapter 3: Base Isolation Systems",
+            content: `
+              <div class="reader-chapter-title">Chapter 3: Seismic Isolation Technologies</div>
+              <p>Lead-rubber bearings uncouple building superstructures from damaging ground motion frequencies.</p>
+            `
+          },
+          {
+            title: "Chapter 4: Finite Element Building Simulations",
+            content: `
+              <div class="reader-chapter-title">Chapter 4: FEM Structural Analysis</div>
+              <p>Computer-aided FEM solvers calculate stress intensity distributions under combination gravity and seismic loads.</p>
+            `
+          }
+        ]
       },
       {
         id: 6,
         title: "Modern Biopharmaceutics & Molecular Delivery",
         author: "Dr. S. Lakshmi & Dr. T. Murali",
         dept: "PHARM",
+        type: "textbook",
         style: "book-cover-style-2",
         rating: "4.9",
         edition: "2026 Edition",
-        desc: "Principles of pharmacokinetics, targeted drug delivery systems, nano-medicine formulation, and clinical trial compliance."
+        year: 2026,
+        pagesCount: 4,
+        desc: "Principles of pharmacokinetics, targeted drug delivery systems, nano-medicine formulation, and clinical trial compliance.",
+        chapters: [
+          {
+            title: "Chapter 1: Physicochemical Absorption Principles",
+            content: `
+              <div class="reader-chapter-title">Chapter 1: Drug Absorption Principles</div>
+              <p>Passive lipid diffusion follows Fick's First Law of Diffusion across cellular membrane barriers:</p>
+              <div class="reader-callout">
+                \\( \\frac{dQ}{dt} = \\frac{D \\cdot A \\cdot K_{w/o}}{h} (C_1 - C_2) \\)
+              </div>
+            `
+          },
+          {
+            title: "Chapter 2: Pharmacokinetic Compartment Modeling",
+            content: `
+              <div class="reader-chapter-title">Chapter 2: One-Compartment PK Models</div>
+              <p>Plasma drug concentration decay follows first-order elimination kinetics: \\( C_p(t) = C_0 e^{-k_e t} \\).</p>
+            `
+          },
+          {
+            title: "Chapter 3: Nanoparticle-Based Targeted Delivery",
+            content: `
+              <div class="reader-chapter-title">Chapter 3: Liposomal Drug Delivery</div>
+              <p>PEGylated liposomal nanocarriers evade reticuloendothelial clearance, accumulating preferentially in tumor tissue via the EPR effect.</p>
+            `
+          },
+          {
+            title: "Chapter 4: BCS Classification & Dissolution",
+            content: `
+              <div class="reader-chapter-title">Chapter 4: Biopharmaceutical Classification System</div>
+              <p>Categorization of active pharmaceutical ingredients into Classes I-IV based on aqueous solubility and intestinal permeability.</p>
+            `
+          }
+        ]
       },
       {
         id: 7,
         title: "Strategic Tech Management & Financial Analytics",
         author: "Dr. G. Radhakrishna",
         dept: "MBA",
+        type: "textbook",
         style: "book-cover-style-1",
         rating: "4.6",
         edition: "2nd Edition",
-        desc: "Business model innovation, corporate financial modeling, digital transformation strategies, and decision analytics for tech enterprises."
+        year: 2025,
+        pagesCount: 4,
+        desc: "Business model innovation, corporate financial modeling, digital transformation strategies, and decision analytics for tech enterprises.",
+        chapters: [
+          {
+            title: "Chapter 1: Digital Transformation & Valuation",
+            content: `
+              <div class="reader-chapter-title">Chapter 1: Digital Business Models</div>
+              <p>Technology enterprise valuation leverages Discounted Cash Flow (DCF) models incorporating terminal value assumptions:</p>
+              <div class="reader-callout">
+                \\( PV = \\sum_{t=1}^{n} \\frac{CF_t}{(1 + WACC)^t} + \\frac{TV}{(1 + WACC)^n} \\)
+              </div>
+            `
+          },
+          {
+            title: "Chapter 2: Predictive Financial Analytics",
+            content: `
+              <div class="reader-chapter-title">Chapter 2: Financial Time Series Modeling</div>
+              <p>ARIMA and Monte Carlo simulation techniques forecast enterprise revenue growth under volatile economic conditions.</p>
+            `
+          },
+          {
+            title: "Chapter 3: Technology Innovation Strategy",
+            content: `
+              <div class="reader-chapter-title">Chapter 3: Platform Ecosystem Dynamics</div>
+              <p>Network effects and switching costs create sustainable competitive moats for modern SaaS and cloud platforms.</p>
+            `
+          },
+          {
+            title: "Chapter 4: Venture Capital & M&A Valuation",
+            content: `
+              <div class="reader-chapter-title">Chapter 4: Startup Deal Structuring</div>
+              <p>Term sheets, liquidation preferences, and anti-dilution clauses in early-stage tech investments.</p>
+            `
+          }
+        ]
       },
       {
         id: 8,
         title: "Distributed Systems & Cloud Architecture",
         author: "Prof. B. Prasad",
         dept: "CSE",
+        type: "textbook",
         style: "book-cover-style-3",
         rating: "4.9",
         edition: "2025 Edition",
-        desc: "Consensus protocols, Kubernetes orchestration, serverless computing, and fault-tolerant cloud-native design principles."
+        year: 2025,
+        pagesCount: 4,
+        desc: "Consensus protocols, Kubernetes orchestration, serverless computing, and fault-tolerant cloud-native design principles.",
+        chapters: [
+          {
+            title: "Chapter 1: CAP Theorem & Distributed Consistency",
+            content: `
+              <div class="reader-chapter-title">Chapter 1: CAP Theorem Foundations</div>
+              <p>Distributed data stores can guarantee at most two of three properties: <strong>Consistency</strong>, <strong>Availability</strong>, and <strong>Partition Tolerance</strong>.</p>
+              <div class="reader-callout">
+                Raft Consensus Leader Election keeps distributed nodes in strict log replication alignment.
+              </div>
+            `
+          },
+          {
+            title: "Chapter 2: Kubernetes Container Orchestration",
+            content: `
+              <div class="reader-chapter-title">Chapter 2: Cloud Native Microservices</div>
+              <p>Pods, Ingress Controllers, and Horizontal Pod Autoscalers (HPA) ensure seamless horizontal scaling under traffic spikes.</p>
+            `
+          },
+          {
+            title: "Chapter 3: Event-Driven Kafka Streaming",
+            content: `
+              <div class="reader-chapter-title">Chapter 3: Pub/Sub Event Pipelines</div>
+              <p>Distributed commit logs like Apache Kafka decouple producer services from high-throughput consumers.</p>
+            `
+          },
+          {
+            title: "Chapter 4: Serverless FaaS Architecture",
+            content: `
+              <div class="reader-chapter-title">Chapter 4: Serverless Computing</div>
+              <p>Event-driven micro-functions automatically scale to zero when inactive, optimizing cloud infrastructure expenditure.</p>
+            `
+          }
+        ]
+      },
+      {
+        id: 9,
+        title: "Cybersecurity & Cryptographic Protocols",
+        author: "Dr. S. Radhakrishnan",
+        dept: "CSE",
+        type: "reference",
+        style: "book-cover-style-6",
+        rating: "4.9",
+        edition: "3rd Edition",
+        year: 2026,
+        pagesCount: 4,
+        desc: "Public key infrastructure, AES encryption, zero-knowledge proofs, and post-quantum cryptographic standards.",
+        chapters: [
+          {
+            title: "Chapter 1: Asymmetric Cryptography & RSA",
+            content: `
+              <div class="reader-chapter-title">Chapter 1: RSA Public Key Encryption</div>
+              <p>RSA security relies on the hardness of integer factorization. Given primes \\( p, q \\), modulus \\( n = pq \\), and public exponent \\( e \\):</p>
+              <div class="reader-callout">
+                Encryption: \\( c = m^e \\pmod n \\)<br>
+                Decryption: \\( m = c^d \\pmod n \\)
+              </div>
+            `
+          },
+          {
+            title: "Chapter 2: Network Security & Zero Trust Architecture",
+            content: `
+              <div class="reader-chapter-title">Chapter 2: Zero Trust Network Defense</div>
+              <p>"Never Trust, Always Verify"—enforcing strict identity verification and micro-segmentation across corporate networks.</p>
+            `
+          },
+          {
+            title: "Chapter 3: Ethical Hacking & Vulnerability Scans",
+            content: `
+              <div class="reader-chapter-title">Chapter 3: Pen Testing Methodologies</div>
+              <p>Structured security audits identify buffer overflows, SQL injections, and cross-site scripting vulnerabilities.</p>
+            `
+          },
+          {
+            title: "Chapter 4: Blockchain & Quantum Cryptography",
+            content: `
+              <div class="reader-chapter-title">Chapter 4: Post-Quantum Standards</div>
+              <p>Lattice-based cryptographic schemes designed to resist attacks from quantum computers running Shor's algorithm.</p>
+            `
+          }
+        ]
+      },
+      {
+        id: 10,
+        title: "5G Wireless Communication & Antenna Theory",
+        author: "Dr. G. V. Subbarao",
+        dept: "ECE",
+        type: "reference",
+        style: "book-cover-style-7",
+        rating: "4.7",
+        edition: "2nd Edition",
+        year: 2025,
+        pagesCount: 4,
+        desc: "Massive MIMO, millimeter-wave propagation, phased array antenna beamforming, and 6G cellular networks.",
+        chapters: [
+          {
+            title: "Chapter 1: Massive MIMO & Beamforming",
+            content: `
+              <div class="reader-chapter-title">Chapter 1: Massive MIMO Principles</div>
+              <p>Base stations equipped with large antenna arrays focus narrow signal beams towards targeted user equipment (UE), suppressing multi-user interference.</p>
+              <div class="reader-callout">
+                Channel Capacity: \\( C = \\log_2 \\det\\left( I + \\frac{SNR}{N_t} H H^H \\right) \\)
+              </div>
+            `
+          },
+          {
+            title: "Chapter 2: Millimeter Wave Channel Propagation",
+            content: `
+              <div class="reader-chapter-title">Chapter 2: mmWave Propagation Characteristics</div>
+              <p>High atmospheric attenuation at 28 GHz and 39 GHz requires high-gain directional beamsteering antenna arrays.</p>
+            `
+          },
+          {
+            title: "Chapter 3: Microstrip Patch Antenna Design",
+            content: `
+              <div class="reader-chapter-title">Chapter 3: Microstrip Patch Geometry</div>
+              <p>Designing planar printed antennas using high-frequency FR4 and Rogers dielectric substrates.</p>
+            `
+          },
+          {
+            title: "Chapter 4: Network Slicing & 6G Horizons",
+            content: `
+              <div class="reader-chapter-title">Chapter 4: 6G Terahertz Networks</div>
+              <p>Ultra-reliable low-latency communications (URLLC) and integrated sensing and communication (ISAC) visions.</p>
+            `
+          }
+        ]
+      },
+      {
+        id: 11,
+        title: "Embedded Systems & IoT Hardware Design",
+        author: "Dr. N. Hemanth",
+        dept: "ECE",
+        type: "lab",
+        style: "book-cover-style-8",
+        rating: "4.8",
+        edition: "2025 Edition",
+        year: 2025,
+        pagesCount: 4,
+        desc: "ARM Cortex-M architecture, FreeRTOS task scheduling, SPI/I2C/UART bus interfacing, and low-power IoT node layout.",
+        chapters: [
+          {
+            title: "Chapter 1: ARM Cortex-M Architecture",
+            content: `
+              <div class="reader-chapter-title">Chapter 1: ARM Cortex-M Core Overview</div>
+              <p>32-bit RISC microcontrollers featuring Nested Vectored Interrupt Controllers (NVIC) for deterministic real-time response.</p>
+              <div class="reader-code-block">
+                <button class="copy-code-btn" onclick="copyCode(this)">Copy</button>
+void SysTick_Handler(void) {
+    msTicks++; // 1ms system timer tick interrupt
+}
+              </div>
+            `
+          },
+          {
+            title: "Chapter 2: FreeRTOS Task Scheduling",
+            content: `
+              <div class="reader-chapter-title">Chapter 2: FreeRTOS Multitasking</div>
+              <p>Preemptive priority-based scheduler managing task states, mutexes, semaphores, and inter-task queues.</p>
+            `
+          },
+          {
+            title: "Chapter 3: Bus Protocols (I2C, SPI, UART)",
+            content: `
+              <div class="reader-chapter-title">Chapter 3: Sensor Bus Interfacing</div>
+              <p>Synchronous serial peripheral interface (SPI) and I2C multi-master bus timing diagrams for sensor data acquisition.</p>
+            `
+          },
+          {
+            title: "Chapter 4: Low-Power IoT Node Design",
+            content: `
+              <div class="reader-chapter-title">Chapter 4: Deep Sleep Power Modes</div>
+              <p>Optimizing battery lifecycle using RTC wake-up interrupts and active power gating of radio transceivers.</p>
+            `
+          }
+        ]
+      },
+      {
+        id: 12,
+        title: "Power Electronics & EV Drive Trains",
+        author: "Dr. T. Ramesh",
+        dept: "EEE",
+        type: "textbook",
+        style: "book-cover-style-1",
+        rating: "4.9",
+        edition: "2026 Edition",
+        year: 2026,
+        pagesCount: 4,
+        desc: "Wide bandgap SiC/GaN switches, bi-directional DC-DC converters, induction motor vector control, and V2G energy transfer.",
+        chapters: [
+          {
+            title: "Chapter 1: Wide Bandgap Power Switches (SiC & GaN)",
+            content: `
+              <div class="reader-chapter-title">Chapter 1: SiC & GaN Semiconductor Advances</div>
+              <p>Silicon Carbide (SiC) and Gallium Nitride (GaN) devices achieve higher breakdown voltages and faster switching speeds with minimal thermal losses.</p>
+              <div class="reader-callout">
+                Switching Loss Reduction: Up to 70% lower switching losses compared to traditional Si IGBTs.
+              </div>
+            `
+          },
+          {
+            title: "Chapter 2: Bi-Directional EV Fast Chargers",
+            content: `
+              <div class="reader-chapter-title">Chapter 2: EV Battery Charger Topologies</div>
+              <p>Dual Active Bridge (DAB) converters providing galvanic isolation and bi-directional power flow between grid and vehicle battery.</p>
+            `
+          },
+          {
+            title: "Chapter 3: Field Oriented Control (FOC) of AC Drives",
+            content: `
+              <div class="reader-chapter-title">Chapter 3: Vector Control of Electric Motors</div>
+              <p>Transforming 3-phase AC currents into orthogonal d-q axis components for independent torque and flux control.</p>
+            `
+          },
+          {
+            title: "Chapter 4: Vehicle-to-Grid (V2G) Systems",
+            content: `
+              <div class="reader-chapter-title">Chapter 4: V2G Smart Charging</div>
+              <p>Electric vehicle fleets acting as distributed energy storage to stabilize utility grid frequency during peak demand.</p>
+            `
+          }
+        ]
+      },
+      {
+        id: 13,
+        title: "Thermodynamics & Heat Transfer Fundamentals",
+        author: "Dr. R. K. Varma",
+        dept: "MECH",
+        type: "textbook",
+        style: "book-cover-style-3",
+        rating: "4.7",
+        edition: "4th Edition",
+        year: 2024,
+        pagesCount: 4,
+        desc: "First & second laws of thermodynamics, conduction, convection, radiation heat exchange, and thermal power plant analysis.",
+        chapters: [
+          {
+            title: "Chapter 1: First and Second Laws of Thermodynamics",
+            content: `
+              <div class="reader-chapter-title">Chapter 1: Thermodynamic Laws</div>
+              <p>Energy conservation in closed systems: \\( dQ = dU + dW \\). The Second Law enforces Clausius inequality for irreversible processes: \\( \\oint \\frac{dQ}{T} \\le 0 \\).</p>
+            `
+          },
+          {
+            title: "Chapter 2: Heat Conduction & Fourier's Law",
+            content: `
+              <div class="reader-chapter-title">Chapter 2: 1D Steady State Conduction</div>
+              <p>Heat flux vector: \\( q'' = -k \\frac{dT}{dx} \\), where \\( k \\) is thermal conductivity of the material.</p>
+            `
+          },
+          {
+            title: "Chapter 3: Forced & Natural Convection Dynamics",
+            content: `
+              <div class="reader-chapter-title">Chapter 3: Convective Heat Transfer</div>
+              <p>Nusselt number correlations (\\( Nu = f(Re, Pr) \\)) for laminar and turbulent fluid flows over flat plates and tubes.</p>
+            `
+          },
+          {
+            title: "Chapter 4: Radiation Exchange & Stefan-Boltzmann Law",
+            content: `
+              <div class="reader-chapter-title">Chapter 4: Thermal Radiation</div>
+              <p>Blackbody emissive power: \\( E_b = \\sigma T^4 \\), with shape factor radiation exchange between diffuse gray surfaces.</p>
+            `
+          }
+        ]
+      },
+      {
+        id: 14,
+        title: "Geotechnical Engineering & Foundation Analysis",
+        author: "Dr. B. Suresh",
+        dept: "CIVIL",
+        type: "reference",
+        style: "book-cover-style-5",
+        rating: "4.8",
+        edition: "3rd Edition",
+        year: 2025,
+        pagesCount: 4,
+        desc: "Soil shear strength, Mohr-Coulomb failure criteria, Terzaghi bearing capacity equations, and deep pile foundation settlement.",
+        chapters: [
+          {
+            title: "Chapter 1: Soil Mechanics & Shear Strength",
+            content: `
+              <div class="reader-chapter-title">Chapter 1: Mohr-Coulomb Failure Criteria</div>
+              <p>Soil shear strength parameterization: \\( \\tau = c + \\sigma' \\tan \\phi \\), where \\( c \\) is cohesion and \\( \\phi \\) is internal friction angle.</p>
+            `
+          },
+          {
+            title: "Chapter 2: Bearing Capacity of Shallow Foundations",
+            content: `
+              <div class="reader-chapter-title">Chapter 2: Terzaghi Bearing Capacity</div>
+              <p>Ultimate bearing capacity equation for strip footings incorporating cohesion, surcharge, and soil unit weight terms.</p>
+            `
+          },
+          {
+            title: "Chapter 3: Deep Pile Foundation Load Transfer",
+            content: `
+              <div class="reader-chapter-title">Chapter 3: Pile Foundation Capacities</div>
+              <p>Skin friction along pile shaft combined with end-bearing capacity at deep dense soil strata.</p>
+            `
+          },
+          {
+            title: "Chapter 4: Retaining Walls & Slope Stability Analysis",
+            content: `
+              <div class="reader-chapter-title">Chapter 4: Slope Stability & Geosynthetics</div>
+              <p>Method of slices for evaluating factor of safety against rotational slope failures in reinforced embankments.</p>
+            `
+          }
+        ]
+      },
+      {
+        id: 15,
+        title: "Pharmacology & Clinical Drug Interactions",
+        author: "Dr. A. Madhavi",
+        dept: "PHARM",
+        type: "reference",
+        style: "book-cover-style-7",
+        rating: "4.9",
+        edition: "2026 Edition",
+        year: 2026,
+        pagesCount: 4,
+        desc: "Receptor dynamics, G-protein coupled receptors, autonomic drugs, cardiovascular therapeutics, and adverse reaction profiling.",
+        chapters: [
+          {
+            title: "Chapter 1: Receptor Signal Transduction",
+            content: `
+              <div class="reader-chapter-title">Chapter 1: GPCR Signal Transduction</div>
+              <p>G-protein coupled receptors (GPCRs) activate intracellular second messengers (cAMP, IP3/DAG) upon agonist ligand binding.</p>
+            `
+          },
+          {
+            title: "Chapter 2: Cardiovascular Pharmacology Agents",
+            content: `
+              <div class="reader-chapter-title">Chapter 2: Antihypertensive Drug Classes</div>
+              <p>Mechanisms of ACE inhibitors, Beta-blockers, Calcium channel blockers, and Diuretics in regulating vascular resistance.</p>
+            `
+          },
+          {
+            title: "Chapter 3: Adverse Drug Reactions & Toxicology",
+            content: `
+              <div class="reader-chapter-title">Chapter 3: Pharmacovigilance & Toxicity</div>
+              <p>Cytochrome P450 enzyme inhibition and induction interactions altering systemic drug clearance rates.</p>
+            `
+          },
+          {
+            title: "Chapter 4: Personalized Medicine & Pharmacogenomics",
+            content: `
+              <div class="reader-chapter-title">Chapter 4: Pharmacogenomics</div>
+              <p>Genetic polymorphism analysis targeting individualized therapeutic dosage strategies for patient safety.</p>
+            `
+          }
+        ]
+      },
+      {
+        id: 16,
+        title: "Algorithms & Data Structures in C++",
+        author: "Dr. M. Chaitanya",
+        dept: "CSE",
+        type: "lab",
+        style: "book-cover-style-4",
+        rating: "4.9",
+        edition: "5th Edition",
+        year: 2025,
+        pagesCount: 4,
+        desc: "Asymptotic notation, balanced search trees, graph algorithms (Dijkstra, A*), dynamic programming, and competitive coding C++ STL.",
+        chapters: [
+          {
+            title: "Chapter 1: Time Complexity & Asymptotic Bounds",
+            content: `
+              <div class="reader-chapter-title">Chapter 1: Algorithm Analysis</div>
+              <p>Big-O (\\( \\mathcal{O} \\)), Big-Omega (\\( \\Omega \\)), and Big-Theta (\\( \\Theta \\)) asymptotic bounds evaluating time and space complexity.</p>
+              <div class="reader-code-block">
+                <button class="copy-code-btn" onclick="copyCode(this)">Copy</button>
+// Binary Search in C++: O(log N)
+int binarySearch(const vector<int>& arr, int target) {
+    int low = 0, high = arr.size() - 1;
+    while (low <= high) {
+        int mid = low + (high - low) / 2;
+        if (arr[mid] == target) return mid;
+        if (arr[mid] < target) low = mid + 1;
+        else high = mid - 1;
+    }
+    return -1;
+}
+              </div>
+            `
+          },
+          {
+            title: "Chapter 2: Graph Shortest Path (Dijkstra & A*)",
+            content: `
+              <div class="reader-chapter-title">Chapter 2: Graph Traversal & Shortest Path</div>
+              <p>Dijkstra's algorithm using priority queues solves non-negative weighted single-source shortest path problems in \\( \\mathcal{O}((V+E)\\log V) \\).</p>
+            `
+          },
+          {
+            title: "Chapter 3: Dynamic Programming Techniques",
+            content: `
+              <div class="reader-chapter-title">Chapter 3: Dynamic Programming</div>
+              <p>Memoization and tabulation strategies solving 0/1 Knapsack, Longest Common Subsequence (LCS), and Matrix Chain Multiplication.</p>
+            `
+          },
+          {
+            title: "Chapter 4: Advanced Trees & Disjoint Set Union",
+            content: `
+              <div class="reader-chapter-title">Chapter 4: Advanced Data Structures</div>
+              <p>Red-Black Trees, Segment Trees for range queries, and Disjoint Set Union (DSU) with path compression.</p>
+            `
+          }
+        ]
       }
     ];
 
-    // State (Default Light Mode)
+    // State Variables
     let savedBooks = JSON.parse(localStorage.getItem('rvr_nri_shelf') || '[]');
     let currentDept = 'all';
+    let currentType = 'all';
+    let currentSort = 'rating';
     let isDark = false; 
+    let currentReaderBook = null;
+    let currentReaderPage = 1;
+    let currentReaderTheme = 'sepia';
+    let readerFontSize = 1.05;
+    let activeCitationStyle = 'IEEE';
+    let isNarratorPlaying = false;
+    let currentSpeechUtterance = null;
 
     // DOM Elements
     const booksGrid = document.getElementById('booksGrid');
     const deptTabs = document.getElementById('deptTabs');
+    const typeChipsBar = document.getElementById('typeChipsBar');
     const searchInput = document.getElementById('searchInput');
     const departmentFilter = document.getElementById('departmentFilter');
     const searchSubmitBtn = document.getElementById('searchSubmitBtn');
-    const bookModal = document.getElementById('bookModal');
-    const closeModalBtn = document.getElementById('closeModalBtn');
+    const sortSelect = document.getElementById('sortSelect');
+    
+    // Interactive Reader DOM Elements
+    const interactiveReaderModal = document.getElementById('interactiveReaderModal');
+    const closeReaderBtn = document.getElementById('closeReaderBtn');
+    const readerBookTitle = document.getElementById('readerBookTitle');
+    const readerBookAuthor = document.getElementById('readerBookAuthor');
+    const readerTocSidebar = document.getElementById('readerTocSidebar');
+    const tocItemList = document.getElementById('tocItemList');
+    const readerPaperContent = document.getElementById('readerPaperContent');
+    const readerBodyLayout = document.getElementById('readerBodyLayout');
+    const toggleTocBtn = document.getElementById('toggleTocBtn');
+    const readerThemeBtn = document.getElementById('readerThemeBtn');
+    const readerThemeText = document.getElementById('readerThemeText');
+    const audioNarratorBtn = document.getElementById('audioNarratorBtn');
+    const audioNarratorText = document.getElementById('audioNarratorText');
+    const prevPageBtn = document.getElementById('prevPageBtn');
+    const nextPageBtn = document.getElementById('nextPageBtn');
+    const pageSlider = document.getElementById('pageSlider');
+    const pageIndicatorText = document.getElementById('pageIndicatorText');
+    const readerCiteBtn = document.getElementById('readerCiteBtn');
+    const readerBookmarkBtn = document.getElementById('readerBookmarkBtn');
+
+    // Citation Modal DOM
+    const citationModal = document.getElementById('citationModal');
+    const closeCitationBtn = document.getElementById('closeCitationBtn');
+    const citationBookTitle = document.getElementById('citationBookTitle');
+    const citationText = document.getElementById('citationText');
+
+    // Login & Shelf DOM
     const loginModal = document.getElementById('loginModal');
     const loginModalTrigger = document.getElementById('loginModalTrigger');
     const closeLoginBtn = document.getElementById('closeLoginBtn');
@@ -2141,6 +3365,7 @@
       initScrollProgress();
       initDropdownNav();
       initThemeToggle();
+      initReaderControls();
     });
 
     // Dropdown Navigation logic
@@ -2149,17 +3374,14 @@
         openNavDropdownBtn.addEventListener('click', (e) => {
           e.stopPropagation();
           const isActive = navDropdown.classList.contains('active');
-          if (isActive) {
-            closeDropdown();
-          } else {
+          if (isActive) closeDropdown();
+          else {
             navDropdown.classList.add('active');
             navDropdownOverlay.classList.add('active');
           }
         });
       }
-      if (navDropdownOverlay) {
-        navDropdownOverlay.addEventListener('click', closeDropdown);
-      }
+      if (navDropdownOverlay) navDropdownOverlay.addEventListener('click', closeDropdown);
       document.querySelectorAll('.dropdown-item').forEach(link => {
         link.addEventListener('click', closeDropdown);
       });
@@ -2193,7 +3415,7 @@
       });
     }
 
-    // Interactive Particle Canvas in Hero Background
+    // Hero Canvas Mesh Particles
     function initHeroParticleCanvas() {
       const canvas = document.getElementById('heroCanvas');
       if (!canvas) return;
@@ -2257,17 +3479,27 @@
       draw();
     }
 
-    // Render Books
+    // Render Books Grid with Filters and Sort
     function renderBooks(filterQuery = '') {
       booksGrid.innerHTML = '';
 
-      const filtered = booksData.filter(book => {
+      let filtered = booksData.filter(book => {
         const matchesDept = (currentDept === 'all') || (book.dept === currentDept);
+        const matchesType = (currentType === 'all') || (book.type === currentType);
         const matchesQuery = book.title.toLowerCase().includes(filterQuery.toLowerCase()) ||
                              book.author.toLowerCase().includes(filterQuery.toLowerCase()) ||
                              book.dept.toLowerCase().includes(filterQuery.toLowerCase());
-        return matchesDept && matchesQuery;
+        return matchesDept && matchesType && matchesQuery;
       });
+
+      // Sorting Logic
+      if (currentSort === 'rating') {
+        filtered.sort((a, b) => parseFloat(b.rating) - parseFloat(a.rating));
+      } else if (currentSort === 'title') {
+        filtered.sort((a, b) => a.title.localeCompare(b.title));
+      } else if (currentSort === 'newest') {
+        filtered.sort((a, b) => b.year - a.year);
+      }
 
       if (filtered.length === 0) {
         booksGrid.innerHTML = `
@@ -2290,13 +3522,17 @@
 
         card.innerHTML = `
           <div class="book-dept-tag">${book.dept}</div>
-          <div class="book-cover-container ${book.style}">
+          <div class="book-cover-container ${book.style}" onclick="openInteractiveReader(${book.id})">
             <div class="book-spine"></div>
             <div class="book-cover-content">
               <svg class="icon" viewBox="0 0 24 24" style="font-size: 40px; color: #fff;">
                 <path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3z"/>
               </svg>
               <div class="book-cover-title">${book.title}</div>
+            </div>
+            <div class="book-interactive-badge">
+              <svg class="icon" viewBox="0 0 24 24" style="font-size: 14px;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+              READ DEMO
             </div>
           </div>
 
@@ -2310,9 +3546,12 @@
             
             <div class="book-footer">
               <div class="book-actions">
-                <button class="btn-read" onclick="openBookModal(${book.id})">
+                <button class="btn-read" onclick="openInteractiveReader(${book.id})">
                   <svg class="icon" viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
-                  Preview & Read
+                  Open Reader
+                </button>
+                <button class="btn-cite" onclick="openCitationModal(${book.id})" title="Generate Citation">
+                  <svg class="icon" viewBox="0 0 24 24"><path d="M14 17h3l2-4V7h-6v6h3M6 17h3l2-4V7H5v6h3"/></svg>
                 </button>
                 <button class="btn-bookmark ${isSaved ? 'saved' : ''}" onclick="toggleSaveBook(${book.id}, event)" title="Bookmark Book">
                   <svg class="icon" viewBox="0 0 24 24"><path d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2z"/></svg>
@@ -2324,11 +3563,10 @@
         booksGrid.appendChild(card);
       });
 
-      // Animate Cards with GSAP
       if (window.gsap) {
         gsap.fromTo('.book-card', 
           { opacity: 0, y: 30 }, 
-          { opacity: 1, y: 0, duration: 0.5, stagger: 0.08, ease: "power2.out" }
+          { opacity: 1, y: 0, duration: 0.4, stagger: 0.06, ease: "power2.out" }
         );
       }
     }
@@ -2344,7 +3582,22 @@
       renderBooks(searchInput.value);
     });
 
-    // Search Box Listener
+    typeChipsBar.addEventListener('click', (e) => {
+      const chip = e.target.closest('.type-chip');
+      if (!chip) return;
+
+      document.querySelectorAll('#typeChipsBar .type-chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      currentType = chip.dataset.type;
+      renderBooks(searchInput.value);
+    });
+
+    sortSelect.addEventListener('change', () => {
+      currentSort = sortSelect.value;
+      renderBooks(searchInput.value);
+    });
+
+    // Search Submit Listener
     searchSubmitBtn.addEventListener('click', () => {
       if (departmentFilter.value !== 'all') {
         currentDept = departmentFilter.value;
@@ -2356,39 +3609,298 @@
     });
 
     searchInput.addEventListener('keyup', (e) => {
-      if (e.key === 'Enter') {
-        renderBooks(searchInput.value);
-      }
+      if (e.key === 'Enter') renderBooks(searchInput.value);
     });
 
-    // Modal Operations
-    function openBookModal(id) {
+    // INTERACTIVE DEMO E-BOOK READER FUNCTIONS
+    function openInteractiveReader(id) {
       const book = booksData.find(b => b.id === id);
       if (!book) return;
 
-      document.getElementById('modalCover').className = `book-cover-container ${book.style}`;
-      document.getElementById('modalCoverTitle').innerText = book.title;
-      document.getElementById('modalTitle').innerText = book.title;
-      document.getElementById('modalAuthor').innerText = `By ${book.author}`;
-      document.getElementById('modalDeptTag').innerText = book.dept;
-      document.getElementById('modalDesc').innerText = book.desc;
-
+      currentReaderBook = book;
+      currentReaderPage = 1;
+      
+      readerBookTitle.innerText = book.title;
+      readerBookAuthor.innerText = `${book.author} • ${book.dept} Department`;
+      
+      // Update Save button state inside reader
       const isSaved = savedBooks.some(b => b.id === book.id);
-      const modalSaveBtn = document.getElementById('modalSaveBtn');
-      modalSaveBtn.onclick = () => toggleSaveBook(book.id);
-      modalSaveBtn.innerText = isSaved ? 'Remove from Bookshelf' : 'Save to My Bookshelf';
-
-      document.getElementById('modalDownloadBtn').onclick = () => {
-        showToast(`Downloading PDF for "${book.title}"...`);
+      readerBookmarkBtn.innerHTML = `
+        <svg class="icon" viewBox="0 0 24 24" style="${isSaved ? 'color: var(--accent-orange-bright);' : ''}">
+          <path d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2z"/>
+        </svg>
+        ${isSaved ? 'Saved' : 'Save'}
+      `;
+      readerBookmarkBtn.onclick = () => {
+        toggleSaveBook(book.id);
+        const newlySaved = savedBooks.some(b => b.id === book.id);
+        readerBookmarkBtn.innerHTML = `
+          <svg class="icon" viewBox="0 0 24 24" style="${newlySaved ? 'color: var(--accent-orange-bright);' : ''}">
+            <path d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2z"/>
+          </svg>
+          ${newlySaved ? 'Saved' : 'Save'}
+        `;
       };
 
-      bookModal.classList.add('active');
+      readerCiteBtn.onclick = () => openCitationModal(book.id);
+
+      // Populate Table of Contents
+      tocItemList.innerHTML = '';
+      book.chapters.forEach((ch, idx) => {
+        const item = document.createElement('div');
+        item.className = `toc-item ${idx === 0 ? 'active' : ''}`;
+        item.innerHTML = `
+          <span>${ch.title}</span>
+          <span style="font-size: 0.75rem; opacity: 0.7;">p. ${idx + 1}</span>
+        `;
+        item.onclick = () => goToReaderPage(idx + 1);
+        tocItemList.appendChild(item);
+      });
+
+      // Configure Slider Range
+      pageSlider.max = book.chapters.length;
+      pageSlider.value = 1;
+
+      renderReaderPage();
+      interactiveReaderModal.classList.add('active');
+      showToast(`Opened Interactive Reader: "${book.title}"`);
     }
 
-    closeModalBtn.addEventListener('click', () => bookModal.classList.remove('active'));
-    bookModal.addEventListener('click', (e) => {
-      if (e.target === bookModal) bookModal.classList.remove('active');
-    });
+    function renderReaderPage() {
+      if (!currentReaderBook) return;
+      const ch = currentReaderBook.chapters[currentReaderPage - 1];
+      if (!ch) return;
+
+      readerPaperContent.style.fontSize = `${readerFontSize}rem`;
+      readerPaperContent.innerHTML = ch.content;
+
+      // Update Page Controls UI
+      pageIndicatorText.innerText = `Page ${currentReaderPage} of ${currentReaderBook.chapters.length}`;
+      pageSlider.value = currentReaderPage;
+
+      prevPageBtn.disabled = (currentReaderPage === 1);
+      nextPageBtn.disabled = (currentReaderPage === currentReaderBook.chapters.length);
+
+      // Highlight active TOC item
+      document.querySelectorAll('#tocItemList .toc-item').forEach((el, idx) => {
+        el.classList.toggle('active', idx === (currentReaderPage - 1));
+      });
+
+      // Scroll viewport back to top
+      document.getElementById('readerViewport').scrollTop = 0;
+
+      // Stop any active SpeechSynthesis when changing page
+      if (isNarratorPlaying) stopAudioNarrator();
+    }
+
+    function goToReaderPage(pageNum) {
+      if (!currentReaderBook) return;
+      if (pageNum < 1 || pageNum > currentReaderBook.chapters.length) return;
+      currentReaderPage = pageNum;
+      renderReaderPage();
+    }
+
+    function initReaderControls() {
+      closeReaderBtn.addEventListener('click', closeInteractiveReader);
+      
+      prevPageBtn.addEventListener('click', () => goToReaderPage(currentReaderPage - 1));
+      nextPageBtn.addEventListener('click', () => goToReaderPage(currentReaderPage + 1));
+      
+      pageSlider.addEventListener('input', (e) => goToReaderPage(parseInt(e.target.value)));
+
+      toggleTocBtn.addEventListener('click', () => {
+        readerBodyLayout.classList.toggle('toc-collapsed');
+      });
+
+      const readerFullscreenBtn = document.getElementById('readerFullscreenBtn');
+      if (readerFullscreenBtn) {
+        readerFullscreenBtn.addEventListener('click', toggleReaderFullscreen);
+      }
+
+      readerThemeBtn.addEventListener('click', () => {
+        if (currentReaderTheme === 'sepia') {
+          currentReaderTheme = 'dark';
+          readerThemeText.innerText = 'Dark';
+        } else if (currentReaderTheme === 'dark') {
+          currentReaderTheme = 'light';
+          readerThemeText.innerText = 'Light';
+        } else {
+          currentReaderTheme = 'sepia';
+          readerThemeText.innerText = 'Sepia';
+        }
+        document.body.setAttribute('data-reader-theme', currentReaderTheme);
+      });
+
+      audioNarratorBtn.addEventListener('click', toggleAudioNarrator);
+
+      document.addEventListener('fullscreenchange', handleFullscreenChange);
+      document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key.toLowerCase() === 'f' && interactiveReaderModal.classList.contains('active')) {
+          if (['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
+          toggleReaderFullscreen();
+        }
+      });
+    }
+
+    function toggleReaderFullscreen() {
+      const readerWin = document.querySelector('.reader-window');
+      const icon = document.getElementById('fullscreenIcon');
+      const label = document.getElementById('fullscreenBtnText');
+
+      const isFS = document.fullscreenElement || document.webkitFullscreenElement || readerWin.classList.contains('is-fullscreen');
+
+      if (!isFS) {
+        if (readerWin.requestFullscreen) {
+          readerWin.requestFullscreen().catch(() => readerWin.classList.add('is-fullscreen'));
+        } else if (readerWin.webkitRequestFullscreen) {
+          readerWin.webkitRequestFullscreen();
+        } else {
+          readerWin.classList.add('is-fullscreen');
+        }
+        readerWin.classList.add('is-fullscreen');
+        if (label) label.innerText = "Exit Full";
+        if (icon) icon.innerHTML = '<path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z"/>';
+        showToast("Entered Fullscreen Mode (Press Esc or F to exit)");
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen().catch(() => {});
+        } else if (document.webkitExitFullscreen) {
+          document.webkitExitFullscreen();
+        }
+        readerWin.classList.remove('is-fullscreen');
+        if (label) label.innerText = "Fullscreen";
+        if (icon) icon.innerHTML = '<path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/>';
+        showToast("Exited Fullscreen Mode");
+      }
+    }
+
+    function handleFullscreenChange() {
+      const readerWin = document.querySelector('.reader-window');
+      const icon = document.getElementById('fullscreenIcon');
+      const label = document.getElementById('fullscreenBtnText');
+
+      if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+        if (readerWin) readerWin.classList.remove('is-fullscreen');
+        if (label) label.innerText = "Fullscreen";
+        if (icon) icon.innerHTML = '<path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/>';
+      }
+    }
+
+    function closeInteractiveReader() {
+      const readerWin = document.querySelector('.reader-window');
+      if (document.fullscreenElement || document.webkitFullscreenElement) {
+        if (document.exitFullscreen) document.exitFullscreen().catch(() => {});
+      }
+      if (readerWin) readerWin.classList.remove('is-fullscreen');
+
+      interactiveReaderModal.classList.remove('active');
+      if (isNarratorPlaying) stopAudioNarrator();
+    }
+
+    function adjustReaderFontSize(delta) {
+      readerFontSize += delta * 0.08;
+      if (readerFontSize < 0.8) readerFontSize = 0.8;
+      if (readerFontSize > 1.6) readerFontSize = 1.6;
+      readerPaperContent.style.fontSize = `${readerFontSize}rem`;
+    }
+
+    // AI AUDIOBOOK NARRATOR (Web Speech API)
+    function toggleAudioNarrator() {
+      if (isNarratorPlaying) {
+        stopAudioNarrator();
+      } else {
+        startAudioNarrator();
+      }
+    }
+
+    function startAudioNarrator() {
+      if (!('speechSynthesis' in window)) {
+        showToast("Speech Synthesis is not supported in this browser.");
+        return;
+      }
+      window.speechSynthesis.cancel(); // Stop any existing speech
+
+      const textToRead = readerPaperContent.innerText;
+      if (!textToRead) return;
+
+      currentSpeechUtterance = new SpeechSynthesisUtterance(textToRead);
+      currentSpeechUtterance.rate = 0.95;
+      currentSpeechUtterance.pitch = 1.0;
+
+      currentSpeechUtterance.onstart = () => {
+        isNarratorPlaying = true;
+        audioNarratorText.innerText = "Stop Voice";
+        audioNarratorBtn.style.borderColor = "var(--accent-emerald)";
+        showToast("AI Voice Narrator Started Playing...");
+      };
+
+      currentSpeechUtterance.onend = () => {
+        stopAudioNarrator();
+      };
+
+      currentSpeechUtterance.onerror = () => {
+        stopAudioNarrator();
+      };
+
+      window.speechSynthesis.speak(currentSpeechUtterance);
+    }
+
+    function stopAudioNarrator() {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+      }
+      isNarratorPlaying = false;
+      audioNarratorText.innerText = "Listen AI";
+      audioNarratorBtn.style.borderColor = "var(--border-light)";
+    }
+
+    // ACADEMIC CITATION MODAL
+    function openCitationModal(id) {
+      const book = booksData.find(b => b.id === id);
+      if (!book) return;
+      currentReaderBook = book;
+      citationBookTitle.innerText = `Cite: "${book.title}"`;
+      switchCitationStyle('IEEE');
+      citationModal.classList.add('active');
+    }
+
+    function switchCitationStyle(style) {
+      if (!currentReaderBook) return;
+      activeCitationStyle = style;
+
+      document.getElementById('citeIeeeTab').classList.toggle('active', style === 'IEEE');
+      document.getElementById('citeApaTab').classList.toggle('active', style === 'APA');
+      document.getElementById('citeMlaTab').classList.toggle('active', style === 'MLA');
+      document.getElementById('citeBibTab').classList.toggle('active', style === 'BibTeX');
+
+      const b = currentReaderBook;
+      let text = '';
+      if (style === 'IEEE') {
+        text = `${b.author}, "${b.title}," ${b.edition}, Dr. RVR NRI University Press, ${b.year}. [Online]. Available: Central Digital Library Repository.`;
+      } else if (style === 'APA') {
+        text = `${b.author}. (${b.year}). ${b.title} (${b.edition}). Dr. RVR NRI University Press. https://library.rvrnriit.edu.in/books/${b.id}`;
+      } else if (style === 'MLA') {
+        text = `${b.author}. ${b.title}. ${b.edition}, Dr. RVR NRI University Press, ${b.year}. Central Digital Library Portal.`;
+      } else if (style === 'BibTeX') {
+        text = `@book{rvrnri_${b.id},\n  author    = {${b.author}},\n  title     = {${b.title}},\n  publisher = {Dr. RVR NRI University Press},\n  year      = {${b.year}},\n  edition   = {${b.edition}}\n}`;
+      }
+
+      citationText.innerText = text;
+    }
+
+    function copyCitationToClipboard() {
+      const text = citationText.innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        showToast(`Copied ${activeCitationStyle} citation to clipboard!`);
+        citationModal.classList.remove('active');
+      }).catch(() => {
+        showToast("Failed to copy citation.");
+      });
+    }
+
+    closeCitationBtn.addEventListener('click', () => citationModal.classList.remove('active'));
 
     // Bookmark Toggle & LocalStorage
     function toggleSaveBook(id, event) {
@@ -2436,6 +3948,7 @@
             <div style="font-family: var(--font-heading); font-size: 0.92rem; font-weight: 700;">${book.title}</div>
             <div style="font-size: 0.78rem; color: var(--text-muted);">${book.author}</div>
           </div>
+          <button class="btn-read" style="padding: 6px 10px; font-size: 0.78rem;" onclick="openInteractiveReader(${book.id})">Read</button>
           <button class="btn-icon" style="width: 32px; height: 32px;" onclick="toggleSaveBook(${book.id})">
             <svg class="icon" viewBox="0 0 24 24" style="font-size: 16px;"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
           </button>
@@ -2467,7 +3980,7 @@
       drawerOverlay.classList.remove('active');
     });
 
-    // Theme Toggle Handler (Light Default / Dark Option)
+    // Theme Toggle Handler
     function initThemeToggle() {
       const toggleTheme = () => {
         isDark = !isDark;
@@ -2489,13 +4002,23 @@
     loginModalTrigger.addEventListener('click', () => loginModal.classList.add('active'));
     closeLoginBtn.addEventListener('click', () => loginModal.classList.remove('active'));
     function handleLoginSubmit() {
+      const val = document.getElementById('loginRollInput').value.trim() || '24RVR0102';
       loginModal.classList.remove('active');
-      showToast("Authentication Successful! Access Granted.");
+      document.getElementById('loginStatusText').innerText = `Logged in: ${val}`;
+      showToast(`Welcome back, Student (${val})! Access Granted.`);
     }
 
     // External Database Action
     function openExternalPortal(name) {
       showToast(`Redirecting to RVR NRI SSO Portal for ${name}...`);
+    }
+
+    // Helper Copy Code
+    function copyCode(btn) {
+      const codeBlock = btn.parentElement.innerText.replace('Copy', '').trim();
+      navigator.clipboard.writeText(codeBlock).then(() => {
+        showToast("Code snippet copied to clipboard!");
+      });
     }
 
     // Toast Notification helper
@@ -2505,7 +4028,12 @@
       setTimeout(() => toast.classList.remove('show'), 3500);
     }
 
-    // AI Query Demo Response
+    function setAiPrompt(text) {
+      aiQueryInput.value = text;
+      aiQueryBtn.click();
+    }
+
+    // AI Query Response
     aiQueryBtn.addEventListener('click', () => {
       const q = aiQueryInput.value.trim();
       if (!q) {
@@ -2514,16 +4042,28 @@
       }
 
       aiResponseBox.style.display = 'block';
-      aiResponseBox.innerHTML = `<strong>LibAI Analysis:</strong> Searching RVR NRI repository for "<em>${q}</em>"... Found 4 matching core textbooks and 12 IEEE research papers. Recommended starting read: <em>"Deep Learning & Neural Network Architectures" (Dr. K. Srinivas)</em>.`;
+      
+      const lower = q.toLowerCase();
+      let matchBook = booksData[0];
+      if (lower.includes('vlsi') || lower.includes('cmos')) matchBook = booksData[1];
+      else if (lower.includes('grid') || lower.includes('solar') || lower.includes('microgrid')) matchBook = booksData[2];
+      else if (lower.includes('robot') || lower.includes('kinematics')) matchBook = booksData[4];
+      else if (lower.includes('pharm') || lower.includes('drug')) matchBook = booksData[5];
+
+      aiResponseBox.innerHTML = `
+        <strong>LibAI Analysis for:</strong> "<em>${q}</em>"<br><br>
+        Found 4 matching core textbooks and 12 IEEE research papers in the RVR NRI central repository.<br><br>
+        <strong>Recommended Core Demo Read:</strong> <em>"${matchBook.title}" (${matchBook.author})</em>.<br>
+        <button class="btn-primary" style="margin-top: 10px; padding: 6px 14px; font-size: 0.8rem;" onclick="openInteractiveReader(${matchBook.id})">Open Interactive Reader Now</button>
+      `;
       showToast("LibAI search completed!");
     });
 
-    // GSAP Micro-Animations & Interactivity
+    // GSAP Micro-Animations
     function initGSAPAnimations() {
       if (!window.gsap) return;
       gsap.registerPlugin(ScrollTrigger);
 
-      // Hero Title Entrance
       gsap.from('.hero-title', {
         duration: 1,
         y: 40,
@@ -2548,7 +4088,6 @@
         delay: 0.6
       });
 
-      // 3D Parallax Tilt Effect on Mouse Move in Hero
       const bookWrapper = document.getElementById('heroBook3D');
       if (bookWrapper && window.innerWidth > 768) {
         document.addEventListener('mousemove', (e) => {
@@ -2558,7 +4097,6 @@
         });
       }
 
-      // Counter Animation
       const counters = document.querySelectorAll('.counter');
       counters.forEach(counter => {
         const target = +counter.getAttribute('data-target');
@@ -2576,28 +4114,41 @@
         });
       });
 
-      // ScrollTrigger Section Animations
-      gsap.from('.journal-card', {
-        scrollTrigger: {
-          trigger: '.journals-section',
-          start: 'top 80%'
-        },
-        duration: 0.6,
-        y: 40,
-        opacity: 0,
-        stagger: 0.15,
-        ease: 'power2.out'
-      });
+      gsap.fromTo('.journal-card', 
+        { opacity: 0, y: 30 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.6,
+          stagger: 0.12,
+          ease: 'power2.out',
+          clearProps: 'opacity,transform',
+          scrollTrigger: {
+            trigger: '.journals-section',
+            start: 'top 95%',
+            once: true
+          }
+        }
+      );
 
-      gsap.from('.ai-assistant-banner', {
-        scrollTrigger: {
-          trigger: '#ai-assistant',
-          start: 'top 80%'
-        },
-        duration: 0.8,
-        scale: 0.95,
-        opacity: 0,
-        ease: 'power2.out'
+      gsap.fromTo('.ai-assistant-banner',
+        { opacity: 0, scale: 0.96 },
+        {
+          opacity: 1,
+          scale: 1,
+          duration: 0.7,
+          ease: 'power2.out',
+          clearProps: 'opacity,transform',
+          scrollTrigger: {
+            trigger: '#ai-assistant',
+            start: 'top 95%',
+            once: true
+          }
+        }
+      );
+
+      window.addEventListener('load', () => {
+        ScrollTrigger.refresh();
       });
     }
   </script>
