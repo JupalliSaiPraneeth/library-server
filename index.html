@@ -1,16 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Digital Library & Interactive E-Books Portal | DR. RVR NRI Institute of Technology</title>
-  <meta name="description" content="Official Central Digital Library & Interactive E-Book Reader Portal of DR. RVR NRI Institute of Technology (Deemed to be University). Access 150,000+ interactive demo e-books, research journals, and academic resources 24/7.">
-  
+  <meta name="description"
+    content="Official Central Digital Library & Interactive E-Book Reader Portal of DR. RVR NRI Institute of Technology (Deemed to be University). Access 150,000+ interactive demo e-books, research journals, and academic resources 24/7.">
+
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
-  
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=Fira+Code:wght@400;500&display=swap"
+    rel="stylesheet">
+
   <!-- GSAP CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
@@ -42,9 +46,9 @@
       --font-body: 'Plus Jakarta Sans', sans-serif;
       --font-heading: 'Space Grotesk', sans-serif;
       --font-code: 'Fira Code', monospace;
-      --brand-watermark-opacity: 0.075;
+      --brand-watermark-opacity: 0.045;
       --brand-watermark-size: min(580px, 82vw);
-      
+
       /* Reader Modes */
       --reader-bg: #ffffff;
       --reader-text: #1e293b;
@@ -69,8 +73,8 @@
       --border-glow: rgba(237, 107, 16, 0.45);
       --shadow-glow: 0 10px 35px -8px rgba(237, 107, 16, 0.4);
       --shadow-card: 0 18px 40px rgba(0, 0, 0, 0.65);
-      --brand-watermark-opacity: 0.1;
-      
+      --brand-watermark-opacity: 0.06;
+
       --reader-bg: #0f172a;
       --reader-text: #f1f5f9;
       --reader-border: #334155;
@@ -82,12 +86,14 @@
       --reader-text: #432818;
       --reader-border: #e6ccb2;
     }
+
     /* Dark Reader Mode */
     [data-reader-theme="dark"] {
       --reader-bg: #0f172a;
       --reader-text: #f1f5f9;
       --reader-border: #334155;
     }
+
     /* Light Reader Mode */
     [data-reader-theme="light"] {
       --reader-bg: #ffffff;
@@ -101,7 +107,8 @@
       box-sizing: border-box;
     }
 
-    html, body {
+    html,
+    body {
       width: 100%;
       max-width: 100vw;
       overflow-x: hidden;
@@ -123,7 +130,7 @@
       content: '';
       position: fixed;
       inset: 0;
-      z-index: -2;
+      z-index: -1;
       background: url('nrilogo.png') no-repeat center center;
       background-size: var(--brand-watermark-size);
       opacity: var(--brand-watermark-opacity);
@@ -134,7 +141,7 @@
       content: '';
       position: fixed;
       inset: 0;
-      z-index: -1;
+      z-index: -2;
       pointer-events: none;
       background:
         radial-gradient(ellipse 90% 75% at 50% 42%, rgba(248, 250, 252, 0.35) 0%, rgba(248, 250, 252, 0.9) 58%, var(--bg-primary) 100%);
@@ -164,13 +171,16 @@
       width: 8px;
       height: 8px;
     }
+
     ::-webkit-scrollbar-track {
       background: var(--bg-primary);
     }
+
     ::-webkit-scrollbar-thumb {
       background: #ed6b10;
       border-radius: 5px;
     }
+
     ::-webkit-scrollbar-thumb:hover {
       background: #d15802;
     }
@@ -231,6 +241,7 @@
       flex-shrink: 0;
       transition: transform 0.3s ease;
     }
+
     .brand-logo-img:hover {
       transform: scale(1.06);
     }
@@ -241,6 +252,7 @@
       min-width: 0;
       overflow: hidden;
     }
+
     .brand-title {
       font-family: var(--font-heading);
       font-size: 1.02rem;
@@ -252,6 +264,7 @@
       text-overflow: ellipsis;
       overflow: hidden;
     }
+
     .brand-subtitle {
       font-size: 0.7rem;
       font-weight: 700;
@@ -281,9 +294,12 @@
       padding: 6px 0;
       white-space: nowrap;
     }
-    .nav-link:hover, .nav-link.active {
+
+    .nav-link:hover,
+    .nav-link.active {
       color: var(--text-main);
     }
+
     .nav-link::after {
       content: '';
       position: absolute;
@@ -295,7 +311,9 @@
       transition: width 0.3s ease;
       border-radius: 2px;
     }
-    .nav-link:hover::after, .nav-link.active::after {
+
+    .nav-link:hover::after,
+    .nav-link.active::after {
       width: 100%;
     }
 
@@ -325,6 +343,7 @@
       visibility: hidden;
       transition: all 0.3s ease;
     }
+
     .nav-dropdown-overlay.active {
       opacity: 1;
       visibility: visible;
@@ -342,13 +361,14 @@
       border: 1px solid var(--border-glow);
       border-radius: var(--radius-lg);
       padding: 20px;
-      box-shadow: 0 18px 45px rgba(0,0,0,0.35), var(--shadow-glow);
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.35), var(--shadow-glow);
       z-index: 999;
       opacity: 0;
       visibility: hidden;
       transform: translateY(-12px) scale(0.95);
       transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
     }
+
     .nav-dropdown-menu.active {
       opacity: 1;
       visibility: visible;
@@ -369,6 +389,7 @@
       gap: 10px;
       transition: all 0.25s ease;
     }
+
     .dropdown-item:hover {
       border-color: var(--accent-orange);
       color: var(--accent-orange-bright);
@@ -390,11 +411,13 @@
       position: relative;
       flex-shrink: 0;
     }
+
     .btn-icon:hover {
       border-color: var(--accent-orange);
       color: var(--accent-orange);
       transform: translateY(-2px);
     }
+
     .btn-icon .badge-count {
       position: absolute;
       top: -4px;
@@ -432,6 +455,7 @@
       position: relative;
       overflow: hidden;
     }
+
     .btn-primary::after {
       content: '';
       position: absolute;
@@ -439,13 +463,15 @@
       left: -50%;
       width: 200%;
       height: 200%;
-      background: linear-gradient(60deg, transparent, rgba(255,255,255,0.25), transparent);
+      background: linear-gradient(60deg, transparent, rgba(255, 255, 255, 0.25), transparent);
       transform: rotate(30deg) translateY(-100%);
       transition: transform 0.6s ease;
     }
+
     .btn-primary:hover::after {
       transform: rotate(30deg) translateY(100%);
     }
+
     .btn-primary:hover {
       transform: translateY(-2px);
       box-shadow: 0 8px 24px rgba(237, 107, 16, 0.55);
@@ -466,6 +492,7 @@
       gap: 8px;
       transition: all 0.3s ease;
     }
+
     .btn-secondary:hover {
       border-color: var(--accent-orange);
       color: var(--accent-orange-bright);
@@ -496,16 +523,17 @@
       left: 10%;
       width: 500px;
       height: 500px;
-      background: radial-gradient(circle, rgba(237, 107, 16, 0.22) 0%, rgba(0,0,0,0) 70%);
+      background: radial-gradient(circle, rgba(237, 107, 16, 0.22) 0%, rgba(0, 0, 0, 0) 70%);
       pointer-events: none;
     }
+
     .hero-glow-2 {
       position: absolute;
       top: 100px;
       right: 5%;
       width: 450px;
       height: 450px;
-      background: radial-gradient(circle, rgba(255, 148, 77, 0.18) 0%, rgba(0,0,0,0) 70%);
+      background: radial-gradient(circle, rgba(255, 148, 77, 0.18) 0%, rgba(0, 0, 0, 0) 70%);
       pointer-events: none;
     }
 
@@ -542,10 +570,22 @@
       box-shadow: 0 0 10px #10b981;
       animation: pulseDot 2s infinite;
     }
+
     @keyframes pulseDot {
-      0% { transform: scale(0.95); opacity: 0.8; }
-      50% { transform: scale(1.3); opacity: 1; }
-      100% { transform: scale(0.95); opacity: 0.8; }
+      0% {
+        transform: scale(0.95);
+        opacity: 0.8;
+      }
+
+      50% {
+        transform: scale(1.3);
+        opacity: 1;
+      }
+
+      100% {
+        transform: scale(0.95);
+        opacity: 0.8;
+      }
     }
 
     .hero-title {
@@ -556,6 +596,7 @@
       letter-spacing: -1px;
       margin-bottom: 20px;
     }
+
     .hero-title .highlight {
       background: linear-gradient(135deg, #ff944d, #ed6b10, #ffc107);
       -webkit-background-clip: text;
@@ -585,6 +626,7 @@
       margin-bottom: 24px;
       transition: border-color 0.3s ease, box-shadow 0.3s ease;
     }
+
     .search-box-wrap:focus-within {
       border-color: var(--accent-orange);
       box-shadow: 0 0 25px rgba(237, 107, 16, 0.35);
@@ -617,6 +659,7 @@
       font-family: var(--font-body);
       text-overflow: ellipsis;
     }
+
     .search-input::placeholder {
       color: var(--text-dim);
     }
@@ -653,7 +696,9 @@
       cursor: pointer;
       transition: all 0.25s ease;
     }
-    .type-chip:hover, .type-chip.active {
+
+    .type-chip:hover,
+    .type-chip.active {
       background: rgba(237, 107, 16, 0.14);
       color: var(--accent-orange-bright);
       border-color: var(--accent-orange);
@@ -675,6 +720,7 @@
       font-weight: 700;
       color: var(--accent-orange-bright);
     }
+
     .stat-item p {
       font-size: 0.82rem;
       color: var(--text-muted);
@@ -726,6 +772,7 @@
       scrollbar-width: none;
       -webkit-overflow-scrolling: touch;
     }
+
     .filter-tabs::-webkit-scrollbar {
       display: none;
     }
@@ -746,6 +793,7 @@
       align-items: center;
       gap: 8px;
     }
+
     .tab-btn .tab-count {
       font-size: 0.75rem;
       background: rgba(237, 107, 16, 0.12);
@@ -753,18 +801,21 @@
       border-radius: 12px;
       color: var(--accent-orange-bright);
     }
+
     .tab-btn:hover {
       color: var(--text-main);
       border-color: var(--accent-orange);
     }
+
     .tab-btn.active {
       background: linear-gradient(135deg, #ed6b10, #d15802);
       color: #fff;
       border-color: transparent;
       box-shadow: 0 4px 16px rgba(237, 107, 16, 0.4);
     }
+
     .tab-btn.active .tab-count {
-      background: rgba(0,0,0,0.25);
+      background: rgba(0, 0, 0, 0.25);
       color: #fff;
     }
 
@@ -776,6 +827,7 @@
       font-size: 0.88rem;
       color: var(--text-muted);
     }
+
     .sort-select {
       background: var(--bg-card);
       border: 1px solid var(--border-light);
@@ -807,6 +859,7 @@
       overflow: hidden;
       backdrop-filter: blur(10px);
     }
+
     .book-card:hover {
       transform: translateY(-8px) scale(1.01);
       border-color: var(--border-glow);
@@ -829,14 +882,37 @@
       cursor: pointer;
     }
 
-    .book-cover-style-1 { background: linear-gradient(135deg, #d15802, #ed6b10); }
-    .book-cover-style-2 { background: linear-gradient(135deg, #c25710, #ff944d); }
-    .book-cover-style-3 { background: linear-gradient(135deg, #18181b, #ed6b10); }
-    .book-cover-style-4 { background: linear-gradient(135deg, #7c2d12, #ffab00); }
-    .book-cover-style-5 { background: linear-gradient(135deg, #090a0f, #431407); }
-    .book-cover-style-6 { background: linear-gradient(135deg, #0f766e, #ed6b10); }
-    .book-cover-style-7 { background: linear-gradient(135deg, #431407, #d97706); }
-    .book-cover-style-8 { background: linear-gradient(135deg, #1e1b4b, #ed6b10); }
+    .book-cover-style-1 {
+      background: linear-gradient(135deg, #d15802, #ed6b10);
+    }
+
+    .book-cover-style-2 {
+      background: linear-gradient(135deg, #c25710, #ff944d);
+    }
+
+    .book-cover-style-3 {
+      background: linear-gradient(135deg, #18181b, #ed6b10);
+    }
+
+    .book-cover-style-4 {
+      background: linear-gradient(135deg, #7c2d12, #ffab00);
+    }
+
+    .book-cover-style-5 {
+      background: linear-gradient(135deg, #090a0f, #431407);
+    }
+
+    .book-cover-style-6 {
+      background: linear-gradient(135deg, #0f766e, #ed6b10);
+    }
+
+    .book-cover-style-7 {
+      background: linear-gradient(135deg, #431407, #d97706);
+    }
+
+    .book-cover-style-8 {
+      background: linear-gradient(135deg, #1e1b4b, #ed6b10);
+    }
 
     .book-cover-content {
       text-align: center;
@@ -844,14 +920,16 @@
       color: #fff;
       z-index: 2;
     }
+
     .book-cover-title {
       font-family: var(--font-heading);
       font-size: 1.15rem;
       font-weight: 700;
       margin-top: 10px;
       line-height: 1.3;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
     }
+
     .book-spine {
       position: absolute;
       left: 0;
@@ -890,7 +968,7 @@
       display: flex;
       align-items: center;
       gap: 4px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
     }
 
     .book-info {
@@ -954,6 +1032,7 @@
       gap: 6px;
       transition: all 0.25s ease;
     }
+
     .btn-read:hover {
       background: var(--accent-orange);
       color: #fff;
@@ -974,7 +1053,9 @@
       justify-content: center;
       transition: all 0.25s ease;
     }
-    .btn-bookmark:hover, .btn-bookmark.saved {
+
+    .btn-bookmark:hover,
+    .btn-bookmark.saved {
       color: var(--accent-orange-bright);
       border-color: var(--accent-orange);
       background: rgba(237, 107, 16, 0.12);
@@ -993,6 +1074,7 @@
       justify-content: center;
       transition: all 0.25s ease;
     }
+
     .btn-cite:hover {
       color: var(--accent-orange-bright);
       border-color: var(--accent-orange);
@@ -1022,6 +1104,7 @@
       flex-direction: column;
       align-items: center;
     }
+
     .journal-card:hover {
       border-color: var(--accent-orange);
       transform: translateY(-5px);
@@ -1136,6 +1219,7 @@
       cursor: pointer;
       transition: background 0.2s ease;
     }
+
     .prompt-chip:hover {
       background: rgba(255, 255, 255, 0.32);
     }
@@ -1154,6 +1238,7 @@
       pointer-events: none;
       transition: opacity 0.35s ease;
     }
+
     .reader-modal-overlay.active {
       opacity: 1;
       pointer-events: auto;
@@ -1169,13 +1254,15 @@
       display: flex;
       flex-direction: column;
       overflow: hidden;
-      box-shadow: 0 25px 60px rgba(0,0,0,0.6);
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
       transform: scale(0.96);
       transition: transform 0.3s ease, background 0.3s ease, color 0.3s ease, width 0.3s ease, height 0.3s ease, border-radius 0.3s ease;
     }
+
     .reader-modal-overlay.active .reader-window {
       transform: scale(1);
     }
+
     .reader-window.is-fullscreen {
       width: 100vw !important;
       height: 100vh !important;
@@ -1236,6 +1323,7 @@
       gap: 6px;
       transition: all 0.2s ease;
     }
+
     .reader-tool-btn:hover {
       border-color: var(--accent-orange);
       color: var(--accent-orange-bright);
@@ -1249,6 +1337,7 @@
       overflow: hidden;
       position: relative;
     }
+
     .reader-body-layout.toc-collapsed {
       grid-template-columns: 0px 1fr;
     }
@@ -1287,7 +1376,9 @@
       align-items: center;
       justify-content: space-between;
     }
-    .toc-item:hover, .toc-item.active {
+
+    .toc-item:hover,
+    .toc-item.active {
       background: var(--bg-card);
       color: var(--text-main);
       border-color: var(--border-light);
@@ -1341,11 +1432,12 @@
       position: relative;
       border: 1px solid #1e293b;
     }
+
     .copy-code-btn {
       position: absolute;
       top: 10px;
       right: 10px;
-      background: rgba(255,255,255,0.1);
+      background: rgba(255, 255, 255, 0.1);
       color: #fff;
       border: none;
       padding: 4px 8px;
@@ -1383,6 +1475,7 @@
       max-width: 400px;
       margin: 0 20px;
     }
+
     .page-slider {
       flex: 1;
       accent-color: var(--accent-orange);
@@ -1420,20 +1513,47 @@
       height: 24px;
       margin-top: 6px;
     }
+
     .audio-bar {
       width: 4px;
       background: var(--accent-orange-bright);
       border-radius: 2px;
       animation: soundWave 1.2s ease-in-out infinite alternate;
     }
-    .audio-bar:nth-child(1) { height: 30%; animation-delay: 0.1s; }
-    .audio-bar:nth-child(2) { height: 80%; animation-delay: 0.3s; }
-    .audio-bar:nth-child(3) { height: 100%; animation-delay: 0.2s; }
-    .audio-bar:nth-child(4) { height: 50%; animation-delay: 0.4s; }
-    .audio-bar:nth-child(5) { height: 90%; animation-delay: 0.15s; }
+
+    .audio-bar:nth-child(1) {
+      height: 30%;
+      animation-delay: 0.1s;
+    }
+
+    .audio-bar:nth-child(2) {
+      height: 80%;
+      animation-delay: 0.3s;
+    }
+
+    .audio-bar:nth-child(3) {
+      height: 100%;
+      animation-delay: 0.2s;
+    }
+
+    .audio-bar:nth-child(4) {
+      height: 50%;
+      animation-delay: 0.4s;
+    }
+
+    .audio-bar:nth-child(5) {
+      height: 90%;
+      animation-delay: 0.15s;
+    }
+
     @keyframes soundWave {
-      0% { transform: scaleY(0.3); }
-      100% { transform: scaleY(1); }
+      0% {
+        transform: scaleY(0.3);
+      }
+
+      100% {
+        transform: scaleY(1);
+      }
     }
 
     /* Modal Styling */
@@ -1451,6 +1571,7 @@
       pointer-events: none;
       transition: opacity 0.3s ease;
     }
+
     .modal-overlay.active {
       opacity: 1;
       pointer-events: auto;
@@ -1465,10 +1586,11 @@
       border-radius: var(--radius-xl);
       overflow-y: auto;
       position: relative;
-      box-shadow: var(--shadow-glow), 0 25px 50px rgba(0,0,0,0.4);
+      box-shadow: var(--shadow-glow), 0 25px 50px rgba(0, 0, 0, 0.4);
       transform: scale(0.95);
       transition: transform 0.3s ease;
     }
+
     .modal-overlay.active .modal-card {
       transform: scale(1);
     }
@@ -1490,401 +1612,378 @@
       z-index: 10;
     }
 
-    /* Book Details Modal */
+    /* Book Details Modal Fullscreen Frame */
+    #bookDetailsModal {
+      padding: 0;
+    }
+
     .book-details-modal-card {
       background: var(--bg-secondary);
-      border: 1px solid var(--border-glow);
-      width: 100%;
+      border: none;
+      width: 100vw;
       max-width: 100vw;
       height: 100vh;
       max-height: 100vh;
       border-radius: 0;
       padding: 0;
+      margin: 0;
       position: relative;
-      transform: scale(0.95);
-      transition: transform 0.3s ease;
+      transform: scale(0.98);
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
       overflow: hidden;
     }
+
     .modal-overlay.active .book-details-modal-card {
       transform: scale(1);
     }
 
+    .modal-close {
+      position: absolute;
+      top: 24px;
+      right: 24px;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--bg-glass);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--border-light);
+      color: var(--text-main);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 50;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+      transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    .modal-close:hover {
+      border-color: var(--accent-orange);
+      color: var(--accent-orange-bright);
+      transform: rotate(90deg) scale(1.08);
+      box-shadow: 0 8px 25px rgba(237, 107, 16, 0.3);
+    }
+
     .book-details-content {
       display: grid;
-      grid-template-columns: 400px 1fr;
+      grid-template-columns: 420px 1fr;
       gap: 0;
       height: 100%;
       overflow: hidden;
     }
 
+    /* Department Poster Card (Exact Design of Photo 2) */
     .book-details-cover {
-      background: 
-        linear-gradient(180deg, #0A1128 0%, #101A36 40%, #182848 100%);
-      padding: 60px;
+      background: linear-gradient(180deg, #fafafa 0%, #f4f4f5 100%);
+      padding: 40px 30px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       position: relative;
-      overflow: hidden;
+      border-right: 1px solid var(--border-light);
     }
 
-    /* Soft ambient glow behind book */
-    .book-details-cover::before {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 400px;
-      height: 400px;
-      background: radial-gradient(circle, rgba(242, 140, 40, 0.25) 0%, rgba(79, 111, 255, 0.15) 40%, transparent 70%);
-      filter: blur(150px);
-      z-index: 1;
+    [data-theme="dark"] .book-details-cover {
+      background: linear-gradient(180deg, #090d16 0%, #111827 100%);
     }
 
-    /* Glass/noise texture background */
-    .book-details-cover::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: 
-        linear-gradient(135deg, rgba(255, 255, 255, 0.02) 0%, transparent 50%),
-        linear-gradient(45deg, rgba(255, 255, 255, 0.01) 0%, transparent 50%);
-      z-index: 2;
-    }
-
-    /* Animated gradient ring behind book */
-    .book-details-cover .gradient-ring {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 380px;
-      height: 380px;
-      border-radius: 50%;
-      background: conic-gradient(from 0deg, transparent, rgba(242, 140, 40, 0.3), transparent, rgba(79, 111, 255, 0.2), transparent);
-      animation: rotateRing 40s linear infinite;
-      z-index: 3;
-      filter: blur(1px);
-    }
-
-    @keyframes rotateRing {
-      from { transform: translate(-50%, -50%) rotate(0deg); }
-      to { transform: translate(-50%, -50%) rotate(360deg); }
-    }
-
-    /* Floating particles */
-    .book-details-cover .particle {
-      position: absolute;
-      width: 4px;
-      height: 4px;
-      background: rgba(242, 140, 40, 0.6);
-      border-radius: 50%;
-      animation: floatParticle 8s ease-in-out infinite;
-      z-index: 4;
-    }
-
-    .book-details-cover .particle:nth-child(1) { top: 20%; left: 15%; animation-delay: 0s; }
-    .book-details-cover .particle:nth-child(2) { top: 40%; left: 80%; animation-delay: 2s; }
-    .book-details-cover .particle:nth-child(3) { top: 70%; left: 25%; animation-delay: 4s; }
-    .book-details-cover .particle:nth-child(4) { top: 30%; left: 70%; animation-delay: 6s; }
-    .book-details-cover .particle:nth-child(5) { top: 60%; left: 40%; animation-delay: 1s; }
-
-    @keyframes floatParticle {
-      0%, 100% { transform: translateY(0) scale(1); opacity: 0.3; }
-      50% { transform: translateY(-30px) scale(1.5); opacity: 0.8; }
-    }
-
-    /* Glass card panel under book */
-    .book-details-cover .glass-panel {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 340px;
-      height: 440px;
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 24px;
-      z-index: 5;
-    }
-
-    /* Enhanced floating decorative circles */
-    .book-details-cover .decoration-circle {
-      position: absolute;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(255, 107, 53, 0.15) 0%, rgba(255, 150, 50, 0.05) 50%, transparent 70%);
-      border: 1px solid rgba(255, 107, 53, 0.2);
-      animation: float 12s ease-in-out infinite;
-      z-index: 4;
-    }
-
-    .book-details-cover .decoration-circle:nth-child(1) {
-      width: 160px;
-      height: 160px;
-      top: 8%;
-      left: 8%;
-      animation-delay: 0s;
-    }
-
-    .book-details-cover .decoration-circle:nth-child(2) {
-      width: 100px;
-      height: 100px;
-      top: 55%;
-      right: 12%;
-      animation-delay: 4s;
-    }
-
-    .book-details-cover .decoration-circle:nth-child(3) {
-      width: 70px;
-      height: 70px;
-      bottom: 18%;
-      left: 18%;
-      animation-delay: 8s;
-    }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0) rotate(0deg) scale(1); opacity: 0.4; }
-      50% { transform: translateY(-20px) rotate(180deg) scale(1.08); opacity: 0.7; }
-    }
-
+    .dept-poster-card,
     .book-details-cover-img {
-      width: 280px;
-      height: 380px;
-      background: linear-gradient(145deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.08) 50%, rgba(255, 255, 255, 0.03) 100%);
-      border-radius: 20px;
+      width: 350px !important;
+      height: 520px !important;
+      border-radius: 28px !important;
+      background: #ffffff !important;
+      position: relative !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      padding: 32px 24px 0 24px !important;
+      box-shadow:
+        0 25px 60px rgba(237, 107, 16, 0.18),
+        0 4px 20px rgba(0, 0, 0, 0.05) !important;
+      border: 2px solid rgba(237, 107, 16, 0.3) !important;
+      overflow: hidden !important;
+      transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+    }
+
+    [data-theme="dark"] .dept-poster-card,
+    [data-theme="dark"] .book-details-cover-img {
+      background: #111827 !important;
+      border-color: rgba(237, 107, 16, 0.4) !important;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6) !important;
+    }
+
+    .dept-poster-card:hover,
+    .book-details-cover-img:hover {
+      transform: translateY(-6px) !important;
+      box-shadow:
+        0 32px 75px rgba(237, 107, 16, 0.3),
+        0 6px 24px rgba(0, 0, 0, 0.08) !important;
+    }
+
+    /* Floating Circle Emblem at Top - Centered */
+    .poster-circle-emblem {
+      width: 105px !important;
+      height: 105px !important;
+      border-radius: 50% !important;
+      background: #ffffff !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      box-shadow:
+        0 14px 30px rgba(237, 107, 16, 0.25),
+        0 0 0 6px rgba(237, 107, 16, 0.08) !important;
+      position: relative !important;
+      margin: 0 auto 16px auto !important;
+      z-index: 5 !important;
+    }
+
+    [data-theme="dark"] .poster-circle-emblem {
+      background: #1f2937 !important;
+    }
+
+    .poster-open-book-icon {
+      width: 60px !important;
+      height: 60px !important;
+    }
+
+    /* Poster Title & Divider */
+    .poster-title-section {
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      text-align: center !important;
+      margin-bottom: 16px !important;
+      width: 100% !important;
+    }
+
+    .poster-dept-title {
+      font-family: var(--font-heading) !important;
+      font-size: 1.45rem !important;
+      font-weight: 900 !important;
+      letter-spacing: 1.2px !important;
+      color: #0f172a !important;
+      text-transform: uppercase !important;
+      margin-bottom: 6px !important;
+    }
+
+    [data-theme="dark"] .poster-dept-title {
+      color: #ffffff !important;
+    }
+
+    .poster-divider {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 10px !important;
+      width: 75% !important;
+      margin: 0 auto 10px auto !important;
+    }
+
+    .divider-line {
+      flex: 1 !important;
+      height: 1px !important;
+      background: linear-gradient(90deg, transparent, rgba(237, 107, 16, 0.4), transparent) !important;
+    }
+
+    .divider-book-icon {
+      width: 16px !important;
+      height: 16px !important;
+    }
+
+    .poster-tagline {
+      font-size: 0.78rem !important;
+      color: #475569 !important;
+      line-height: 1.45 !important;
+      max-width: 90% !important;
+      margin: 0 auto !important;
+      font-weight: 500 !important;
+    }
+
+    [data-theme="dark"] .poster-tagline {
+      color: #94a3b8 !important;
+    }
+
+    /* 3 Feature Tiles */
+    .poster-features-row {
+      display: grid !important;
+      grid-template-columns: repeat(3, 1fr) !important;
+      gap: 10px !important;
+      width: 100% !important;
+      margin-top: 16px !important;
+      margin-bottom: 20px !important;
+      z-index: 2 !important;
+    }
+
+    .poster-feature-tile {
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      text-align: center !important;
+      gap: 6px !important;
+    }
+
+    .feature-icon-box {
+      width: 44px !important;
+      height: 44px !important;
+      border-radius: 12px !important;
+      background: #fff7ed !important;
+      border: 1px solid rgba(237, 107, 16, 0.3) !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      transition: transform 0.2s ease !important;
+    }
+
+    [data-theme="dark"] .feature-icon-box {
+      background: rgba(237, 107, 16, 0.15) !important;
+    }
+
+    .poster-feature-tile:hover .feature-icon-box {
+      transform: translateY(-3px) scale(1.05) !important;
+      background: rgba(237, 107, 16, 0.18) !important;
+    }
+
+    .feature-icon-box svg {
+      width: 22px !important;
+      height: 22px !important;
+    }
+
+    .poster-feature-tile span {
+      font-size: 0.64rem !important;
+      font-weight: 800 !important;
+      letter-spacing: 0.5px !important;
+      color: #0f172a !important;
+      line-height: 1.25 !important;
+    }
+
+    [data-theme="dark"] .poster-feature-tile span {
+      color: #e2e8f0 !important;
+    }
+
+    /* Bottom Orange Wave Footer & Button */
+    .poster-wave-footer {
+      position: absolute !important;
+      bottom: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      height: 105px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      padding-bottom: 12px !important;
+    }
+
+    .wave-shape {
+      position: absolute !important;
+      bottom: 0 !important;
+      left: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+      pointer-events: none !important;
+    }
+
+    .poster-cta-btn {
+      position: relative !important;
+      z-index: 5 !important;
+      background: #ffffff !important;
+      color: #ed6b10 !important;
+      border: 1px solid rgba(237, 107, 16, 0.3) !important;
+      font-size: 0.76rem !important;
+      font-weight: 800 !important;
+      letter-spacing: 0.8px !important;
+      padding: 10px 22px !important;
+      border-radius: 30px !important;
+      box-shadow: 0 8px 22px rgba(0, 0, 0, 0.18) !important;
+      display: flex !important;
+      align-items: center !important;
+      gap: 8px !important;
+      cursor: pointer !important;
+      transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+      white-space: nowrap !important;
+    }
+
+    .poster-cta-btn:hover {
+      transform: scale(1.05) !important;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.25) !important;
+    }
+
+    /* Clean Stats Row */
+    .clean-stats-row {
       display: flex;
       align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
       justify-content: center;
-      backdrop-filter: blur(30px);
-      box-shadow: 
-        0 35px 90px rgba(0, 0, 0, 0.7),
-        0 20px 50px rgba(0, 0, 0, 0.5),
-        0 8px 25px rgba(0, 0, 0, 0.3),
-        inset 0 2px 0 rgba(255, 255, 255, 0.2),
-        inset 0 -2px 0 rgba(0, 0, 0, 0.3),
-        0 0 0 1px rgba(255, 107, 53, 0.4);
-      position: relative;
-      border: 2px solid rgba(255, 107, 53, 0.5);
-      transform: perspective(1200px) rotateY(-18deg) rotateX(8deg);
-      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-      z-index: 10;
-      overflow: hidden;
     }
 
-    .book-details-cover-img::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, rgba(255, 107, 53, 0.35) 0%, transparent 50%, rgba(255, 200, 100, 0.12) 100%);
-    }
-
-    /* Book spine effect */
-    .book-details-cover-img::after {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 0;
-      bottom: 0;
-      width: 24px;
-      background: linear-gradient(90deg, rgba(0,0,0,0.35) 0%, transparent 100%);
-      border-radius: 20px 0 0 20px;
-    }
-
-    /* Book reflection */
-    .book-details-cover .book-reflection {
-      position: absolute;
-      top: calc(50% + 200px);
-      left: 50%;
-      transform: translate(-50%, 0) scaleY(-1);
-      width: 280px;
-      height: 380px;
-      background: linear-gradient(145deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.04) 50%, rgba(255, 255, 255, 0.01) 100%);
+    .clean-stat-chip {
+      background: #ffffff;
+      border: 1px solid rgba(237, 107, 16, 0.3);
       border-radius: 20px;
-      filter: blur(20px);
-      opacity: 0.08;
-      z-index: 6;
-      pointer-events: none;
-    }
-
-    .book-details-cover:hover .book-details-cover-img {
-      transform: perspective(1200px) rotateY(-2deg) rotateX(2deg) scale(1.02);
-      box-shadow: 
-        0 45px 110px rgba(0, 0, 0, 0.8),
-        0 25px 60px rgba(0, 0, 0, 0.6),
-        0 10px 30px rgba(0, 0, 0, 0.4),
-        inset 0 2px 0 rgba(255, 255, 255, 0.25),
-        inset 0 -2px 0 rgba(0, 0, 0, 0.3),
-        0 0 0 2px rgba(255, 107, 53, 0.6),
-        0 0 120px rgba(255, 107, 53, 0.35);
-    }
-
-    /* Enhanced animated gradient border */
-    .book-details-cover-img .animated-border {
-      position: absolute;
-      inset: -3px;
-      background: linear-gradient(45deg, #ff6b35, #f28c28, #ff8c42, #ffa726, #4f6fff, #ff6b35);
-      background-size: 400% 400%;
-      border-radius: 22px;
-      z-index: -1;
-      animation: gradientBorder 6s ease infinite;
-      opacity: 0;
-      transition: opacity 0.4s ease;
-    }
-
-    .book-details-cover:hover .animated-border {
-      opacity: 1;
-    }
-
-    @keyframes gradientBorder {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
-    /* Remove old decorative elements */
-    .book-details-cover-img .gloss-line,
-    .book-details-cover-img .bottom-glow {
-      display: none;
-    }
-
-    /* Floating information cards */
-    .book-details-cover .info-cards {
-      position: absolute;
-      top: 65%;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      gap: 12px;
-      z-index: 15;
-    }
-
-    .book-details-cover .info-card {
-      background: rgba(255, 255, 255, 0.08);
-      backdrop-filter: blur(15px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 12px;
-      padding: 8px 14px;
+      padding: 8px 16px;
       display: flex;
       align-items: center;
       gap: 6px;
-      font-size: 0.75rem;
-      color: rgba(255, 255, 255, 0.9);
-      font-weight: 500;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    }
-
-    .book-details-cover .info-card svg {
-      font-size: 14px;
-      color: #f28c28;
-    }
-
-    /* Decorative thin lines */
-    .book-details-cover .decorative-line {
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 60%;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
-      z-index: 4;
-    }
-
-    .book-details-cover .decorative-line.top {
-      top: 15%;
-    }
-
-    .book-details-cover .decorative-line.bottom {
-      bottom: 12%;
-    }
-
-    /* Premium bottom cards */
-    .book-details-cover .bottom-cards {
-      position: absolute;
-      bottom: 60px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      z-index: 15;
-    }
-
-    .book-details-cover .bottom-card {
-      background: rgba(255, 255, 255, 0.06);
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 16px;
-      padding: 12px 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
       font-size: 0.8rem;
-      color: rgba(255, 255, 255, 0.9);
-      font-weight: 600;
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-      min-width: 180px;
+      font-weight: 700;
+      color: #0f172a;
+      box-shadow: 0 4px 12px rgba(237, 107, 16, 0.1);
+      transition: all 0.2s ease;
     }
 
-    .book-details-cover .bottom-card svg {
-      font-size: 16px;
-      color: #f28c28;
+    [data-theme="dark"] .clean-stat-chip {
+      background: rgba(255, 255, 255, 0.06);
+      border-color: rgba(255, 255, 255, 0.14);
+      color: rgba(255, 255, 255, 0.9);
+      box-shadow: none;
+    }
+
+    .clean-stat-chip:hover {
+      background: rgba(237, 107, 16, 0.14);
+      border-color: var(--accent-orange);
+      color: var(--accent-orange-bright);
+      transform: translateY(-2px);
+    }
+
+    .clean-stat-chip svg {
+      font-size: 15px;
+      color: var(--accent-orange-bright);
     }
 
     /* Department badge with icon */
     .book-details-cover .dept-badge {
       position: absolute;
-      top: 15%;
-      left: 15%;
-      background: rgba(255, 255, 255, 0.08);
-      backdrop-filter: blur(15px);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 12px;
-      padding: 10px 16px;
+      top: 35px;
+      left: 35px;
+      background: rgba(237, 107, 16, 0.18);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(237, 107, 16, 0.4);
+      border-radius: 30px;
+      padding: 7px 16px;
       display: flex;
       align-items: center;
       gap: 8px;
-      font-size: 0.75rem;
-      color: rgba(255, 255, 255, 0.95);
-      font-weight: 600;
+      font-size: 0.76rem;
+      color: #ff944d;
+      font-weight: 800;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+      letter-spacing: 0.8px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
       z-index: 15;
     }
 
     .book-details-cover .dept-badge svg {
       font-size: 16px;
-      color: #f28c28;
+      color: #ed6b10;
     }
 
-    .book-details-cover-badge {
-      position: absolute;
-      bottom: -16px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: var(--bg-secondary);
-      padding: 10px 20px;
-      border-radius: 24px;
-      font-size: 0.8rem;
-      font-weight: 700;
-      color: var(--accent-orange-bright);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-      border: 1px solid var(--border-light);
-    }
-
-    .book-details-cover-badge svg {
-      font-size: 18px;
-    }
-
+    /* Right Details Info Column */
     .book-details-info {
-      padding: 60px;
+      padding: 50px 56px;
       display: flex;
       flex-direction: column;
       overflow-y: auto;
@@ -1893,7 +1992,7 @@
     }
 
     .book-details-info::-webkit-scrollbar {
-      width: 8px;
+      width: 7px;
     }
 
     .book-details-info::-webkit-scrollbar-track {
@@ -1909,17 +2008,216 @@
       background: var(--accent-orange);
     }
 
-    .book-details-actions-top {
+    .book-details-dept {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 16px;
+      background: rgba(237, 107, 16, 0.12);
+      color: var(--accent-orange-bright);
+      border: 1px solid rgba(237, 107, 16, 0.28);
+      border-radius: 30px;
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 14px;
+      width: fit-content;
+    }
+
+    .book-details-title {
+      font-family: var(--font-heading);
+      font-size: clamp(1.6rem, 2.5vw, 2.1rem);
+      font-weight: 800;
+      line-height: 1.25;
+      letter-spacing: -0.4px;
+      margin-bottom: 8px;
+      color: var(--text-main);
+    }
+
+    .book-details-author {
+      font-size: 1.02rem;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+      font-weight: 500;
+    }
+
+    /* Modern Meta Chips */
+    .book-details-meta {
       display: flex;
       gap: 12px;
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+    }
+
+    .meta-item {
+      display: inline-flex;
       align-items: center;
-      margin-bottom: 32px;
+      gap: 8px;
+      font-size: 0.85rem;
+      color: var(--text-main);
+      font-weight: 600;
+      padding: 8px 16px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-md);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      transition: all 0.25s ease;
+    }
+
+    .meta-item:hover {
+      border-color: var(--accent-orange);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(237, 107, 16, 0.12);
+    }
+
+    .meta-item svg {
+      font-size: 18px;
+      color: var(--accent-orange-bright);
+    }
+
+    /* Primary & Secondary Action Bar */
+    .book-details-actions-top {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      margin-bottom: 36px;
     }
 
     .book-details-actions-top .btn-primary {
       flex: 1;
+      padding: 13px 26px;
+      font-size: 0.98rem;
+      border-radius: var(--radius-md);
+      justify-content: center;
+      box-shadow: 0 8px 24px rgba(237, 107, 16, 0.4);
     }
 
+    .book-details-actions-top .btn-secondary {
+      padding: 13px 22px;
+      font-size: 0.92rem;
+      border-radius: var(--radius-md);
+      min-width: 100px;
+      justify-content: center;
+    }
+
+    /* Section Component Styling */
+    .book-details-section {
+      margin-bottom: 28px;
+    }
+
+    .section-title {
+      font-family: var(--font-heading);
+      font-size: 1.12rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-title::before {
+      content: '';
+      width: 4px;
+      height: 18px;
+      background: linear-gradient(180deg, #ed6b10, #ffab00);
+      border-radius: 4px;
+    }
+
+    .book-details-description {
+      font-size: 0.96rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    /* Key Features Tile Cards */
+    .features-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .features-list li {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      padding: 12px 16px;
+      background: var(--bg-card);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-light);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.25s ease;
+      font-weight: 500;
+    }
+
+    .features-list li:hover {
+      border-color: var(--accent-orange);
+      transform: translateX(4px);
+      color: var(--text-main);
+    }
+
+    .features-list li::before {
+      content: '✓';
+      background: rgba(16, 185, 129, 0.15);
+      color: #10b981;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 0.75rem;
+      font-weight: 800;
+    }
+
+    /* Table of Contents List - Fixed Positions (No Scroll) */
+    .toc-preview {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      height: auto;
+      max-height: none !important;
+      overflow: visible !important;
+    }
+
+    .toc-preview-item {
+      padding: 12px 18px;
+      background: var(--bg-card);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-light);
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-main);
+      cursor: pointer;
+      transition: all 0.25s ease;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .toc-preview-item:hover {
+      border-color: var(--accent-orange);
+      background: rgba(237, 107, 16, 0.08);
+      color: var(--accent-orange-bright);
+      transform: translateX(4px);
+    }
+
+    .toc-preview-item span:last-child {
+      font-size: 0.78rem;
+      color: var(--accent-orange-bright);
+      font-weight: 700;
+      background: rgba(237, 107, 16, 0.12);
+      padding: 3px 10px;
+      border-radius: 12px;
+    }
+
+    /* Suggested Books Grid */
     .suggested-books-section {
       margin-top: 32px;
       padding-top: 24px;
@@ -1936,26 +2234,26 @@
     .suggested-book-card {
       background: var(--bg-card);
       border: 1px solid var(--border-light);
-      border-radius: 12px;
-      padding: 16px;
+      border-radius: var(--radius-md);
+      padding: 14px;
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 10px;
     }
 
     .suggested-book-card:hover {
       border-color: var(--accent-orange);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(237, 107, 16, 0.15);
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-card), var(--shadow-glow);
     }
 
     .suggested-book-cover {
       width: 100%;
-      height: 120px;
+      height: 110px;
       background: linear-gradient(135deg, var(--accent-orange), var(--accent-gold));
-      border-radius: 8px;
+      border-radius: var(--radius-sm);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -1963,13 +2261,13 @@
     }
 
     .suggested-book-cover svg {
-      font-size: 40px;
+      font-size: 38px;
       color: #fff;
     }
 
     .suggested-book-title {
-      font-size: 0.9rem;
-      font-weight: 600;
+      font-size: 0.88rem;
+      font-weight: 700;
       color: var(--text-main);
       line-height: 1.3;
       display: -webkit-box;
@@ -1986,38 +2284,9 @@
     .suggested-book-dept {
       font-size: 0.7rem;
       color: var(--accent-orange-bright);
-      font-weight: 600;
-      text-transform: uppercase;
-    }
-
-    .book-details-dept {
-      display: inline-block;
-      padding: 6px 14px;
-      background: rgba(237, 107, 16, 0.12);
-      color: var(--accent-orange-bright);
-      border-radius: 20px;
-      font-size: 0.75rem;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.5px;
-      margin-bottom: 16px;
-      width: fit-content;
-    }
-
-    .book-details-title {
-      font-family: var(--font-heading);
-      font-size: 1.8rem;
-      font-weight: 800;
-      line-height: 1.2;
-      margin-bottom: 8px;
-      color: var(--text-main);
-    }
-
-    .book-details-author {
-      font-size: 1rem;
-      color: var(--text-muted);
-      margin-bottom: 24px;
-      font-weight: 500;
     }
 
     .book-details-meta {
@@ -2139,6 +2408,145 @@
       opacity: 0.7;
     }
 
+    /* Suggested Books Grid Poster System (Matching Photo 2) */
+    .suggested-books-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 24px;
+      margin-top: 20px;
+    }
+
+    .dept-poster-card-mini {
+      background: #ffffff;
+      border: 1px solid rgba(237, 107, 16, 0.25);
+      border-radius: 24px;
+      padding: 24px 20px 70px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(237, 107, 16, 0.12), 0 4px 12px rgba(0, 0, 0, 0.04);
+      transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    [data-theme="dark"] .dept-poster-card-mini {
+      background: #111827;
+      border-color: rgba(237, 107, 16, 0.4);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .dept-poster-card-mini:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 45px rgba(237, 107, 16, 0.25);
+      border-color: var(--accent-orange);
+    }
+
+    .poster-circle-emblem-mini {
+      width: 75px;
+      height: 75px;
+      border-radius: 50%;
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 10px 24px rgba(237, 107, 16, 0.2), 0 0 0 4px rgba(237, 107, 16, 0.08);
+      margin-bottom: 14px;
+      z-index: 2;
+    }
+
+    [data-theme="dark"] .poster-circle-emblem-mini {
+      background: #1f2937;
+    }
+
+    .poster-open-book-icon-mini {
+      width: 44px;
+      height: 44px;
+    }
+
+    .poster-dept-title-mini {
+      font-family: var(--font-heading);
+      font-size: 1.05rem;
+      font-weight: 900;
+      letter-spacing: 1px;
+      color: #0f172a;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    [data-theme="dark"] .poster-dept-title-mini {
+      color: #ffffff;
+    }
+
+    .poster-divider-mini {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      width: 70%;
+      margin-bottom: 12px;
+    }
+
+    .poster-divider-mini span {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(237, 107, 16, 0.4), transparent);
+    }
+
+    .poster-divider-mini svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    .suggested-book-title {
+      font-family: var(--font-heading);
+      font-size: 0.98rem;
+      font-weight: 700;
+      color: var(--text-main);
+      line-height: 1.35;
+      margin-bottom: 6px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .suggested-book-author {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+      font-weight: 500;
+    }
+
+    .poster-wave-footer-mini {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 55px;
+      background: linear-gradient(135deg, #ed6b10 0%, #f97316 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 40% 40% 0 0 / 20px 20px 0 0;
+    }
+
+    .poster-cta-btn-mini {
+      background: #ffffff;
+      color: #ed6b10;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.8px;
+      padding: 6px 16px;
+      border-radius: 20px;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
     /* Shelf Drawer Side Panel */
     .drawer-overlay {
       position: fixed;
@@ -2149,6 +2557,7 @@
       pointer-events: none;
       transition: opacity 0.3s ease;
     }
+
     .drawer-overlay.active {
       opacity: 1;
       pointer-events: auto;
@@ -2168,8 +2577,9 @@
       display: flex;
       flex-direction: column;
       transition: right 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-      box-shadow: -10px 0 30px rgba(0,0,0,0.4);
+      box-shadow: -10px 0 30px rgba(0, 0, 0, 0.4);
     }
+
     .shelf-drawer.active {
       right: 0;
     }
@@ -2201,6 +2611,246 @@
       align-items: center;
     }
 
+    /* Reader Toolbar Collapsible Menu Base Styles */
+    .reader-collapsible-tools {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .reader-menu-btn {
+      display: none !important;
+    }
+
+    /* Hide Chapter Selector on Laptop / Desktop Viewports */
+    @media (min-width: 769px) {
+      #chapterSelector {
+        display: none !important;
+      }
+    }
+
+    /* Complete Mobile Responsiveness & Centering System */
+    @media (max-width: 768px) {
+      .modal-overlay {
+        padding: 0 !important;
+      }
+
+      .book-details-modal-card {
+        width: 100vw !important;
+        max-width: 100vw !important;
+        height: 100vh !important;
+        max-height: 100vh !important;
+        box-sizing: border-box !important;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+      }
+
+      .book-details-content {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+        height: auto !important;
+        min-height: 100% !important;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+      }
+
+      .book-details-cover {
+        width: 100% !important;
+        box-sizing: border-box !important;
+        padding: 24px 12px !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        border-right: none !important;
+        border-bottom: 1px solid var(--border-light) !important;
+      }
+
+      .dept-poster-card,
+      .book-details-cover-img {
+        width: 100% !important;
+        max-width: 310px !important;
+        height: 480px !important;
+        padding: 24px 14px 0 14px !important;
+        margin: 0 auto !important;
+        box-sizing: border-box !important;
+      }
+
+      .poster-circle-emblem {
+        width: 85px !important;
+        height: 85px !important;
+        margin-bottom: 12px !important;
+      }
+
+      .poster-open-book-icon {
+        width: 48px !important;
+        height: 48px !important;
+      }
+
+      .poster-dept-title {
+        font-size: 1.2rem !important;
+      }
+
+      .poster-tagline {
+        font-size: 0.72rem !important;
+        line-height: 1.4 !important;
+      }
+
+      .poster-features-row {
+        gap: 4px !important;
+        margin-top: 10px !important;
+        margin-bottom: 16px !important;
+        width: 100% !important;
+      }
+
+      .feature-icon-box {
+        width: 34px !important;
+        height: 34px !important;
+      }
+
+      .feature-icon-box svg {
+        width: 16px !important;
+        height: 16px !important;
+      }
+
+      .poster-feature-tile span {
+        font-size: 0.55rem !important;
+      }
+
+      .poster-cta-btn {
+        padding: 8px 16px !important;
+        font-size: 0.68rem !important;
+      }
+
+      .book-details-info {
+        padding: 24px 16px 40px 16px !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+        height: auto !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        text-align: center !important;
+        overflow-y: visible !important;
+        overflow-x: hidden !important;
+      }
+
+      .book-details-meta {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+        gap: 8px !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+      }
+
+      .meta-item {
+        font-size: 0.76rem !important;
+        padding: 6px 12px !important;
+        box-sizing: border-box !important;
+      }
+
+      .book-details-actions {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+        gap: 8px !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+      }
+
+      .book-details-actions button {
+        flex: 1 1 120px !important;
+        justify-content: center !important;
+        white-space: nowrap !important;
+      }
+
+      .modal-close {
+        top: 12px !important;
+        right: 12px !important;
+        z-index: 100 !important;
+        background: var(--bg-card) !important;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2) !important;
+      }
+
+      .suggested-books-grid {
+        grid-template-columns: 1fr !important;
+        width: 100% !important;
+        gap: 16px !important;
+        justify-items: center !important;
+        box-sizing: border-box !important;
+      }
+
+      .dept-poster-card-mini {
+        width: 100% !important;
+        max-width: 300px !important;
+        margin: 0 auto !important;
+        box-sizing: border-box !important;
+      }
+
+      /* Reader Header Mobile Hamburger Menu & Responsiveness */
+      .reader-header {
+        padding: 10px 14px !important;
+        position: relative !important;
+      }
+
+      .reader-header-info {
+        gap: 8px !important;
+      }
+
+      .reader-book-title {
+        font-size: 0.85rem !important;
+        max-width: 110px !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+      }
+
+      .reader-toolbar {
+        gap: 6px !important;
+      }
+
+      .reader-tool-btn {
+        padding: 5px 10px !important;
+        font-size: 0.72rem !important;
+      }
+
+      .reader-menu-btn {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        padding: 6px 10px !important;
+      }
+
+      .reader-collapsible-tools {
+        display: none;
+        position: absolute;
+        top: 56px;
+        right: 14px;
+        background: var(--bg-card);
+        border: 1px solid var(--border-glow);
+        border-radius: 16px;
+        padding: 14px;
+        flex-direction: column;
+        gap: 12px;
+        width: 220px;
+        box-shadow: 0 14px 40px rgba(0, 0, 0, 0.4);
+        z-index: 1050;
+      }
+
+      .reader-collapsible-tools.active {
+        display: flex !important;
+      }
+
+      .reader-collapsible-tools .reader-tool-btn {
+        width: 100% !important;
+        justify-content: center !important;
+      }
+    }
+
     /* Back-To-Top Button */
     .back-to-top {
       position: fixed;
@@ -2222,10 +2872,12 @@
       pointer-events: none;
       transition: all 0.3s ease;
     }
+
     .back-to-top.visible {
       opacity: 1;
       pointer-events: auto;
     }
+
     .back-to-top:hover {
       transform: translateY(-4px);
       box-shadow: 0 10px 25px rgba(237, 107, 16, 0.6);
@@ -2241,7 +2893,7 @@
       color: var(--text-main);
       padding: 14px 22px;
       border-radius: var(--radius-md);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
       display: flex;
       align-items: center;
       gap: 12px;
@@ -2250,6 +2902,7 @@
       opacity: 0;
       transition: all 0.3s ease;
     }
+
     .toast-notification.show {
       transform: translateY(0);
       opacity: 1;
@@ -2291,12 +2944,14 @@
       flex-direction: column;
       gap: 12px;
     }
+
     .footer-links a {
       color: var(--text-muted);
       text-decoration: none;
       font-size: 0.88rem;
       transition: color 0.25s ease;
     }
+
     .footer-links a:hover {
       color: var(--accent-orange-bright);
     }
@@ -2326,13 +2981,16 @@
         max-width: 1440px;
         padding: 0 40px;
       }
+
       .hero-title {
         font-size: 3.6rem;
       }
+
       .hero-grid {
         grid-template-columns: 1.2fr 0.8fr;
         gap: 50px;
       }
+
       .books-grid {
         grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
         gap: 30px;
@@ -2344,9 +3002,11 @@
         max-width: 1560px;
         padding: 0 48px;
       }
+
       .hero-title {
         font-size: 3.8rem;
       }
+
       .books-grid {
         grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
         gap: 32px;
@@ -2359,9 +3019,11 @@
         max-width: 1200px;
         padding: 0 28px;
       }
+
       .hero-title {
         font-size: 3rem;
       }
+
       .books-grid {
         grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
         gap: 24px;
@@ -2370,12 +3032,18 @@
 
     /* 3. Tablet (768px - 1023px) */
     @media (min-width: 768px) and (max-width: 1023px) {
-      .nav-links, .desktop-theme-btn, #openShelfBtn, #loginModalTrigger {
+
+      .nav-links,
+      .desktop-theme-btn,
+      #openShelfBtn,
+      #loginModalTrigger {
         display: none !important;
       }
+
       .hamburger-btn {
         display: flex !important;
       }
+
       .brand-title {
         font-size: 0.88rem;
         max-width: 260px;
@@ -2385,16 +3053,20 @@
         -webkit-box-orient: vertical;
         overflow: hidden;
       }
+
       .brand-subtitle {
         display: none !important;
       }
+
       .hero-grid {
         grid-template-columns: 1fr;
         text-align: center;
       }
+
       .hero-subtitle {
         margin: 0 auto 28px auto;
       }
+
       .search-box-wrap {
         flex-direction: column;
         align-items: stretch;
@@ -2402,33 +3074,41 @@
         max-width: 100%;
         width: 100%;
       }
+
       .search-input-group {
         padding-left: 0;
         margin-bottom: 8px;
         width: 100%;
       }
-      .search-filter-select, .search-box-wrap .btn-primary {
+
+      .search-filter-select,
+      .search-box-wrap .btn-primary {
         width: 100%;
         justify-content: center;
         height: 44px;
       }
+
       .books-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 22px;
       }
+
       .journals-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 20px;
       }
+
       .footer-grid {
         grid-template-columns: 1fr 1fr;
         gap: 30px;
       }
+
       .reader-window {
         width: 98vw;
         height: 96vh;
         border-radius: 16px;
       }
+
       .reader-header {
         height: auto;
         padding: 12px 16px;
@@ -2436,10 +3116,12 @@
         align-items: stretch;
         gap: 10px;
       }
+
       .reader-header-info {
         width: 100%;
         justify-content: space-between;
       }
+
       .reader-toolbar {
         overflow-x: auto;
         width: 100%;
@@ -2447,10 +3129,12 @@
         scrollbar-width: none;
         -webkit-overflow-scrolling: touch;
       }
+
       .reader-body-layout {
         grid-template-columns: 1fr;
         position: relative;
       }
+
       .reader-toc-sidebar {
         position: absolute;
         top: 0;
@@ -2459,10 +3143,11 @@
         height: 100%;
         z-index: 100;
         background: var(--bg-secondary);
-        box-shadow: 10px 0 30px rgba(0,0,0,0.5);
+        box-shadow: 10px 0 30px rgba(0, 0, 0, 0.5);
         transition: left 0.3s ease;
         display: none;
       }
+
       .reader-body-layout.mobile-toc-open .reader-toc-sidebar {
         left: 0 !important;
         display: flex;
@@ -2471,12 +3156,18 @@
 
     /* 4. Large Mobile (481px - 767px) */
     @media (min-width: 481px) and (max-width: 767px) {
-      .nav-links, .desktop-theme-btn, #openShelfBtn, #loginModalTrigger {
+
+      .nav-links,
+      .desktop-theme-btn,
+      #openShelfBtn,
+      #loginModalTrigger {
         display: none !important;
       }
+
       .hamburger-btn {
         display: flex !important;
       }
+
       .brand-title {
         font-size: 0.85rem;
         max-width: 200px;
@@ -2486,52 +3177,65 @@
         -webkit-box-orient: vertical;
         overflow: hidden;
       }
+
       .brand-subtitle {
         display: none !important;
       }
+
       .hero-grid {
         grid-template-columns: 1fr;
         text-align: center;
       }
+
       .hero-title {
         font-size: 2.3rem;
       }
+
       .search-box-wrap {
         flex-direction: column;
         padding: 12px 20px;
         max-width: 100%;
         width: 100%;
       }
+
       .search-input-group {
         padding-left: 0;
         margin-bottom: 8px;
         width: 100%;
       }
-      .search-filter-select, .search-box-wrap .btn-primary {
+
+      .search-filter-select,
+      .search-box-wrap .btn-primary {
         width: 100%;
         justify-content: center;
         height: 44px;
       }
+
       .books-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 16px;
       }
+
       .journals-grid {
         grid-template-columns: 1fr;
         gap: 16px;
       }
+
       .orbit-element {
         display: none !important;
       }
+
       .footer-grid {
         grid-template-columns: 1fr;
         gap: 24px;
       }
+
       .reader-window {
         width: 100vw;
         height: 100vh;
         border-radius: 0;
       }
+
       .reader-header {
         height: auto;
         padding: 10px 14px;
@@ -2539,6 +3243,7 @@
         align-items: stretch;
         gap: 8px;
       }
+
       .reader-toolbar {
         overflow-x: auto;
         width: 100%;
@@ -2553,14 +3258,17 @@
       .container {
         padding: 0 14px;
       }
+
       .nav-container {
         height: 68px;
         padding: 0 2px;
       }
+
       .brand-logo-img {
         width: 54px;
         height: 54px;
       }
+
       .brand-title {
         font-size: 0.78rem;
         line-height: 1.2;
@@ -2571,20 +3279,28 @@
         -webkit-box-orient: vertical;
         overflow: hidden;
       }
+
       .brand-subtitle {
         display: none !important;
       }
-      .nav-links, .desktop-theme-btn, #openShelfBtn, #loginModalTrigger {
+
+      .nav-links,
+      .desktop-theme-btn,
+      #openShelfBtn,
+      #loginModalTrigger {
         display: none !important;
       }
+
       .hamburger-btn {
         display: flex !important;
       }
+
       .hero {
         padding: 32px 0 45px 0;
         width: 100%;
         overflow: hidden;
       }
+
       .hero-grid {
         display: flex !important;
         flex-direction: column !important;
@@ -2593,6 +3309,7 @@
         width: 100% !important;
         gap: 24px !important;
       }
+
       .hero-content {
         width: 100% !important;
         max-width: 100% !important;
@@ -2601,6 +3318,7 @@
         align-items: center !important;
         text-align: center !important;
       }
+
       .hero-badge {
         font-size: 0.74rem;
         padding: 5px 12px;
@@ -2611,6 +3329,7 @@
         line-height: 1.3;
         margin: 0 auto 16px auto;
       }
+
       .hero-title {
         font-size: clamp(1.5rem, 6.5vw, 1.85rem);
         line-height: 1.22;
@@ -2621,6 +3340,7 @@
         overflow-wrap: break-word;
         text-align: center;
       }
+
       .hero-subtitle {
         font-size: 0.88rem;
         margin: 0 auto 20px auto;
@@ -2628,6 +3348,7 @@
         max-width: 100%;
         text-align: center;
       }
+
       .search-box-wrap {
         flex-direction: column;
         padding: 10px 20px;
@@ -2635,20 +3356,25 @@
         max-width: 100%;
         width: 100%;
       }
+
       .search-input-group {
         padding-left: 0;
         margin-bottom: 6px;
         width: 100%;
       }
+
       .search-input {
         font-size: 0.88rem;
       }
-      .search-filter-select, .search-box-wrap .btn-primary {
+
+      .search-filter-select,
+      .search-box-wrap .btn-primary {
         width: 100%;
         justify-content: center;
         height: 42px;
         font-size: 0.88rem;
       }
+
       .type-chips-bar {
         overflow-x: auto;
         padding-bottom: 6px;
@@ -2658,134 +3384,167 @@
         scrollbar-width: none;
         -webkit-overflow-scrolling: touch;
       }
+
       .type-chip {
         flex-shrink: 0;
         font-size: 0.76rem;
         padding: 5px 10px;
       }
+
       .hero-stats {
         grid-template-columns: repeat(2, 1fr);
         gap: 10px;
       }
+
       .stat-item h3 {
         font-size: 1.3rem;
       }
+
       .stat-item p {
         font-size: 0.76rem;
       }
+
       .hero-campus-showcase,
       .hero-campus-img {
         min-height: 280px;
       }
+
       .orbit-element {
         display: none !important;
       }
+
       .nav-dropdown-menu {
         right: 10px !important;
         left: 10px !important;
         width: auto !important;
         max-width: calc(100vw - 20px) !important;
       }
+
       .section {
         padding: 45px 0;
       }
+
       .section-title {
         font-size: 1.5rem;
       }
+
       .section-header {
         flex-direction: column;
         align-items: flex-start;
         gap: 10px;
       }
+
       .sort-control-wrap {
         width: 100%;
         justify-content: space-between;
       }
+
       .tab-btn {
         padding: 6px 12px;
         font-size: 0.78rem;
       }
+
       .books-grid {
         grid-template-columns: 1fr;
         gap: 18px;
       }
+
       .book-card {
         padding: 14px;
         border-radius: 14px;
       }
+
       .book-cover-container {
         height: 195px;
       }
+
       .book-card-title {
         font-size: 0.98rem;
       }
+
       .journals-grid {
         grid-template-columns: 1fr;
         gap: 12px;
       }
+
       .journal-card {
         padding: 16px;
       }
+
       .ai-assistant-banner {
         padding: 20px 14px;
         border-radius: 16px;
       }
+
       .ai-banner-title {
         font-size: 1.3rem;
       }
+
       .ai-banner-desc {
         font-size: 0.88rem;
       }
+
       .ai-query-box {
         flex-direction: column;
         padding: 8px;
         border-radius: 12px;
       }
+
       .ai-query-input {
         padding: 6px;
         width: 100%;
         font-size: 0.85rem;
       }
+
       .ai-query-box .btn-primary {
         width: 100%;
         justify-content: center;
         height: 40px;
         font-size: 0.85rem;
       }
+
       .ai-prompt-chips {
         gap: 4px;
       }
+
       .prompt-chip {
         font-size: 0.7rem;
         padding: 3px 8px;
       }
+
       .footer {
         padding: 45px 0 24px 0;
       }
+
       .footer-grid {
         grid-template-columns: 1fr;
         gap: 22px;
       }
+
       .footer-bottom {
         flex-direction: column;
         gap: 8px;
         text-align: center;
         font-size: 0.75rem;
       }
+
       .reader-window {
         width: 100vw;
         height: 100vh;
         border-radius: 0;
       }
+
       .reader-header {
         padding: 8px 10px;
         height: auto;
         gap: 6px;
       }
+
       .reader-book-title {
         font-size: 0.85rem;
         max-width: 160px;
       }
+
       .reader-toolbar {
         overflow-x: auto;
         width: 100%;
@@ -2794,15 +3553,18 @@
         scrollbar-width: none;
         -webkit-overflow-scrolling: touch;
       }
+
       .reader-tool-btn {
         padding: 4px 8px;
         font-size: 0.72rem;
         height: 30px;
       }
+
       .reader-body-layout {
         grid-template-columns: 1fr;
         position: relative;
       }
+
       .reader-toc-sidebar {
         position: absolute;
         top: 0;
@@ -2811,90 +3573,112 @@
         height: 100%;
         z-index: 100;
         background: var(--bg-secondary);
-        box-shadow: 10px 0 30px rgba(0,0,0,0.5);
+        box-shadow: 10px 0 30px rgba(0, 0, 0, 0.5);
         transition: left 0.3s ease;
         display: none;
       }
+
       .reader-body-layout.mobile-toc-open .reader-toc-sidebar {
         left: 0 !important;
         display: flex;
       }
+
       .book-details-modal-card {
         max-width: 100vw;
         margin: 0;
         height: 100vh;
         max-height: 100vh;
       }
+
       .book-details-content {
         grid-template-columns: 1fr;
         grid-template-rows: auto 1fr;
       }
+
       .book-details-cover {
         padding: 40px;
         min-height: auto;
       }
+
       .book-details-cover-img {
         width: 180px;
         height: 250px;
       }
+
       .book-details-info {
         padding: 30px;
         overflow-y: auto;
       }
+
       .book-details-title {
         font-size: 1.4rem;
       }
+
       .book-details-actions {
         flex-direction: column;
         width: 100%;
       }
+
       .book-details-actions button {
         width: 100%;
         justify-content: center;
       }
+
       .features-list {
         grid-template-columns: 1fr;
       }
+
       .book-details-section {
         margin-bottom: 18px;
       }
+
       .section-title {
         font-size: 0.95rem;
       }
+
       .toc-preview {
         max-height: 150px;
       }
+
       .suggested-books-grid {
         grid-template-columns: repeat(2, 1fr);
       }
+
       .suggested-book-cover {
         height: 100px;
       }
+
       .suggested-book-title {
         font-size: 0.85rem;
       }
+
       .reader-viewport {
         padding: 14px 10px;
         font-size: 0.92rem;
       }
+
       .reader-chapter-title {
         font-size: 1.25rem;
         margin-bottom: 10px;
       }
+
       .reader-section-title {
         font-size: 1.05rem;
         margin: 14px 0 6px 0;
       }
+
       .reader-code-block {
         padding: 10px;
         font-size: 0.75rem;
       }
+
       .reader-footer {
         height: auto;
         padding: 8px 10px;
         flex-wrap: wrap;
         gap: 6px;
       }
+
       .page-slider-wrap {
         width: 100%;
         max-width: 100%;
@@ -2902,7 +3686,9 @@
         order: -1;
         justify-content: space-between;
       }
-      #prevPageBtn, #nextPageBtn {
+
+      #prevPageBtn,
+      #nextPageBtn {
         flex: 1;
         min-width: 100px;
         justify-content: center;
@@ -2912,6 +3698,7 @@
     }
   </style>
 </head>
+
 <body>
 
   <!-- Top Scroll Progress Bar -->
@@ -2920,7 +3707,7 @@
   <!-- Main Navigation Header -->
   <header class="header">
     <div class="container nav-container">
-      
+
       <!-- Brand Logo on FAR LEFT -->
       <a href="#" class="brand">
         <img src="nrilogo.png" alt="DR. RVR NRI Logo" class="brand-logo-img">
@@ -2944,14 +3731,15 @@
         <!-- Theme Toggle Button -->
         <button class="btn-icon desktop-theme-btn" id="desktopThemeToggleBtn" title="Toggle Light / Dark Theme">
           <svg class="icon" viewBox="0 0 24 24" style="font-size: 20px;">
-            <path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z"/>
+            <path
+              d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z" />
           </svg>
         </button>
 
         <!-- Bookshelf Drawer Button -->
         <button class="btn-icon" id="openShelfBtn" title="My Saved Bookshelf">
           <svg class="icon" viewBox="0 0 24 24" style="font-size: 20px;">
-            <path d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2zm0 15l-5-2.18L7 18V5h10v13z"/>
+            <path d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2zm0 15l-5-2.18L7 18V5h10v13z" />
           </svg>
           <span class="badge-count" id="shelfCount">0</span>
         </button>
@@ -2959,7 +3747,8 @@
         <!-- Student Portal Login Button -->
         <button class="btn-primary" id="loginModalTrigger">
           <svg class="icon" viewBox="0 0 24 24" style="font-size: 18px;">
-            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
+            <path
+              d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z" />
           </svg>
           <span id="loginStatusText">Library ID Login</span>
         </button>
@@ -2967,7 +3756,7 @@
         <!-- Mobile Hamburger Button -->
         <button class="btn-icon hamburger-btn" id="openNavDropdownBtn" title="Open Navigation Menu">
           <svg class="icon" viewBox="0 0 24 24" style="font-size: 22px;">
-            <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+            <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
           </svg>
         </button>
       </div>
@@ -2977,7 +3766,8 @@
   <!-- Mobile Dropdown Menu -->
   <div class="nav-dropdown-overlay" id="navDropdownOverlay"></div>
   <div class="nav-dropdown-menu" id="navDropdown">
-    <div style="display: flex; align-items: center; justify-content: space-between; padding-bottom: 12px; margin-bottom: 14px; border-bottom: 1px solid var(--border-light);">
+    <div
+      style="display: flex; align-items: center; justify-content: space-between; padding-bottom: 12px; margin-bottom: 14px; border-bottom: 1px solid var(--border-light);">
       <div style="font-family: var(--font-heading); font-size: 0.95rem; font-weight: 700; color: var(--text-main);">
         Navigation Menu
       </div>
@@ -2985,10 +3775,14 @@
     </div>
 
     <!-- Theme Toggle inside Mobile Hamburger Dropdown -->
-    <div style="margin-bottom: 14px; padding: 10px 12px; background: var(--bg-card); border: 1px solid var(--border-light); border-radius: 12px; display: flex; align-items: center; justify-content: space-between;">
+    <div
+      style="margin-bottom: 14px; padding: 10px 12px; background: var(--bg-card); border: 1px solid var(--border-light); border-radius: 12px; display: flex; align-items: center; justify-content: space-between;">
       <span style="font-size: 0.85rem; font-weight: 600; color: var(--text-main);">Appearance Theme</span>
       <button class="btn-primary" id="themeToggleBtn" style="padding: 5px 12px; font-size: 0.78rem; height: 32px;">
-        <svg class="icon" id="themeIcon" viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z"/></svg>
+        <svg class="icon" id="themeIcon" viewBox="0 0 24 24">
+          <path
+            d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z" />
+        </svg>
         <span id="themeBtnText">Dark Mode</span>
       </button>
     </div>
@@ -2996,39 +3790,55 @@
     <ul style="list-style: none; display: flex; flex-direction: column; gap: 8px;">
       <li>
         <a href="#hero" class="dropdown-item">
-          <svg class="icon" viewBox="0 0 24 24" style="color: var(--accent-orange); font-size: 18px;"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          <svg class="icon" viewBox="0 0 24 24" style="color: var(--accent-orange); font-size: 18px;">
+            <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+          </svg>
           <span>Home</span>
         </a>
       </li>
       <li>
         <a href="#catalog" class="dropdown-item">
-          <svg class="icon" viewBox="0 0 24 24" style="color: var(--accent-orange); font-size: 18px;"><path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H8V4h12v12z"/></svg>
+          <svg class="icon" viewBox="0 0 24 24" style="color: var(--accent-orange); font-size: 18px;">
+            <path
+              d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H8V4h12v12z" />
+          </svg>
           <span>E-Books Catalog</span>
         </a>
       </li>
       <li>
         <a href="#journals" class="dropdown-item">
-          <svg class="icon" viewBox="0 0 24 24" style="color: var(--accent-orange); font-size: 18px;"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+          <svg class="icon" viewBox="0 0 24 24" style="color: var(--accent-orange); font-size: 18px;">
+            <path
+              d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z" />
+          </svg>
           <span>Research Databases</span>
         </a>
       </li>
       <li>
         <a href="#ai-assistant" class="dropdown-item">
-          <svg class="icon" viewBox="0 0 24 24" style="color: var(--accent-orange); font-size: 18px;"><path d="M19 9l1.25-2.75L23 5l-2.75-1.25L19 1l-1.25 2.75L15 5l2.75 1.25zm-7.5.5L9 4 6.5 9.5 1 12l5.5 2.5L9 20l2.5-5.5L17 12z"/></svg>
+          <svg class="icon" viewBox="0 0 24 24" style="color: var(--accent-orange); font-size: 18px;">
+            <path
+              d="M19 9l1.25-2.75L23 5l-2.75-1.25L19 1l-1.25 2.75L15 5l2.75 1.25zm-7.5.5L9 4 6.5 9.5 1 12l5.5 2.5L9 20l2.5-5.5L17 12z" />
+          </svg>
           <span>LibAI Assistant</span>
         </a>
       </li>
       <li>
         <a href="#" class="dropdown-item" id="mobileShelfBtn">
-          <svg class="icon" viewBox="0 0 24 24" style="color: var(--accent-orange); font-size: 18px;"><path d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2zm0 15l-5-2.18L7 18V5h10v13z"/></svg>
+          <svg class="icon" viewBox="0 0 24 24" style="color: var(--accent-orange); font-size: 18px;">
+            <path d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2zm0 15l-5-2.18L7 18V5h10v13z" />
+          </svg>
           <span style="flex:1;">Saved Bookshelf</span>
-          <span style="background: var(--accent-orange); color: #fff; font-size: 0.7rem; font-weight: 800; padding: 2px 8px; border-radius: 12px;" id="mobileShelfCount">0</span>
+          <span
+            style="background: var(--accent-orange); color: #fff; font-size: 0.7rem; font-weight: 800; padding: 2px 8px; border-radius: 12px;"
+            id="mobileShelfCount">0</span>
         </a>
       </li>
     </ul>
 
     <div style="margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border-light);">
-      <button class="btn-primary" style="width: 100%; justify-content: center;" onclick="closeDropdown(); document.getElementById('loginModal').classList.add('active');">
+      <button class="btn-primary" style="width: 100%; justify-content: center;"
+        onclick="closeDropdown(); document.getElementById('loginModal').classList.add('active');">
         Library ID Single Sign-On
       </button>
     </div>
@@ -3036,12 +3846,11 @@
 
   <!-- Hero Section -->
   <section class="hero" id="hero">
-    <canvas id="heroCanvas"></canvas>
     <div class="hero-glow-1"></div>
     <div class="hero-glow-2"></div>
-    
+
     <div class="container hero-grid">
-      
+
       <div class="hero-content">
         <div class="hero-badge">
           <span class="live-dot"></span>
@@ -3053,18 +3862,21 @@
         </h1>
 
         <p class="hero-subtitle">
-          Read, search, listen to, and cite 150,000+ interactive engineering textbooks, peer-reviewed journals, and lab manuals directly in your browser. Designed for students and faculty of RVR NRI.
+          Read, search, listen to, and cite 150,000+ interactive engineering textbooks, peer-reviewed journals, and lab
+          manuals directly in your browser. Designed for students and faculty of RVR NRI.
         </p>
 
         <!-- Search Box & Filter Bar -->
         <div class="search-box-wrap">
           <div class="search-input-group">
             <svg class="icon" viewBox="0 0 24 24">
-              <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+              <path
+                d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
             </svg>
-            <input type="text" id="searchInput" class="search-input" placeholder="Search by Title, Author, Topic (e.g., Deep Learning, VLSI, Microgrids, Kinematics)...">
+            <input type="text" id="searchInput" class="search-input"
+              placeholder="Search by Title, Author, Topic (e.g., Deep Learning, VLSI, Microgrids, Kinematics)...">
           </div>
-          
+
           <select id="departmentFilter" class="search-filter-select">
             <option value="all">All Departments</option>
             <option value="CSE">CSE & AI/DS</option>
@@ -3115,12 +3927,13 @@
   <!-- E-Books Catalog Section -->
   <section class="section" id="catalog">
     <div class="container">
-      
+
       <div class="section-header">
         <div>
           <div class="section-subtitle">
             <svg class="icon" viewBox="0 0 24 24">
-              <path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H8V4h12v12z"/>
+              <path
+                d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H8V4h12v12z" />
             </svg>
             INTERACTIVE DIGITAL REPOSITORY
           </div>
@@ -3140,7 +3953,9 @@
       <!-- Department Filter Tabs with Count Pills -->
       <div class="filter-tabs" id="deptTabs">
         <button class="tab-btn active" data-dept="all">
-          <svg class="icon" viewBox="0 0 24 24"><path d="M12 2l-5.5 9h11zM12 22l5.5-9h-11z"/></svg>
+          <svg class="icon" viewBox="0 0 24 24">
+            <path d="M12 2l-5.5 9h11zM12 22l5.5-9h-11z" />
+          </svg>
           All Departments <span class="tab-count" id="countAll">16</span>
         </button>
         <button class="tab-btn" data-dept="CSE">CSE & AI/DS <span class="tab-count">4</span></button>
@@ -3163,12 +3978,13 @@
   <!-- Research Databases Direct Access -->
   <section class="section journals-section" id="journals">
     <div class="container">
-      
+
       <div class="section-header">
         <div>
           <div class="section-subtitle">
             <svg class="icon" viewBox="0 0 24 24">
-              <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+              <path
+                d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z" />
             </svg>
             INSTITUTIONAL ACCESS PORTAL
           </div>
@@ -3177,10 +3993,13 @@
       </div>
 
       <div class="journals-grid">
-        
+
         <div class="journal-card" onclick="openExternalPortal('IEEE Xplore Digital Library')">
           <div class="journal-icon-box">
-            <svg class="icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg>
+            <svg class="icon" viewBox="0 0 24 24">
+              <path
+                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z" />
+            </svg>
           </div>
           <h3 class="journal-name">IEEE Xplore</h3>
           <p class="journal-desc">Electrical, CSE & Telecommunications journals & standards.</p>
@@ -3188,7 +4007,10 @@
 
         <div class="journal-card" onclick="openExternalPortal('ScienceDirect (Elsevier)')">
           <div class="journal-icon-box">
-            <svg class="icon" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/></svg>
+            <svg class="icon" viewBox="0 0 24 24">
+              <path
+                d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10h-4v4h-2v-4H7v-2h4V7h2v4h4v2z" />
+            </svg>
           </div>
           <h3 class="journal-name">ScienceDirect</h3>
           <p class="journal-desc">Full-text scientific, technical, and medical research papers.</p>
@@ -3196,7 +4018,9 @@
 
         <div class="journal-card" onclick="openExternalPortal('Springer Link')">
           <div class="journal-icon-box">
-            <svg class="icon" viewBox="0 0 24 24"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3z"/></svg>
+            <svg class="icon" viewBox="0 0 24 24">
+              <path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3z" />
+            </svg>
           </div>
           <h3 class="journal-name">Springer Link</h3>
           <p class="journal-desc">Peer-reviewed books, protocols, and reference works.</p>
@@ -3204,7 +4028,9 @@
 
         <div class="journal-card" onclick="openExternalPortal('JSTOR Academic Library')">
           <div class="journal-icon-box">
-            <svg class="icon" viewBox="0 0 24 24"><path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2z"/></svg>
+            <svg class="icon" viewBox="0 0 24 24">
+              <path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2z" />
+            </svg>
           </div>
           <h3 class="journal-name">JSTOR Archives</h3>
           <p class="journal-desc">Digital archive of primary sources, humanities, and sciences.</p>
@@ -3221,25 +4047,36 @@
       <div class="ai-assistant-banner">
         <div class="ai-banner-content">
           <div class="ai-badge">
-            <svg class="icon" viewBox="0 0 24 24"><path d="M19 9l1.25-2.75L23 5l-2.75-1.25L19 1l-1.25 2.75L15 5l2.75 1.25zm-7.5.5L9 4 6.5 9.5 1 12l5.5 2.5L9 20l2.5-5.5L17 12z"/></svg>
+            <svg class="icon" viewBox="0 0 24 24">
+              <path
+                d="M19 9l1.25-2.75L23 5l-2.75-1.25L19 1l-1.25 2.75L15 5l2.75 1.25zm-7.5.5L9 4 6.5 9.5 1 12l5.5 2.5L9 20l2.5-5.5L17 12z" />
+            </svg>
             SMART LIB-AI RESEARCH ASSISTANT
           </div>
           <h2 class="ai-banner-title">Need help finding textbooks or research topics?</h2>
-          <p class="ai-banner-desc">Ask LibAI to summarize chapters, synthesize GATE syllabus reference topics, or recommend core textbooks!</p>
+          <p class="ai-banner-desc">Ask LibAI to summarize chapters, synthesize GATE syllabus reference topics, or
+            recommend core textbooks!</p>
 
           <div class="ai-query-box">
-            <input type="text" id="aiQueryInput" class="ai-query-input" placeholder="Ask LibAI: e.g., Recommend top books for Gate CSE 2026, VLSI timing analysis, or Deep Learning...">
+            <input type="text" id="aiQueryInput" class="ai-query-input"
+              placeholder="Ask LibAI: e.g., Recommend top books for Gate CSE 2026, VLSI timing analysis, or Deep Learning...">
             <button class="btn-primary" id="aiQueryBtn">Ask LibAI</button>
           </div>
 
           <div class="ai-prompt-chips">
-            <span class="prompt-chip" onclick="setAiPrompt('Recommend core textbooks for GATE CSE 2026')">GATE CSE 2026 List</span>
-            <span class="prompt-chip" onclick="setAiPrompt('Summarize key concepts in Deep Learning Chapter 1')">Deep Learning Summary</span>
-            <span class="prompt-chip" onclick="setAiPrompt('Best E-Books for VLSI System & CMOS Inverter design')">VLSI & CMOS Books</span>
-            <span class="prompt-chip" onclick="setAiPrompt('Which books cover Smart Microgrids & Solar energy?')">Smart Microgrids</span>
+            <span class="prompt-chip" onclick="setAiPrompt('Recommend core textbooks for GATE CSE 2026')">GATE CSE 2026
+              List</span>
+            <span class="prompt-chip" onclick="setAiPrompt('Summarize key concepts in Deep Learning Chapter 1')">Deep
+              Learning Summary</span>
+            <span class="prompt-chip" onclick="setAiPrompt('Best E-Books for VLSI System & CMOS Inverter design')">VLSI
+              & CMOS Books</span>
+            <span class="prompt-chip" onclick="setAiPrompt('Which books cover Smart Microgrids & Solar energy?')">Smart
+              Microgrids</span>
           </div>
-          
-          <div id="aiResponseBox" style="margin-top: 16px; font-size: 0.9rem; color: #e2e8f0; display: none; background: rgba(0,0,0,0.5); padding: 18px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.2); line-height: 1.6;"></div>
+
+          <div id="aiResponseBox"
+            style="margin-top: 16px; font-size: 0.9rem; color: #e2e8f0; display: none; background: rgba(0,0,0,0.5); padding: 18px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.2); line-height: 1.6;">
+          </div>
         </div>
       </div>
     </div>
@@ -3249,7 +4086,7 @@
   <footer class="footer" id="footer">
     <div class="container">
       <div class="footer-grid">
-        
+
         <div class="footer-brand">
           <a href="#" class="brand">
             <img src="nrilogo.png" alt="DR. RVR NRI Logo" class="brand-logo-img">
@@ -3258,7 +4095,8 @@
               <span class="brand-subtitle">DEEMED TO BE UNIVERSITY</span>
             </div>
           </a>
-          <p>Empowering faculty, researchers, and students with state-of-the-art digital knowledge infrastructure and open academic resources.</p>
+          <p>Empowering faculty, researchers, and students with state-of-the-art digital knowledge infrastructure and
+            open academic resources.</p>
         </div>
 
         <div>
@@ -3275,10 +4113,14 @@
         <div>
           <h4 class="footer-title">Library Services</h4>
           <ul class="footer-links">
-            <li><a href="javascript:void(0)" onclick="showToast('Digital Remote Access Active')">Remote Off-Campus Access</a></li>
-            <li><a href="javascript:void(0)" onclick="showToast('Requesting Book Renewal...')">Book Renewal Portal</a></li>
-            <li><a href="javascript:void(0)" onclick="showToast('Study Room Reservation Ready')">Study Room Reservation</a></li>
-            <li><a href="javascript:void(0)" onclick="showToast('Inter-Library Loan Desk Open')">Inter-Library Loan (ILL)</a></li>
+            <li><a href="javascript:void(0)" onclick="showToast('Digital Remote Access Active')">Remote Off-Campus
+                Access</a></li>
+            <li><a href="javascript:void(0)" onclick="showToast('Requesting Book Renewal...')">Book Renewal Portal</a>
+            </li>
+            <li><a href="javascript:void(0)" onclick="showToast('Study Room Reservation Ready')">Study Room
+                Reservation</a></li>
+            <li><a href="javascript:void(0)" onclick="showToast('Inter-Library Loan Desk Open')">Inter-Library Loan
+                (ILL)</a></li>
           </ul>
         </div>
 
@@ -3304,21 +4146,25 @@
 
   <!-- Floating Back-to-Top Button -->
   <button class="back-to-top" id="backToTopBtn" title="Scroll back to top">
-    <svg class="icon" viewBox="0 0 24 24" style="font-size: 24px;"><path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/></svg>
+    <svg class="icon" viewBox="0 0 24 24" style="font-size: 24px;">
+      <path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z" />
+    </svg>
   </button>
 
   <!-- FULLSCREEN INTERACTIVE DEMO E-BOOK READER MODAL -->
   <div class="reader-modal-overlay" id="interactiveReaderModal">
     <div class="reader-window">
-      
+
       <!-- Reader Header Bar -->
       <div class="reader-header">
         <div class="reader-header-info">
           <button class="reader-tool-btn" id="toggleTocBtn" title="Toggle Table of Contents Sidebar">
-            <svg class="icon" viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
+            <svg class="icon" viewBox="0 0 24 24">
+              <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
+            </svg>
             TOC
           </button>
-          
+
           <div style="display: flex; flex-direction: column;">
             <span class="reader-book-title" id="readerBookTitle">Book Title Loading...</span>
             <span style="font-size: 0.75rem; color: var(--text-dim);" id="readerBookAuthor">Author Name</span>
@@ -3327,58 +4173,78 @@
 
         <div class="reader-toolbar">
           <!-- Fullscreen Toggle Button -->
-          <button class="reader-tool-btn" id="readerFullscreenBtn" title="Toggle Fullscreen Reading Mode (Shortcut: F)" style="border-color: var(--accent-orange); color: var(--accent-orange-bright);">
-            <svg class="icon" id="fullscreenIcon" viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>
+          <button class="reader-tool-btn" id="readerFullscreenBtn" title="Toggle Fullscreen Reading Mode (Shortcut: F)"
+            style="border-color: var(--accent-orange); color: var(--accent-orange-bright);">
+            <svg class="icon" id="fullscreenIcon" viewBox="0 0 24 24">
+              <path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z" />
+            </svg>
             <span id="fullscreenBtnText">Fullscreen</span>
           </button>
 
           <!-- Audio Narrator (TTS) Button -->
           <button class="reader-tool-btn" id="audioNarratorBtn" title="Listen to AI Audiobook Voice">
-            <svg class="icon" viewBox="0 0 24 24" style="color: var(--accent-emerald);"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+            <svg class="icon" viewBox="0 0 24 24" style="color: var(--accent-emerald);">
+              <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z" />
+            </svg>
             <span id="audioNarratorText">Listen AI</span>
           </button>
 
-          <!-- Reader Theme Switcher -->
-          <button class="reader-tool-btn" id="readerThemeBtn" title="Cycle Reading Theme (Light / Sepia / Dark)">
-            <svg class="icon" viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z"/></svg>
-            <span id="readerThemeText">Sepia</span>
-          </button>
-
-          <!-- Font Size Adjusters -->
+          <!-- Font Size Adjusters (Pinned Inline Beside Listen AI) -->
           <button class="reader-tool-btn" onclick="adjustReaderFontSize(-1)" title="Decrease Text Size">A-</button>
           <button class="reader-tool-btn" onclick="adjustReaderFontSize(1)" title="Increase Text Size">A+</button>
 
-          <!-- Chapter Selector -->
-          <select class="reader-tool-btn" id="chapterSelector" title="Select Chapter" style="padding: 6px 10px; cursor: pointer;">
-            <option value="1">Chapter 1</option>
-            <option value="2">Chapter 2</option>
-            <option value="3">Chapter 3</option>
-            <option value="4">Chapter 4</option>
-            <option value="5">Chapter 5</option>
-          </select>
-
-          <!-- Citation Button -->
-          <button class="reader-tool-btn" id="readerCiteBtn" title="Generate Academic Citation">
-            <svg class="icon" viewBox="0 0 24 24"><path d="M14 17h3l2-4V7h-6v6h3M6 17h3l2-4V7H5v6h3"/></svg>
-            Cite
+          <!-- Mobile Hamburger Menu Button -->
+          <button class="reader-tool-btn reader-menu-btn" id="readerMenuBtn" title="More Reading Tools">
+            <svg class="icon" viewBox="0 0 24 24">
+              <path
+                d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
+            </svg>
           </button>
 
-          <!-- Bookmark / Save Button -->
-          <button class="reader-tool-btn" id="readerBookmarkBtn" title="Save to My Bookshelf">
-            <svg class="icon" viewBox="0 0 24 24"><path d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2z"/></svg>
-            Save
-          </button>
+          <!-- Collapsible Tools Panel -->
+          <div class="reader-collapsible-tools" id="readerCollapsibleTools">
+            <!-- Reader Theme Switcher -->
+            <button class="reader-tool-btn" id="readerThemeBtn" title="Cycle Reading Theme (Light / Sepia / Dark)">
+              <svg class="icon" viewBox="0 0 24 24">
+                <path
+                  d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z" />
+              </svg>
+              <span id="readerThemeText">Sepia</span>
+            </button>
+
+            <!-- Chapter Selector -->
+            <select class="reader-tool-btn" id="chapterSelector" title="Select Chapter"
+              style="padding: 6px 10px; cursor: pointer; width: 100%;">
+              <option value="1">Chapter 1</option>
+              <option value="2">Chapter 2</option>
+              <option value="3">Chapter 3</option>
+              <option value="4">Chapter 4</option>
+              <option value="5">Chapter 5</option>
+            </select>
+
+            <!-- Bookmark / Save Button -->
+            <button class="reader-tool-btn" id="readerBookmarkBtn" title="Save to My Bookshelf"
+              style="width: 100%; justify-content: center;">
+              <svg class="icon" viewBox="0 0 24 24">
+                <path d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2z" />
+              </svg>
+              Save
+            </button>
+          </div>
 
           <!-- Close Reader Window -->
           <button class="btn-icon" id="closeReaderBtn" style="width: 36px; height: 36px;" title="Exit E-Book Reader">
-            <svg class="icon" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+            <svg class="icon" viewBox="0 0 24 24">
+              <path
+                d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
+            </svg>
           </button>
         </div>
       </div>
 
       <!-- Reader Body Layout -->
       <div class="reader-body-layout" id="readerBodyLayout">
-        
+
         <!-- Table of Contents Sidebar -->
         <div class="reader-toc-sidebar" id="readerTocSidebar">
           <div class="toc-title">TABLE OF CONTENTS</div>
@@ -3399,106 +4265,124 @@
       <!-- Reader Footer Bar -->
       <div class="reader-footer">
         <button class="btn-secondary" id="prevPageBtn">
-          <svg class="icon" viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+          <svg class="icon" viewBox="0 0 24 24">
+            <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
+          </svg>
           Prev Page
         </button>
 
         <div class="page-slider-wrap">
-          <span style="font-size: 0.85rem; font-weight: 600; white-space: nowrap;" id="pageIndicatorText">Page 1 of 5</span>
+          <span style="font-size: 0.85rem; font-weight: 600; white-space: nowrap;" id="pageIndicatorText">Page 1 of
+            5</span>
           <input type="range" min="1" max="5" value="1" class="page-slider" id="pageSlider">
         </div>
 
         <button class="btn-primary" id="nextPageBtn">
           Next Page
-          <svg class="icon" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+          <svg class="icon" viewBox="0 0 24 24">
+            <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
+          </svg>
         </button>
       </div>
 
     </div>
   </div>
 
-  <!-- Academic Citation Modal -->
-  <div class="modal-overlay" id="citationModal">
-    <div class="citation-modal-card">
-      <button class="modal-close" id="closeCitationBtn">
-        <svg class="icon" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
-      </button>
 
-      <h3 style="font-family: var(--font-heading); font-size: 1.4rem; margin-bottom: 6px;" id="citationBookTitle">Academic Citation</h3>
-      <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 20px;">Copy formatted citation for research papers, thesis references, and reports.</p>
-
-      <div style="display: flex; gap: 8px; margin-bottom: 14px;">
-        <button class="tab-btn active" id="citeIeeeTab" onclick="switchCitationStyle('IEEE')">IEEE Format</button>
-        <button class="tab-btn" id="citeApaTab" onclick="switchCitationStyle('APA')">APA 7th</button>
-        <button class="tab-btn" id="citeMlaTab" onclick="switchCitationStyle('MLA')">MLA 9th</button>
-        <button class="tab-btn" id="citeBibTab" onclick="switchCitationStyle('BibTeX')">BibTeX</button>
-      </div>
-
-      <div class="citation-box" id="citationText">
-        Loading citation...
-      </div>
-
-      <button class="btn-primary" style="width: 100%; justify-content: center;" onclick="copyCitationToClipboard()">
-        <svg class="icon" viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
-        Copy Citation to Clipboard
-      </button>
-    </div>
-  </div>
 
   <!-- Book Details Modal -->
   <div class="modal-overlay" id="bookDetailsModal">
     <div class="book-details-modal-card">
       <button class="modal-close" id="closeBookDetailsBtn">
-        <svg class="icon" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        <svg class="icon" viewBox="0 0 24 24">
+          <path
+            d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
+        </svg>
       </button>
 
       <div class="book-details-content">
         <div class="book-details-cover">
-          <div class="gradient-ring"></div>
-          <div class="particle"></div>
-          <div class="particle"></div>
-          <div class="particle"></div>
-          <div class="particle"></div>
-          <div class="particle"></div>
-          <div class="glass-panel"></div>
-          <div class="decoration-circle"></div>
-          <div class="decoration-circle"></div>
-          <div class="decoration-circle"></div>
-          <div class="dept-badge">
-            <svg class="icon" viewBox="0 0 24 24"><path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z"/></svg>
-            <span id="detailsBookDeptBadge">CSE</span>
-          </div>
-          <div class="decorative-line top"></div>
-          <div class="book-details-cover-img" id="detailsBookCover">
-            <div class="animated-border"></div>
-            <svg class="icon" viewBox="0 0 24 24" style="font-size: 60px; color: #fff;">
-              <path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3z"/>
-            </svg>
-          </div>
-          <div class="book-reflection"></div>
-          <div class="info-cards">
-            <div class="info-card">
-              <svg class="icon" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-              4.9
+          <div class="dept-poster-card" id="detailsBookCover">
+            <!-- Top Circle Emblem -->
+            <div class="poster-circle-emblem">
+              <svg class="poster-open-book-icon" viewBox="0 0 64 64">
+                <path d="M12 16c0-2.2 1.8-4 4-4h14v36H16c-2.2 0-4-1.8-4-4V16z" fill="#ffffff" stroke="#0f172a"
+                  stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M52 16c0-2.2-1.8-4-4-4H34v36h14c2.2 0 4-1.8 4-4V16z" fill="#ffffff" stroke="#0f172a"
+                  stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M34 16h14v22H34z" fill="#fff7ed" />
+                <path d="M16 16h14v22H16z" fill="#fff7ed" />
+                <path d="M20 22h8M20 28h6M36 22h8M36 28h8M36 34h5" stroke="#ed6b10" stroke-width="3"
+                  stroke-linecap="round" />
+                <path d="M34 48l-4 6-4-6v-6h8v6z" fill="#ed6b10" />
+              </svg>
             </div>
-            <div class="info-card">
-              <svg class="icon" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
-              293
+
+            <!-- Title & Subtitle Section -->
+            <div class="poster-title-section">
+              <h2 class="poster-dept-title" id="coverDisplayDept">CSE DEPARTMENT</h2>
+              <div class="poster-divider">
+                <span class="divider-line"></span>
+                <svg class="divider-book-icon" viewBox="0 0 24 24">
+                  <path
+                    d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"
+                    fill="var(--accent-orange)" />
+                </svg>
+                <span class="divider-line"></span>
+              </div>
+              <p class="poster-tagline">Empowering innovators and problem-solvers through cutting-edge education,
+                research and technology.</p>
             </div>
-            <div class="info-card">
-              <svg class="icon" viewBox="0 0 24 24"><path d="M12.87 15.07l-2.54-2.51.03-.03A17.52 17.52 0 0014.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 8.8 7.3 8.8V6H4v3.5c0 1.93 3.13 5.5 8 5.5s8-3.57 8-5.5V6h-3.3c0 0-.77 1.52-1.7 2.55-1.44-1.6-2.5-3.43-2.67-5.35H17V4h-7V2H8v2H1v2h11.17z"/></svg>
-              EN
+
+            <!-- 3 Feature Tile Badges -->
+            <div class="poster-features-row">
+              <div class="poster-feature-tile">
+                <div class="feature-icon-box">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3z" fill="var(--accent-orange)" />
+                  </svg>
+                </div>
+                <span>QUALITY<br>EDUCATION</span>
+              </div>
+              <div class="poster-feature-tile">
+                <div class="feature-icon-box">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"
+                      fill="var(--accent-orange)" />
+                  </svg>
+                </div>
+                <span>INNOVATIVE<br>LEARNING</span>
+              </div>
+              <div class="poster-feature-tile">
+                <div class="feature-icon-box">
+                  <svg viewBox="0 0 24 24">
+                    <path
+                      d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5z"
+                      fill="var(--accent-orange)" />
+                  </svg>
+                </div>
+                <span>BRIGHT<br>FUTURE</span>
+              </div>
             </div>
-          </div>
-          <div class="decorative-line bottom"></div>
-          <div class="bottom-cards">
-            <div class="bottom-card">
-              <svg class="icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
-              Interactive
-            </div>
-            <div class="bottom-card">
-              <svg class="icon" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
-              12K Readers
+
+            <!-- Bottom Orange Wave Footer & Floating CTA Button -->
+            <div class="poster-wave-footer">
+              <svg class="wave-shape" viewBox="0 0 500 150" preserveAspectRatio="none">
+                <path d="M0,40 C150,90 350,-10 500,40 L500,150 L0,150 Z" fill="url(#waveGradient)"></path>
+                <defs>
+                  <linearGradient id="waveGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#ed6b10" />
+                    <stop offset="100%" stop-color="#f97316" />
+                  </linearGradient>
+                </defs>
+              </svg>
+              <div class="poster-cta-btn">
+                <svg class="icon" viewBox="0 0 24 24" style="font-size: 16px;">
+                  <path
+                    d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z" />
+                </svg>
+                EXPLORE DEPARTMENT &rarr;
+              </div>
             </div>
           </div>
         </div>
@@ -3510,38 +4394,54 @@
 
           <div class="book-details-meta">
             <div class="meta-item">
-              <svg class="icon" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+              <svg class="icon" viewBox="0 0 24 24">
+                <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+              </svg>
               <span id="detailsBookRating">4.8 / 5.0</span>
             </div>
             <div class="meta-item">
-              <svg class="icon" viewBox="0 0 24 24"><path d="M13 2.05v3.03c3.39.49 6 3.39 6 6.92 0 .9-.18 1.75-.5 2.54l2.63 1.53c.56-1.24.87-2.6.87-4.07 0-5.18-3.95-9.45-9-9.95zM12 6c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm0 10c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z"/></svg>
+              <svg class="icon" viewBox="0 0 24 24">
+                <path
+                  d="M13 2.05v3.03c3.39.49 6 3.39 6 6.92 0 .9-.18 1.75-.5 2.54l2.63 1.53c.56-1.24.87-2.6.87-4.07 0-5.18-3.95-9.45-9-9.95zM12 6c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm0 10c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z" />
+              </svg>
               <span id="detailsBookEdition">2024 Edition</span>
             </div>
             <div class="meta-item">
-              <svg class="icon" viewBox="0 0 24 24"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/></svg>
+              <svg class="icon" viewBox="0 0 24 24">
+                <path
+                  d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z" />
+              </svg>
               <span id="detailsBookChapters">5 Chapters</span>
             </div>
             <div class="meta-item">
-              <svg class="icon" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+              <svg class="icon" viewBox="0 0 24 24">
+                <path
+                  d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z" />
+              </svg>
               <span id="detailsBookPages">250 Pages</span>
             </div>
             <div class="meta-item">
-              <svg class="icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+              <svg class="icon" viewBox="0 0 24 24">
+                <path
+                  d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z" />
+              </svg>
               <span id="detailsBookLanguage">English</span>
             </div>
           </div>
 
           <div class="book-details-actions-top">
             <button class="btn-primary" id="detailsOpenReaderBtn" style="flex: 1;">
-              <svg class="icon" viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+              <svg class="icon" viewBox="0 0 24 24">
+                <path
+                  d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" />
+              </svg>
               Open Reader
             </button>
-            <button class="btn-secondary" id="detailsCiteBtn">
-              <svg class="icon" viewBox="0 0 24 24"><path d="M14 17h3l2-4V7h-6v6h3M6 17h3l2-4V7H5v6h3"/></svg>
-              Cite
-            </button>
+
             <button class="btn-secondary" id="detailsBookmarkBtn">
-              <svg class="icon" viewBox="0 0 24 24"><path d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2z"/></svg>
+              <svg class="icon" viewBox="0 0 24 24">
+                <path d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2z" />
+              </svg>
               Save
             </button>
           </div>
@@ -3585,17 +4485,25 @@
   <div class="modal-overlay" id="loginModal">
     <div class="modal-card" style="max-width: 440px;">
       <button class="modal-close" id="closeLoginBtn">
-        <svg class="icon" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        <svg class="icon" viewBox="0 0 24 24">
+          <path
+            d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
+        </svg>
       </button>
       <div style="padding: 36px; text-align: center;">
-        <img src="nrilogo.png" alt="DR. RVR NRI Logo" style="width: 64px; height: 64px; object-fit: contain; background: #fff; padding: 5px; border-radius: 16px; margin: 0 auto 16px auto; display: block; box-shadow: 0 6px 18px rgba(237, 107, 16, 0.35); border: 1px solid rgba(237, 107, 16, 0.3);">
+        <img src="nrilogo.png" alt="DR. RVR NRI Logo"
+          style="width: 64px; height: 64px; object-fit: contain; background: #fff; padding: 5px; border-radius: 16px; margin: 0 auto 16px auto; display: block; box-shadow: 0 6px 18px rgba(237, 107, 16, 0.35); border: 1px solid rgba(237, 107, 16, 0.3);">
         <h3 style="font-family: var(--font-heading); font-size: 1.5rem; margin-bottom: 6px;">Library Single Sign-On</h3>
-        <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 24px;">Enter your RVR NRI Roll Number / Faculty ID</p>
+        <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 24px;">Enter your RVR NRI Roll Number /
+          Faculty ID</p>
 
-        <input type="text" id="loginRollInput" placeholder="Roll No / Employee ID (e.g. 24RVR0102)" style="width: 100%; background: var(--bg-card); border: 1px solid var(--border-light); padding: 12px; border-radius: 10px; color: var(--text-main); margin-bottom: 14px; font-family: var(--font-body);">
-        <input type="password" placeholder="Library Password / PIN" style="width: 100%; background: var(--bg-card); border: 1px solid var(--border-light); padding: 12px; border-radius: 10px; color: var(--text-main); margin-bottom: 20px; font-family: var(--font-body);">
+        <input type="text" id="loginRollInput" placeholder="Roll No / Employee ID (e.g. 24RVR0102)"
+          style="width: 100%; background: var(--bg-card); border: 1px solid var(--border-light); padding: 12px; border-radius: 10px; color: var(--text-main); margin-bottom: 14px; font-family: var(--font-body);">
+        <input type="password" placeholder="Library Password / PIN"
+          style="width: 100%; background: var(--bg-card); border: 1px solid var(--border-light); padding: 12px; border-radius: 10px; color: var(--text-main); margin-bottom: 20px; font-family: var(--font-body);">
 
-        <button class="btn-primary" style="width: 100%; justify-content: center;" onclick="handleLoginSubmit()">Log In to Digital Portal</button>
+        <button class="btn-primary" style="width: 100%; justify-content: center;" onclick="handleLoginSubmit()">Log In
+          to Digital Portal</button>
       </div>
     </div>
   </div>
@@ -3605,11 +4513,16 @@
   <div class="shelf-drawer" id="shelfDrawer">
     <div class="drawer-header">
       <h3 style="font-family: var(--font-heading); font-size: 1.2rem; display: flex; align-items: center; gap: 8px;">
-        <svg class="icon" viewBox="0 0 24 24" style="color: var(--accent-orange-bright);"><path d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2z"/></svg>
+        <svg class="icon" viewBox="0 0 24 24" style="color: var(--accent-orange-bright);">
+          <path d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2z" />
+        </svg>
         My Saved Bookshelf
       </h3>
       <button class="btn-icon" id="closeShelfBtn" style="width: 32px; height: 32px;">
-        <svg class="icon" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        <svg class="icon" viewBox="0 0 24 24">
+          <path
+            d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
+        </svg>
       </button>
     </div>
 
@@ -3620,7 +4533,9 @@
 
   <!-- Toast Notification -->
   <div class="toast-notification" id="toast">
-    <svg class="icon" viewBox="0 0 24 24" style="color: var(--accent-orange-bright); font-size: 22px;"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+    <svg class="icon" viewBox="0 0 24 24" style="color: var(--accent-orange-bright); font-size: 22px;">
+      <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+    </svg>
     <span id="toastMsg">Action completed successfully!</span>
   </div>
 
@@ -4465,7 +5380,7 @@ int binarySearch(const vector<int>& arr, int target) {
     let currentDept = 'all';
     let currentType = 'all';
     let currentSort = 'rating';
-    let isDark = false; 
+    let isDark = false;
     let currentReaderBook = null;
     let currentReaderPage = 1;
     let currentReaderTheme = 'sepia';
@@ -4482,7 +5397,7 @@ int binarySearch(const vector<int>& arr, int target) {
     const departmentFilter = document.getElementById('departmentFilter');
     const searchSubmitBtn = document.getElementById('searchSubmitBtn');
     const sortSelect = document.getElementById('sortSelect');
-    
+
     // Interactive Reader DOM Elements
     const interactiveReaderModal = document.getElementById('interactiveReaderModal');
     const closeReaderBtn = document.getElementById('closeReaderBtn');
@@ -4530,7 +5445,7 @@ int binarySearch(const vector<int>& arr, int target) {
     const aiResponseBox = document.getElementById('aiResponseBox');
     const backToTopBtn = document.getElementById('backToTopBtn');
     const progressBar = document.getElementById('progressBar');
-    
+
     // Book Details Modal DOM Elements
     const bookDetailsModal = document.getElementById('bookDetailsModal');
     const closeBookDetailsBtn = document.getElementById('closeBookDetailsBtn');
@@ -4550,7 +5465,7 @@ int binarySearch(const vector<int>& arr, int target) {
     const detailsOpenReaderBtn = document.getElementById('detailsOpenReaderBtn');
     const detailsCiteBtn = document.getElementById('detailsCiteBtn');
     const detailsBookmarkBtn = document.getElementById('detailsBookmarkBtn');
-    
+
     // Hamburger Dropdown DOM Elements
     const openNavDropdownBtn = document.getElementById('openNavDropdownBtn');
     const navDropdown = document.getElementById('navDropdown');
@@ -4561,7 +5476,6 @@ int binarySearch(const vector<int>& arr, int target) {
       renderBooks();
       updateShelfUI();
       initGSAPAnimations();
-      initHeroParticleCanvas();
       initScrollProgress();
       initDropdownNav();
       initThemeToggle();
@@ -4687,8 +5601,8 @@ int binarySearch(const vector<int>& arr, int target) {
         const matchesDept = (currentDept === 'all') || (book.dept === currentDept);
         const matchesType = (currentType === 'all') || (book.type === currentType);
         const matchesQuery = book.title.toLowerCase().includes(filterQuery.toLowerCase()) ||
-                             book.author.toLowerCase().includes(filterQuery.toLowerCase()) ||
-                             book.dept.toLowerCase().includes(filterQuery.toLowerCase());
+          book.author.toLowerCase().includes(filterQuery.toLowerCase()) ||
+          book.dept.toLowerCase().includes(filterQuery.toLowerCase());
         return matchesDept && matchesType && matchesQuery;
       });
 
@@ -4764,8 +5678,8 @@ int binarySearch(const vector<int>& arr, int target) {
       });
 
       if (window.gsap) {
-        gsap.fromTo('.book-card', 
-          { opacity: 0, y: 30 }, 
+        gsap.fromTo('.book-card',
+          { opacity: 0, y: 30 },
           { opacity: 1, y: 0, duration: 0.4, stagger: 0.06, ease: "power2.out" }
         );
       }
@@ -4815,23 +5729,37 @@ int binarySearch(const vector<int>& arr, int target) {
     // INTERACTIVE DEMO E-BOOK READER FUNCTIONS
     function createSuggestedBookCard(book) {
       const card = document.createElement('div');
-      card.className = 'suggested-book-card';
+      card.className = 'suggested-book-card dept-poster-card-mini';
       card.onclick = () => {
         bookDetailsModal.classList.remove('active');
         setTimeout(() => openBookDetails(book.id), 300);
       };
-      
+
       card.innerHTML = `
-        <div class="suggested-book-cover">
-          <svg class="icon" viewBox="0 0 24 24">
-            <path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3z"/>
+        <div class="poster-circle-emblem-mini">
+          <svg class="poster-open-book-icon-mini" viewBox="0 0 64 64">
+            <path d="M12 16c0-2.2 1.8-4 4-4h14v36H16c-2.2 0-4-1.8-4-4V16z" fill="#ffffff" stroke="#0f172a" stroke-width="3"/>
+            <path d="M52 16c0-2.2-1.8-4-4-4H34v36h14c2.2 0 4-1.8 4-4V16z" fill="#ffffff" stroke="#0f172a" stroke-width="3"/>
+            <path d="M34 16h14v22H34z" fill="#fff7ed"/>
+            <path d="M16 16h14v22H16z" fill="#fff7ed"/>
+            <path d="M20 22h8M20 28h6M36 22h8M36 28h8M36 34h5" stroke="#ed6b10" stroke-width="3"/>
+            <path d="M34 48l-4 6-4-6v-6h8v6z" fill="#ed6b10"/>
           </svg>
+        </div>
+        <div class="poster-dept-title-mini">${book.dept} DEPARTMENT</div>
+        <div class="poster-divider-mini">
+          <span></span><svg viewBox="0 0 24 24"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z" fill="var(--accent-orange)"/></svg><span></span>
         </div>
         <div class="suggested-book-title">${book.title}</div>
         <div class="suggested-book-author">${book.author}</div>
-        <div class="suggested-book-dept">${book.dept}</div>
+
+        <div class="poster-wave-footer-mini">
+          <div class="poster-cta-btn-mini">
+            <span>EXPLORE BOOK &rarr;</span>
+          </div>
+        </div>
       `;
-      
+
       return card;
     }
 
@@ -4839,17 +5767,43 @@ int binarySearch(const vector<int>& arr, int target) {
       const book = booksData.find(b => b.id === id);
       if (!book) return;
 
-      detailsBookTitle.innerText = book.title;
-      detailsBookAuthor.innerText = book.author;
-      detailsBookDept.innerText = book.dept;
-      detailsBookDeptBadge.innerText = book.dept;
-      detailsBookRating.innerText = `★ ${book.rating} / 5.0`;
-      detailsBookEdition.innerText = book.edition;
-      detailsBookChapters.innerText = `${book.chapters.length} Chapters`;
-      detailsBookPages.innerText = `${Math.floor(Math.random() * 200 + 150)} Pages`;
-      detailsBookLanguage.innerText = 'English';
-      
-      detailsBookDescription.innerText = `A comprehensive ${book.dept} textbook covering essential topics for students and professionals. This interactive e-book includes ${book.chapters.length} chapters with detailed explanations, examples, and practical applications. Perfect for students and faculty at RVR NRI Institute of Technology seeking to master fundamental and advanced concepts in ${book.dept}.`;
+      const detailsBookCover = document.getElementById('detailsBookCover');
+      if (detailsBookCover) {
+        detailsBookCover.className = 'dept-poster-card';
+      }
+
+      const deptSvgMap = {
+        CSE: '<path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/>',
+        ECE: '<path d="M15 9H9v6h6V9zm-2 4h-2v-2h2v2zm8-2V9h-2V7c0-1.1-.9-2-2-2h-2V3h-2v2h-2V3H9v2H7c-1.1 0-2 .9-2 2v2H3v2h2v2H3v2h2v2c0 1.1.9 2 2 2h2v2h2v-2h2v2h2v-2h2c1.1 0 2-.9 2-2v-2h2v-2h-2v-2h2zm-4 6H7V7h10v10z"/>',
+        EEE: '<path d="M7 2v11h3v9l7-12h-4l4-8z"/>',
+        MECH: '<path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.07.62-.07.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>',
+        CIVIL: '<path d="M12 3L2 12h3v8h6v-6h2v6h6v-8h3L12 3z"/>',
+        PHARM: '<path d="M4.5 10.5C3.67 10.5 3 11.17 3 12s.67 1.5 1.5 1.5h15c.83 0 1.5-.67 1.5-1.5s-.67-1.5-1.5-1.5h-15zM10.5 4.5C10.5 3.67 11.17 3 12 3s1.5.67 1.5 1.5v15c0 .83-.67 1.5-1.5 1.5s-1.5-.67-1.5-1.5v-15z"/>',
+        MBA: '<path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/>'
+      };
+
+      const coverSvgLogo = document.getElementById('coverSvgLogo');
+      if (coverSvgLogo) {
+        coverSvgLogo.innerHTML = deptSvgMap[book.dept] || '<path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3z"/>';
+      }
+
+      if (document.getElementById('coverDisplayDept')) {
+        document.getElementById('coverDisplayDept').innerText = `${book.dept} DEPARTMENT`;
+      }
+
+      if (detailsBookTitle) detailsBookTitle.innerText = book.title;
+      if (detailsBookAuthor) detailsBookAuthor.innerText = book.author;
+      if (detailsBookDept) detailsBookDept.innerText = book.dept;
+      if (detailsBookDeptBadge) detailsBookDeptBadge.innerText = book.dept;
+      if (detailsBookRating) detailsBookRating.innerText = `★ ${book.rating} / 5.0`;
+      if (detailsBookEdition) detailsBookEdition.innerText = book.edition;
+      if (detailsBookChapters) detailsBookChapters.innerText = `${book.chapters.length} Chapters`;
+      if (detailsBookPages) detailsBookPages.innerText = `${Math.floor(Math.random() * 200 + 150)} Pages`;
+      if (detailsBookLanguage) detailsBookLanguage.innerText = 'English';
+
+      if (detailsBookDescription) {
+        detailsBookDescription.innerText = `A comprehensive ${book.dept} textbook covering essential topics for students and professionals. This interactive e-book includes ${book.chapters.length} chapters with detailed explanations, examples, and practical applications. Perfect for students and faculty at RVR NRI Institute of Technology seeking to master fundamental and advanced concepts in ${book.dept}.`;
+      }
 
       // Populate features list
       const features = [
@@ -4862,9 +5816,9 @@ int binarySearch(const vector<int>& arr, int target) {
       ];
       detailsBookFeatures.innerHTML = features.map(f => `<li>${f}</li>`).join('');
 
-      // Populate TOC preview
+      // Populate TOC preview (Fixed in position, no scrolling)
       detailsBookTOC.innerHTML = '';
-      book.chapters.slice(0, 5).forEach((ch, idx) => {
+      book.chapters.forEach((ch, idx) => {
         const tocItem = document.createElement('div');
         tocItem.className = 'toc-preview-item';
         tocItem.innerHTML = `
@@ -4879,28 +5833,19 @@ int binarySearch(const vector<int>& arr, int target) {
         detailsBookTOC.appendChild(tocItem);
       });
 
-      if (book.chapters.length > 5) {
-        const moreItem = document.createElement('div');
-        moreItem.className = 'toc-preview-item';
-        moreItem.style.justifyContent = 'center';
-        moreItem.style.fontStyle = 'italic';
-        moreItem.innerHTML = `<span>+ ${book.chapters.length - 5} more chapters</span>`;
-        detailsBookTOC.appendChild(moreItem);
-      }
-
       // Populate suggested books
       suggestedBooksGrid.innerHTML = '';
       const suggestedBooks = booksData
         .filter(b => b.id !== book.id && b.dept === book.dept)
         .slice(0, 4);
-      
+
       if (suggestedBooks.length === 0) {
         // If no books from same department, show random books
         const randomBooks = booksData
           .filter(b => b.id !== book.id)
           .sort(() => Math.random() - 0.5)
           .slice(0, 4);
-        
+
         randomBooks.forEach(suggestedBook => {
           const card = createSuggestedBookCard(suggestedBook);
           suggestedBooksGrid.appendChild(card);
@@ -4927,9 +5872,7 @@ int binarySearch(const vector<int>& arr, int target) {
         openInteractiveReader(book.id);
       };
 
-      detailsCiteBtn.onclick = () => {
-        openCitationModal(book.id);
-      };
+
 
       detailsBookmarkBtn.onclick = () => {
         toggleSaveBook(book.id);
@@ -4951,10 +5894,10 @@ int binarySearch(const vector<int>& arr, int target) {
 
       currentReaderBook = book;
       currentReaderPage = 1;
-      
+
       readerBookTitle.innerText = book.title;
       readerBookAuthor.innerText = `${book.author} • ${book.dept} Department`;
-      
+
       // Update Save button state inside reader
       const isSaved = savedBooks.some(b => b.id === book.id);
       readerBookmarkBtn.innerHTML = `
@@ -4973,8 +5916,6 @@ int binarySearch(const vector<int>& arr, int target) {
           ${newlySaved ? 'Saved' : 'Save'}
         `;
       };
-
-      readerCiteBtn.onclick = () => openCitationModal(book.id);
 
       // Populate Table of Contents
       tocItemList.innerHTML = '';
@@ -5059,10 +6000,10 @@ int binarySearch(const vector<int>& arr, int target) {
     function initReaderControls() {
       closeReaderBtn.addEventListener('click', closeInteractiveReader);
       closeBookDetailsBtn.addEventListener('click', () => bookDetailsModal.classList.remove('active'));
-      
+
       prevPageBtn.addEventListener('click', () => goToReaderPage(currentReaderPage - 1));
       nextPageBtn.addEventListener('click', () => goToReaderPage(currentReaderPage + 1));
-      
+
       pageSlider.addEventListener('input', (e) => goToReaderPage(parseInt(e.target.value)));
 
       toggleTocBtn.addEventListener('click', () => {
@@ -5121,6 +6062,21 @@ int binarySearch(const vector<int>& arr, int target) {
 
       audioNarratorBtn.addEventListener('click', toggleAudioNarrator);
 
+      const readerMenuBtn = document.getElementById('readerMenuBtn');
+      const readerCollapsibleTools = document.getElementById('readerCollapsibleTools');
+      if (readerMenuBtn && readerCollapsibleTools) {
+        readerMenuBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          readerCollapsibleTools.classList.toggle('active');
+        });
+
+        document.addEventListener('click', (e) => {
+          if (!readerCollapsibleTools.contains(e.target) && e.target !== readerMenuBtn) {
+            readerCollapsibleTools.classList.remove('active');
+          }
+        });
+      }
+
       document.addEventListener('fullscreenchange', handleFullscreenChange);
       document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
 
@@ -5153,7 +6109,7 @@ int binarySearch(const vector<int>& arr, int target) {
         showToast("Entered Fullscreen Mode (Press Esc or F to exit)");
       } else {
         if (document.exitFullscreen) {
-          document.exitFullscreen().catch(() => {});
+          document.exitFullscreen().catch(() => { });
         } else if (document.webkitExitFullscreen) {
           document.webkitExitFullscreen();
         }
@@ -5179,12 +6135,17 @@ int binarySearch(const vector<int>& arr, int target) {
     function closeInteractiveReader() {
       const readerWin = document.querySelector('.reader-window');
       if (document.fullscreenElement || document.webkitFullscreenElement) {
-        if (document.exitFullscreen) document.exitFullscreen().catch(() => {});
+        if (document.exitFullscreen) document.exitFullscreen().catch(() => { });
       }
       if (readerWin) readerWin.classList.remove('is-fullscreen');
 
       interactiveReaderModal.classList.remove('active');
       if (isNarratorPlaying) stopAudioNarrator();
+
+      // Re-open Book Details Modal like a Back button
+      if (currentReaderBook) {
+        openBookDetails(currentReaderBook.id);
+      }
     }
 
     function adjustReaderFontSize(delta) {
@@ -5244,51 +6205,7 @@ int binarySearch(const vector<int>& arr, int target) {
       audioNarratorBtn.style.borderColor = "var(--border-light)";
     }
 
-    // ACADEMIC CITATION MODAL
-    function openCitationModal(id) {
-      const book = booksData.find(b => b.id === id);
-      if (!book) return;
-      currentReaderBook = book;
-      citationBookTitle.innerText = `Cite: "${book.title}"`;
-      switchCitationStyle('IEEE');
-      citationModal.classList.add('active');
-    }
 
-    function switchCitationStyle(style) {
-      if (!currentReaderBook) return;
-      activeCitationStyle = style;
-
-      document.getElementById('citeIeeeTab').classList.toggle('active', style === 'IEEE');
-      document.getElementById('citeApaTab').classList.toggle('active', style === 'APA');
-      document.getElementById('citeMlaTab').classList.toggle('active', style === 'MLA');
-      document.getElementById('citeBibTab').classList.toggle('active', style === 'BibTeX');
-
-      const b = currentReaderBook;
-      let text = '';
-      if (style === 'IEEE') {
-        text = `${b.author}, "${b.title}," ${b.edition}, Dr. RVR NRI University Press, ${b.year}. [Online]. Available: Central Digital Library Repository.`;
-      } else if (style === 'APA') {
-        text = `${b.author}. (${b.year}). ${b.title} (${b.edition}). Dr. RVR NRI University Press. https://library.rvrnriit.edu.in/books/${b.id}`;
-      } else if (style === 'MLA') {
-        text = `${b.author}. ${b.title}. ${b.edition}, Dr. RVR NRI University Press, ${b.year}. Central Digital Library Portal.`;
-      } else if (style === 'BibTeX') {
-        text = `@book{rvrnri_${b.id},\n  author    = {${b.author}},\n  title     = {${b.title}},\n  publisher = {Dr. RVR NRI University Press},\n  year      = {${b.year}},\n  edition   = {${b.edition}}\n}`;
-      }
-
-      citationText.innerText = text;
-    }
-
-    function copyCitationToClipboard() {
-      const text = citationText.innerText;
-      navigator.clipboard.writeText(text).then(() => {
-        showToast(`Copied ${activeCitationStyle} citation to clipboard!`);
-        citationModal.classList.remove('active');
-      }).catch(() => {
-        showToast("Failed to copy citation.");
-      });
-    }
-
-    closeCitationBtn.addEventListener('click', () => citationModal.classList.remove('active'));
 
     // Bookmark Toggle & LocalStorage
     function toggleSaveBook(id, event) {
@@ -5430,7 +6347,7 @@ int binarySearch(const vector<int>& arr, int target) {
       }
 
       aiResponseBox.style.display = 'block';
-      
+
       const lower = q.toLowerCase();
       let matchBook = booksData[0];
       if (lower.includes('vlsi') || lower.includes('cmos')) matchBook = booksData[1];
@@ -5487,13 +6404,13 @@ int binarySearch(const vector<int>& arr, int target) {
             trigger: counter,
             start: 'top 85%'
           },
-          onUpdate: function() {
+          onUpdate: function () {
             counter.innerText = Math.floor(counter.innerText).toLocaleString() + '+';
           }
         });
       });
 
-      gsap.fromTo('.journal-card', 
+      gsap.fromTo('.journal-card',
         { opacity: 0, y: 30 },
         {
           opacity: 1,
@@ -5532,4 +6449,5 @@ int binarySearch(const vector<int>& arr, int target) {
     }
   </script>
 </body>
+
 </html>
