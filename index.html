@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=Fira+Code:wght@400;500&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Fira+Code:wght@400;500&family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,600;1,400&family=Merriweather:ital,wght@0,400;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap"
     rel="stylesheet">
 
   <!-- Vercel Analytics -->
@@ -1336,6 +1336,13 @@
       color: var(--accent-orange-bright);
     }
 
+    #readerFontSelector option,
+    #mobileReaderFontSelector option {
+      background: var(--bg-secondary);
+      color: var(--text-main);
+      padding: 8px;
+    }
+
     /* Reader Layout Body */
     .reader-body-layout {
       flex: 1;
@@ -1427,6 +1434,8 @@
       background: transparent;
       position: relative;
       z-index: 1;
+      font-family: var(--reader-font-family, 'Plus Jakarta Sans', sans-serif);
+      transition: font-family 0.25s ease;
     }
 
     .reader-chapter-title {
@@ -4300,6 +4309,18 @@
           <button class="reader-tool-btn" onclick="adjustReaderFontSize(-1)" title="Decrease Text Size">A-</button>
           <button class="reader-tool-btn" onclick="adjustReaderFontSize(1)" title="Increase Text Size">A+</button>
 
+          <!-- Font Family Selector Dropdown (Desktop Toolbar) -->
+          <select class="reader-tool-btn desktop-font-selector" id="readerFontSelector" title="Select Reader Font Family"
+            style="padding: 6px 10px; cursor: pointer; font-weight: 600;">
+            <option value="'Plus Jakarta Sans', sans-serif">Aa Plus Jakarta Sans</option>
+            <option value="'Inter', sans-serif">Aa Inter (Clean Sans)</option>
+            <option value="'Merriweather', serif">Aa Merriweather (Classic Serif)</option>
+            <option value="'Lora', serif">Aa Lora (Editorial Serif)</option>
+            <option value="'Atkinson Hyperlegible', sans-serif">Aa Atkinson (High Legibility)</option>
+            <option value="'Fira Code', monospace">Aa Fira Code (Monospace)</option>
+            <option value="Georgia, serif">Aa Georgia (Traditional)</option>
+          </select>
+
           <!-- Mobile Hamburger Menu Button -->
           <button class="reader-tool-btn reader-menu-btn" id="readerMenuBtn" title="More Reading Tools">
             <svg class="icon" viewBox="0 0 24 24">
@@ -4318,6 +4339,18 @@
               </svg>
               <span id="readerThemeText">Sepia</span>
             </button>
+
+            <!-- Font Family Selector Dropdown (Mobile Panel) -->
+            <select class="reader-tool-btn" id="mobileReaderFontSelector" title="Select Reader Font Family"
+              style="padding: 6px 10px; cursor: pointer; width: 100%; font-weight: 600;">
+              <option value="'Plus Jakarta Sans', sans-serif">Font: Plus Jakarta Sans</option>
+              <option value="'Inter', sans-serif">Font: Inter (Clean Sans)</option>
+              <option value="'Merriweather', serif">Font: Merriweather (Serif)</option>
+              <option value="'Lora', serif">Font: Lora (Editorial Serif)</option>
+              <option value="'Atkinson Hyperlegible', sans-serif">Font: Atkinson (High Legibility)</option>
+              <option value="'Fira Code', monospace">Font: Fira Code (Mono)</option>
+              <option value="Georgia, serif">Font: Georgia (Serif)</option>
+            </select>
 
             <!-- Chapter Selector -->
             <select class="reader-tool-btn" id="chapterSelector" title="Select Chapter"
@@ -5615,6 +5648,7 @@ int binarySearch(const vector<int>& arr, int target) {
     let currentReaderPage = 1;
     let currentReaderTheme = 'sepia';
     let readerFontSize = 1.05;
+    let currentReaderFont = localStorage.getItem('readerFontFamily') || "'Plus Jakarta Sans', sans-serif";
     let activeCitationStyle = 'IEEE';
     let isNarratorPlaying = false;
     let currentSpeechUtterance = null;
@@ -6193,6 +6227,9 @@ int binarySearch(const vector<int>& arr, int target) {
       if (!ch) return;
 
       readerPaperContent.style.fontSize = `${readerFontSize}rem`;
+      readerPaperContent.style.fontFamily = currentReaderFont;
+      const readerWin = document.querySelector('.reader-window');
+      if (readerWin) readerWin.style.setProperty('--reader-font-family', currentReaderFont);
       readerPaperContent.innerHTML = ch.content;
 
       // Update Page Controls UI
@@ -6274,6 +6311,18 @@ int binarySearch(const vector<int>& arr, int target) {
         chapterSelector.addEventListener('change', (e) => {
           goToReaderPage(parseInt(e.target.value));
         });
+      }
+
+      // Reader Font Selector Event Listeners
+      const readerFontSelector = document.getElementById('readerFontSelector');
+      const mobileReaderFontSelector = document.getElementById('mobileReaderFontSelector');
+      if (readerFontSelector) {
+        readerFontSelector.value = currentReaderFont;
+        readerFontSelector.addEventListener('change', (e) => setReaderFont(e.target.value));
+      }
+      if (mobileReaderFontSelector) {
+        mobileReaderFontSelector.value = currentReaderFont;
+        mobileReaderFontSelector.addEventListener('change', (e) => setReaderFont(e.target.value));
       }
 
       readerThemeBtn.addEventListener('click', () => {
@@ -6383,6 +6432,23 @@ int binarySearch(const vector<int>& arr, int target) {
       if (readerFontSize < 0.8) readerFontSize = 0.8;
       if (readerFontSize > 1.6) readerFontSize = 1.6;
       readerPaperContent.style.fontSize = `${readerFontSize}rem`;
+    }
+
+    function setReaderFont(fontValue) {
+      if (!fontValue) return;
+      currentReaderFont = fontValue;
+      const readerWin = document.querySelector('.reader-window');
+      if (readerWin) readerWin.style.setProperty('--reader-font-family', fontValue);
+      if (readerPaperContent) readerPaperContent.style.fontFamily = fontValue;
+
+      const dtSelector = document.getElementById('readerFontSelector');
+      const mbSelector = document.getElementById('mobileReaderFontSelector');
+      if (dtSelector && dtSelector.value !== fontValue) dtSelector.value = fontValue;
+      if (mbSelector && mbSelector.value !== fontValue) mbSelector.value = fontValue;
+
+      try {
+        localStorage.setItem('readerFontFamily', fontValue);
+      } catch (e) {}
     }
 
     // AI AUDIOBOOK NARRATOR (Web Speech API)
