@@ -1336,8 +1336,7 @@
       color: var(--accent-orange-bright);
     }
 
-    #readerFontSelector option,
-    #mobileReaderFontSelector option {
+    #readerFontSelector option {
       background: var(--bg-secondary);
       color: var(--text-main);
       padding: 8px;
@@ -4309,10 +4308,11 @@
           <button class="reader-tool-btn" onclick="adjustReaderFontSize(-1)" title="Decrease Text Size">A-</button>
           <button class="reader-tool-btn" onclick="adjustReaderFontSize(1)" title="Increase Text Size">A+</button>
 
-          <!-- Font Family Selector Dropdown (Desktop Toolbar) -->
-          <select class="reader-tool-btn desktop-font-selector" id="readerFontSelector" title="Select Reader Font Family"
+          <!-- Font Family Selector Dropdown -->
+          <select class="reader-tool-btn" id="readerFontSelector" title="Select Reader Font Family"
             style="padding: 6px 10px; cursor: pointer; font-weight: 600;">
             <option value="'Plus Jakarta Sans', sans-serif">Aa Plus Jakarta Sans</option>
+            <option value="'Times New Roman', Times, serif">Aa Times New Roman</option>
             <option value="'Inter', sans-serif">Aa Inter (Clean Sans)</option>
             <option value="'Merriweather', serif">Aa Merriweather (Classic Serif)</option>
             <option value="'Lora', serif">Aa Lora (Editorial Serif)</option>
@@ -4339,18 +4339,6 @@
               </svg>
               <span id="readerThemeText">Sepia</span>
             </button>
-
-            <!-- Font Family Selector Dropdown (Mobile Panel) -->
-            <select class="reader-tool-btn" id="mobileReaderFontSelector" title="Select Reader Font Family"
-              style="padding: 6px 10px; cursor: pointer; width: 100%; font-weight: 600;">
-              <option value="'Plus Jakarta Sans', sans-serif">Font: Plus Jakarta Sans</option>
-              <option value="'Inter', sans-serif">Font: Inter (Clean Sans)</option>
-              <option value="'Merriweather', serif">Font: Merriweather (Serif)</option>
-              <option value="'Lora', serif">Font: Lora (Editorial Serif)</option>
-              <option value="'Atkinson Hyperlegible', sans-serif">Font: Atkinson (High Legibility)</option>
-              <option value="'Fira Code', monospace">Font: Fira Code (Mono)</option>
-              <option value="Georgia, serif">Font: Georgia (Serif)</option>
-            </select>
 
             <!-- Chapter Selector -->
             <select class="reader-tool-btn" id="chapterSelector" title="Select Chapter"
@@ -6313,16 +6301,11 @@ int binarySearch(const vector<int>& arr, int target) {
         });
       }
 
-      // Reader Font Selector Event Listeners
+      // Reader Font Selector Event Listener
       const readerFontSelector = document.getElementById('readerFontSelector');
-      const mobileReaderFontSelector = document.getElementById('mobileReaderFontSelector');
       if (readerFontSelector) {
         readerFontSelector.value = currentReaderFont;
         readerFontSelector.addEventListener('change', (e) => setReaderFont(e.target.value));
-      }
-      if (mobileReaderFontSelector) {
-        mobileReaderFontSelector.value = currentReaderFont;
-        mobileReaderFontSelector.addEventListener('change', (e) => setReaderFont(e.target.value));
       }
 
       readerThemeBtn.addEventListener('click', () => {
@@ -6442,9 +6425,7 @@ int binarySearch(const vector<int>& arr, int target) {
       if (readerPaperContent) readerPaperContent.style.fontFamily = fontValue;
 
       const dtSelector = document.getElementById('readerFontSelector');
-      const mbSelector = document.getElementById('mobileReaderFontSelector');
       if (dtSelector && dtSelector.value !== fontValue) dtSelector.value = fontValue;
-      if (mbSelector && mbSelector.value !== fontValue) mbSelector.value = fontValue;
 
       try {
         localStorage.setItem('readerFontFamily', fontValue);
