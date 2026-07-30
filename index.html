@@ -46,8 +46,9 @@
       --font-body: 'Plus Jakarta Sans', sans-serif;
       --font-heading: 'Space Grotesk', sans-serif;
       --font-code: 'Fira Code', monospace;
-      --brand-watermark-opacity: 0.045;
+      --brand-watermark-opacity: 0.08;
       --brand-watermark-size: min(580px, 82vw);
+      --brand-watermark-opacity-reader: 0.035;
 
       /* Reader Modes */
       --reader-bg: #ffffff;
@@ -73,7 +74,8 @@
       --border-glow: rgba(237, 107, 16, 0.45);
       --shadow-glow: 0 10px 35px -8px rgba(237, 107, 16, 0.4);
       --shadow-card: 0 18px 40px rgba(0, 0, 0, 0.65);
-      --brand-watermark-opacity: 0.06;
+      --brand-watermark-opacity: 0.10;
+      --brand-watermark-opacity-reader: 0.045;
 
       --reader-bg: #0f172a;
       --reader-text: #f1f5f9;
@@ -214,29 +216,29 @@
       transition: all 0.3s ease;
     }
 
-    .nav-container {
+    .header .nav-container {
+      max-width: 100%;
+      width: 100%;
+      padding: 0 24px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      height: 84px;
-      gap: 24px;
-      padding: 0 8px;
+      height: 88px;
+      gap: 16px;
     }
 
     .brand {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 14px;
       text-decoration: none;
       color: var(--text-main);
-      min-width: 0;
-      flex: 1;
-      overflow: hidden;
+      flex-shrink: 0;
     }
 
     .brand-logo-img {
-      width: 72px;
-      height: 72px;
+      width: 68px;
+      height: 68px;
       object-fit: contain;
       flex-shrink: 0;
       transition: transform 0.3s ease;
@@ -249,37 +251,32 @@
     .brand-text {
       display: flex;
       flex-direction: column;
-      min-width: 0;
-      overflow: hidden;
+      flex-shrink: 0;
     }
 
     .brand-title {
       font-family: var(--font-heading);
-      font-size: 1.02rem;
-      font-weight: 700;
+      font-size: 1.12rem;
+      font-weight: 800;
       letter-spacing: -0.2px;
-      line-height: 1.2;
+      line-height: 1.25;
       color: var(--text-main);
       white-space: nowrap;
-      text-overflow: ellipsis;
-      overflow: hidden;
     }
 
     .brand-subtitle {
-      font-size: 0.7rem;
+      font-size: 0.72rem;
       font-weight: 700;
       color: var(--accent-orange-bright);
       letter-spacing: 0.5px;
       text-transform: uppercase;
       white-space: nowrap;
-      text-overflow: ellipsis;
-      overflow: hidden;
     }
 
     .nav-links {
       display: flex;
       align-items: center;
-      gap: 26px;
+      gap: clamp(10px, 1.4vw, 24px);
       list-style: none;
       flex-wrap: nowrap;
     }
@@ -287,8 +284,8 @@
     .nav-link {
       color: var(--text-muted);
       text-decoration: none;
-      font-weight: 500;
-      font-size: 0.92rem;
+      font-weight: 600;
+      font-size: 0.86rem;
       transition: all 0.25s ease;
       position: relative;
       padding: 6px 0;
@@ -320,7 +317,7 @@
     .nav-actions {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 8px;
       flex-shrink: 0;
       white-space: nowrap;
     }
@@ -1395,12 +1392,31 @@
       position: relative;
       line-height: 1.8;
       font-size: 1.05rem;
+      isolation: isolate;
+    }
+
+    /* Fixed watermark background logo inside Reader Viewport - stays fixed during scrolling */
+    .reader-viewport::before {
+      content: '';
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: min(580px, 75vw);
+      height: min(580px, 75vw);
+      background: url('nrilogo.png') no-repeat center center;
+      background-size: contain;
+      opacity: var(--brand-watermark-opacity-reader, 0.035);
+      pointer-events: none;
+      z-index: 0;
     }
 
     .reader-paper {
       max-width: 820px;
       width: 100%;
       background: transparent;
+      position: relative;
+      z-index: 1;
     }
 
     .reader-chapter-title {
@@ -1628,9 +1644,25 @@
       padding: 0;
       margin: 0;
       position: relative;
+      isolation: isolate;
       transform: scale(0.98);
       transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
       overflow: hidden;
+    }
+
+    .book-details-modal-card::before {
+      content: '';
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: min(580px, 75vw);
+      height: min(580px, 75vw);
+      background: url('nrilogo.png') no-repeat center center;
+      background-size: contain;
+      opacity: 0.08;
+      pointer-events: none;
+      z-index: 0;
     }
 
     .modal-overlay.active .book-details-modal-card {
@@ -1671,6 +1703,8 @@
       gap: 0;
       height: 100%;
       overflow: hidden;
+      position: relative;
+      z-index: 1;
     }
 
     /* Department Poster Card (Exact Design of Photo 2) */
@@ -3015,9 +3049,35 @@
 
     /* 2. Standard Desktop & Laptop (1024px - 1439px) */
     @media (min-width: 1024px) and (max-width: 1439px) {
-      .container {
-        max-width: 1200px;
-        padding: 0 28px;
+      .header .nav-container {
+        padding: 0 16px;
+        gap: 10px;
+      }
+
+      .brand-title {
+        font-size: 1.02rem;
+      }
+
+      .brand-subtitle {
+        font-size: 0.66rem;
+      }
+
+      .nav-links {
+        gap: 8px;
+      }
+
+      .nav-link {
+        font-size: 0.8rem;
+      }
+
+      .nav-actions {
+        gap: 6px;
+      }
+
+      .nav-actions .btn-primary,
+      .nav-actions .btn-secondary {
+        padding: 7px 12px;
+        font-size: 0.8rem;
       }
 
       .hero-title {
@@ -3035,6 +3095,7 @@
 
       .nav-links,
       .desktop-theme-btn,
+      #bulkModalTrigger,
       #openShelfBtn,
       #loginModalTrigger {
         display: none !important;
@@ -3045,17 +3106,21 @@
       }
 
       .brand-title {
-        font-size: 0.88rem;
-        max-width: 260px;
+        font-size: 1.08rem;
+        font-weight: 800;
+        line-height: 1.25;
         white-space: normal;
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
+        display: block;
       }
 
       .brand-subtitle {
-        display: none !important;
+        display: block !important;
+        font-size: 0.7rem;
+        font-weight: 700;
+        color: var(--accent-orange-bright);
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        margin-top: 2px;
       }
 
       .hero-grid {
@@ -3159,6 +3224,7 @@
 
       .nav-links,
       .desktop-theme-btn,
+      #bulkModalTrigger,
       #openShelfBtn,
       #loginModalTrigger {
         display: none !important;
@@ -3169,17 +3235,24 @@
       }
 
       .brand-title {
-        font-size: 0.85rem;
-        max-width: 200px;
+        font-size: 0.88rem;
+        font-weight: 800;
+        line-height: 1.25;
         white-space: normal;
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
+        display: block;
       }
 
       .brand-subtitle {
-        display: none !important;
+        display: block !important;
+        font-size: 0.64rem;
+        font-weight: 700;
+        color: var(--accent-orange-bright);
+        letter-spacing: 0.4px;
+        text-transform: uppercase;
+        margin-top: 2px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
 
       .hero-grid {
@@ -3270,22 +3343,29 @@
       }
 
       .brand-title {
-        font-size: 0.78rem;
-        line-height: 1.2;
-        max-width: 180px;
+        font-size: 0.8rem;
+        font-weight: 800;
+        line-height: 1.25;
         white-space: normal;
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
+        display: block;
       }
 
       .brand-subtitle {
-        display: none !important;
+        display: block !important;
+        font-size: 0.6rem;
+        font-weight: 700;
+        color: var(--accent-orange-bright);
+        letter-spacing: 0.3px;
+        text-transform: uppercase;
+        margin-top: 2px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
 
       .nav-links,
       .desktop-theme-btn,
+      #bulkModalTrigger,
       #openShelfBtn,
       #loginModalTrigger {
         display: none !important;
@@ -3736,6 +3816,14 @@
           </svg>
         </button>
 
+        <!-- Bulk Add Books Button (Hidden by default, unlocked upon NRIA23 / lib@123 login) -->
+        <button class="btn-secondary" id="bulkModalTrigger" title="Bulk Create & Import Books" style="display: none;">
+          <svg class="icon" viewBox="0 0 24 24" style="font-size: 18px; color: var(--accent-orange-bright);">
+            <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
+          </svg>
+          Add Books
+        </button>
+
         <!-- Bookshelf Drawer Button -->
         <button class="btn-icon" id="openShelfBtn" title="My Saved Bookshelf">
           <svg class="icon" viewBox="0 0 24 24" style="font-size: 20px;">
@@ -3833,6 +3921,15 @@
             style="background: var(--accent-orange); color: #fff; font-size: 0.7rem; font-weight: 800; padding: 2px 8px; border-radius: 12px;"
             id="mobileShelfCount">0</span>
         </a>
+      </li>
+      <li id="mobileBulkItem" style="display: none;">
+        <button class="dropdown-item" id="mobileBulkModalTrigger"
+          style="width: 100%; border: none; background: none; text-align: left; cursor: pointer; color: var(--accent-orange-bright); font-weight: 700; font-family: var(--font-body);">
+          <svg class="icon" viewBox="0 0 24 24" style="color: var(--accent-orange-bright); font-size: 18px;">
+            <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
+          </svg>
+          <span> Bulk Add & Import Books</span>
+        </button>
       </li>
     </ul>
 
@@ -4494,16 +4591,139 @@
         <img src="nrilogo.png" alt="DR. RVR NRI Logo"
           style="width: 64px; height: 64px; object-fit: contain; background: #fff; padding: 5px; border-radius: 16px; margin: 0 auto 16px auto; display: block; box-shadow: 0 6px 18px rgba(237, 107, 16, 0.35); border: 1px solid rgba(237, 107, 16, 0.3);">
         <h3 style="font-family: var(--font-heading); font-size: 1.5rem; margin-bottom: 6px;">Library Single Sign-On</h3>
-        <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 24px;">Enter your RVR NRI Roll Number /
+        <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 14px;">Enter your RVR NRI Roll Number /
           Faculty ID</p>
 
-        <input type="text" id="loginRollInput" placeholder="Roll No / Employee ID (e.g. 24RVR0102)"
-          style="width: 100%; background: var(--bg-card); border: 1px solid var(--border-light); padding: 12px; border-radius: 10px; color: var(--text-main); margin-bottom: 14px; font-family: var(--font-body);">
-        <input type="password" placeholder="Library Password / PIN"
-          style="width: 100%; background: var(--bg-card); border: 1px solid var(--border-light); padding: 12px; border-radius: 10px; color: var(--text-main); margin-bottom: 20px; font-family: var(--font-body);">
+        <p
+          style="font-size: 0.78rem; color: var(--accent-orange-bright); background: rgba(237, 107, 16, 0.1); border: 1px solid rgba(237, 107, 16, 0.3); padding: 8px 12px; border-radius: 10px; margin-bottom: 18px; font-weight: 600;">
+          Admin Demo Access: Roll No: <strong>NRIA23</strong> | Password: <strong>lib@123</strong>
+        </p>
 
-        <button class="btn-primary" style="width: 100%; justify-content: center;" onclick="handleLoginSubmit()">Log In
-          to Digital Portal</button>
+        <form onsubmit="event.preventDefault(); handleLoginSubmit();">
+          <input type="text" id="loginRollInput" placeholder="Roll No / Employee ID (e.g. NRIA23)"
+            style="width: 100%; background: var(--bg-card); border: 1px solid var(--border-light); padding: 12px; border-radius: 10px; color: var(--text-main); margin-bottom: 14px; font-family: var(--font-body);">
+          <input type="password" id="loginPasswordInput" placeholder="Library Password / PIN (e.g. lib@123)"
+            style="width: 100%; background: var(--bg-card); border: 1px solid var(--border-light); padding: 12px; border-radius: 10px; color: var(--text-main); margin-bottom: 20px; font-family: var(--font-body);">
+
+          <button type="submit" class="btn-primary" style="width: 100%; justify-content: center;">Log In
+            to Digital Portal</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bulk Create & Import Books Modal -->
+  <div class="modal-overlay" id="bulkAddModal">
+    <div class="modal-card" style="max-width: 620px; padding: 32px; position: relative;">
+      <button class="modal-close" id="closeBulkModalBtn">
+        <svg class="icon" viewBox="0 0 24 24">
+          <path
+            d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
+        </svg>
+      </button>
+
+      <h3
+        style="font-family: var(--font-heading); font-size: 1.45rem; margin-bottom: 6px; display: flex; align-items: center; gap: 10px;">
+        <svg class="icon" viewBox="0 0 24 24" style="color: var(--accent-orange-bright); font-size: 24px;">
+          <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
+        </svg>
+        Bulk Create & Import E-Books
+      </h3>
+      <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 22px;">Generate books in bulk automatically
+        or import custom JSON book records into the central digital library catalog.</p>
+
+      <!-- Bulk Tab Navigation -->
+      <div style="display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap;">
+        <button class="tab-btn active" id="bulkAutoTabBtn" onclick="switchBulkTab('auto')"> Quick Auto
+          Generator</button>
+        <button class="tab-btn" id="bulkFileTabBtn" onclick="switchBulkTab('file')"> Upload File Directly</button>
+        <button class="tab-btn" id="bulkJsonTabBtn" onclick="switchBulkTab('json')"> Paste JSON Books Array</button>
+      </div>
+
+      <!-- Auto Generator View -->
+      <div id="bulkAutoSection">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 18px;">
+          <div>
+            <label
+              style="display: block; font-size: 0.82rem; font-weight: 700; color: var(--text-muted); margin-bottom: 6px;">Target
+              Department</label>
+            <select id="bulkDeptSelect"
+              style="width: 100%; background: var(--bg-card); border: 1px solid var(--border-light); padding: 11px; border-radius: 10px; color: var(--text-main); font-family: var(--font-body); font-size: 0.9rem;">
+              <option value="ALL">All Departments (Mixed)</option>
+              <option value="CSE">CSE Department</option>
+              <option value="ECE">ECE Department</option>
+              <option value="EEE">EEE Department</option>
+              <option value="MECH">MECH Department</option>
+              <option value="CIVIL">CIVIL Department</option>
+              <option value="PHARM">PHARM Department</option>
+              <option value="MBA">MBA Department</option>
+            </select>
+          </div>
+          <div>
+            <label
+              style="display: block; font-size: 0.82rem; font-weight: 700; color: var(--text-muted); margin-bottom: 6px;">Quantity
+              to Create</label>
+            <select id="bulkCountSelect"
+              style="width: 100%; background: var(--bg-card); border: 1px solid var(--border-light); padding: 11px; border-radius: 10px; color: var(--text-main); font-family: var(--font-body); font-size: 0.9rem;">
+              <option value="5">5 Books</option>
+              <option value="10" selected>10 Books</option>
+              <option value="15">15 Books</option>
+              <option value="25">25 Books</option>
+              <option value="50">50 Books</option>
+            </select>
+          </div>
+        </div>
+
+        <button class="btn-primary" style="width: 100%; justify-content: center; padding: 12px; font-size: 0.95rem;"
+          onclick="handleBulkGenerate()">
+          <svg class="icon" viewBox="0 0 24 24">
+            <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
+          </svg>
+          Generate & Add Books Now
+        </button>
+      </div>
+
+      <!-- File Direct Upload View -->
+      <div id="bulkFileSection" style="display: none;">
+        <div id="dragDropArea"
+          style="border: 2px dashed var(--accent-orange); border-radius: 16px; padding: 32px 20px; text-align: center; background: rgba(237, 107, 16, 0.04); cursor: pointer; transition: all 0.25s ease;"
+          onclick="document.getElementById('fileInputDirect').click()">
+          <svg class="icon" viewBox="0 0 24 24"
+            style="font-size: 44px; color: var(--accent-orange-bright); margin-bottom: 10px;">
+            <path
+              d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z" />
+          </svg>
+          <h4
+            style="font-family: var(--font-heading); font-size: 1.05rem; margin-bottom: 4px; color: var(--text-main);">
+            Click or Drag & Drop File Here</h4>
+          <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 12px;">Upload <strong>.json, .txt, .md,
+              .csv</strong> files. Books and chapters are imported & structured automatically!</p>
+          <span
+            style="font-size: 0.76rem; background: var(--bg-card); border: 1px solid var(--border-light); padding: 5px 14px; border-radius: 14px; color: var(--accent-orange-bright); font-weight: 700; display: inline-block;">SELECT
+            FILE FROM DEVICE</span>
+          <input type="file" id="fileInputDirect" accept=".json,.txt,.md,.csv" style="display: none;"
+            onchange="handleDirectFileUpload(event)">
+        </div>
+
+        <div id="fileUploadStatus"
+          style="margin-top: 14px; font-size: 0.85rem; color: var(--accent-emerald); font-weight: 600; display: none; text-align: center;">
+        </div>
+      </div>
+
+      <!-- JSON Import View -->
+      <div id="bulkJsonSection" style="display: none;">
+        <label
+          style="display: block; font-size: 0.82rem; font-weight: 700; color: var(--text-muted); margin-bottom: 6px;">JSON
+          Array of Books</label>
+        <textarea id="bulkJsonInput" rows="7" placeholder='[
+  {"title": "Quantum Computing & Cryptography", "author": "Dr. K. Sharma", "dept": "CSE", "type": "textbook"},
+  {"title": "5G Wireless Networks & MIMO", "author": "Prof. V. Rao", "dept": "ECE", "type": "reference"}
+]' style="width: 100%; background: var(--bg-card); border: 1px solid var(--border-light); padding: 12px; border-radius: 10px; color: var(--text-main); font-family: var(--font-code); font-size: 0.82rem; margin-bottom: 16px; outline: none;"></textarea>
+
+        <button class="btn-primary" style="width: 100%; justify-content: center; padding: 12px; font-size: 0.95rem;"
+          onclick="handleBulkJsonImport()">
+          Import Custom JSON Array
+        </button>
       </div>
     </div>
   </div>
@@ -6303,14 +6523,42 @@ int binarySearch(const vector<int>& arr, int target) {
       if (desktopThemeToggleBtn) desktopThemeToggleBtn.addEventListener('click', toggleTheme);
     }
 
-    // Student Login Modal
+    // Student & Admin Login Modal Handler
     loginModalTrigger.addEventListener('click', () => loginModal.classList.add('active'));
     closeLoginBtn.addEventListener('click', () => loginModal.classList.remove('active'));
+
+    ['loginRollInput', 'loginPasswordInput'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) {
+        el.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            handleLoginSubmit();
+          }
+        });
+      }
+    });
+
     function handleLoginSubmit() {
-      const val = document.getElementById('loginRollInput').value.trim() || '24RVR0102';
-      loginModal.classList.remove('active');
-      document.getElementById('loginStatusText').innerText = `Logged in: ${val}`;
-      showToast(`Welcome back, Student (${val})! Access Granted.`);
+      const rollInput = document.getElementById('loginRollInput');
+      const passInput = document.getElementById('loginPasswordInput');
+
+      const rollVal = rollInput ? rollInput.value.trim() : '';
+      const passVal = passInput ? passInput.value.trim() : '';
+
+      if (rollVal.toUpperCase() === 'NRIA23' && passVal === 'lib@123') {
+        loginModal.classList.remove('active');
+        const bulkBtn = document.getElementById('bulkModalTrigger');
+        if (bulkBtn) bulkBtn.style.display = 'inline-flex';
+
+        const mobileBulkItem = document.getElementById('mobileBulkItem');
+        if (mobileBulkItem) mobileBulkItem.style.display = 'block';
+
+        document.getElementById('loginStatusText').innerText = `Admin: NRIA23`;
+        showToast(`Logged in successfully as Admin (NRIA23)! 'Bulk Add Books' feature is now unlocked.`);
+      } else {
+        showToast("Invalid Login! Demo Admin Roll No: NRIA23 | Password: lib@123");
+      }
     }
 
     // External Database Action
@@ -6331,6 +6579,484 @@ int binarySearch(const vector<int>& arr, int target) {
       toastMsg.innerText = msg;
       toast.classList.add('show');
       setTimeout(() => toast.classList.remove('show'), 3500);
+    }
+
+    // ==========================================
+    // BULK BOOK CREATION & IMPORT ENGINE
+    // ==========================================
+    const bulkAddModal = document.getElementById('bulkAddModal');
+    const bulkModalTrigger = document.getElementById('bulkModalTrigger');
+    const mobileBulkModalTrigger = document.getElementById('mobileBulkModalTrigger');
+    const closeBulkModalBtn = document.getElementById('closeBulkModalBtn');
+
+    if (bulkModalTrigger && bulkAddModal) {
+      bulkModalTrigger.addEventListener('click', () => bulkAddModal.classList.add('active'));
+    }
+    if (mobileBulkModalTrigger && bulkAddModal) {
+      mobileBulkModalTrigger.addEventListener('click', () => {
+        if (typeof closeDropdown === 'function') closeDropdown();
+        bulkAddModal.classList.add('active');
+      });
+    }
+    if (closeBulkModalBtn && bulkAddModal) {
+      closeBulkModalBtn.addEventListener('click', () => bulkAddModal.classList.remove('active'));
+    }
+
+    function switchBulkTab(tab) {
+      const autoTab = document.getElementById('bulkAutoTabBtn');
+      const fileTab = document.getElementById('bulkFileTabBtn');
+      const jsonTab = document.getElementById('bulkJsonTabBtn');
+      const autoSec = document.getElementById('bulkAutoSection');
+      const fileSec = document.getElementById('bulkFileSection');
+      const jsonSec = document.getElementById('bulkJsonSection');
+
+      if (autoTab) autoTab.classList.toggle('active', tab === 'auto');
+      if (fileTab) fileTab.classList.toggle('active', tab === 'file');
+      if (jsonTab) jsonTab.classList.toggle('active', tab === 'json');
+
+      if (autoSec) autoSec.style.display = (tab === 'auto') ? 'block' : 'none';
+      if (fileSec) fileSec.style.display = (tab === 'file') ? 'block' : 'none';
+      if (jsonSec) jsonSec.style.display = (tab === 'json') ? 'block' : 'none';
+    }
+
+    // Direct File Upload & Automatic Parser (.json, .txt, .md, .csv)
+    function handleDirectFileUpload(e) {
+      const files = e.target.files || (e.dataTransfer && e.dataTransfer.files);
+      if (!files || files.length === 0) return;
+
+      const file = files[0];
+      const fileName = file.name;
+      const statusEl = document.getElementById('fileUploadStatus');
+      if (statusEl) {
+        statusEl.style.display = 'block';
+        statusEl.innerText = `Reading file "${fileName}"...`;
+      }
+
+      const reader = new FileReader();
+      reader.onload = function (evt) {
+        const text = evt.target.result;
+        try {
+          if (fileName.toLowerCase().endsWith('.json')) {
+            const parsed = JSON.parse(text);
+            const booksArray = Array.isArray(parsed) ? parsed : [parsed];
+            window.addBooksBulk(booksArray);
+          } else if (fileName.toLowerCase().endsWith('.csv')) {
+            const lines = text.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+            const booksArray = [];
+            const startIndex = lines[0].toLowerCase().includes('title') ? 1 : 0;
+            for (let i = startIndex; i < lines.length; i++) {
+              const parts = lines[i].split(',').map(p => p.trim().replace(/^["']|["']$/g, ''));
+              if (parts[0]) {
+                booksArray.push({
+                  title: parts[0],
+                  author: parts[1] || 'Faculty Author',
+                  dept: parts[2] || 'CSE',
+                  type: parts[3] || 'textbook',
+                  desc: parts[4] || ''
+                });
+              }
+            }
+            window.addBooksBulk(booksArray);
+          } else {
+            // Plain text or Markdown file (.txt, .md)
+            const cleanTitle = fileName.replace(/\.[^/.]+$/, "").replace(/[-_]/g, " ");
+            const lines = text.split('\n');
+            const chapters = [];
+            let currentChapterTitle = "Chapter 1: Overview & Introduction";
+            let currentContent = [];
+
+            lines.forEach((line) => {
+              if (line.match(/^#+\s+/i) || line.match(/^Chapter\s+\d+/i)) {
+                if (currentContent.length > 0) {
+                  chapters.push({
+                    title: currentChapterTitle,
+                    content: `<div class="reader-chapter-title">${currentChapterTitle}</div>` + currentContent.map(p => `<p>${p}</p>`).join('')
+                  });
+                  currentContent = [];
+                }
+                currentChapterTitle = line.replace(/^#+\s+/, '').trim();
+              } else if (line.trim().length > 0) {
+                currentContent.push(line.trim());
+              }
+            });
+
+            if (currentContent.length > 0) {
+              chapters.push({
+                title: currentChapterTitle,
+                content: `<div class="reader-chapter-title">${currentChapterTitle}</div>` + currentContent.map(p => `<p>${p}</p>`).join('')
+              });
+            }
+
+            if (chapters.length === 0) {
+              chapters.push({
+                title: "Chapter 1: Full Document Content",
+                content: `<div class="reader-chapter-title">Full Document Content</div><p>${text.replace(/\n\n/g, '</p><p>')}</p>`
+              });
+            }
+
+            window.addBooksBulk([{
+              title: cleanTitle.toUpperCase(),
+              author: "Imported Document Author",
+              dept: "CSE",
+              type: "textbook",
+              desc: `Automatically imported digital volume created from uploaded file "${fileName}".`,
+              chapters: chapters
+            }]);
+          }
+
+          if (bulkAddModal) bulkAddModal.classList.remove('active');
+        } catch (err) {
+          showToast(`Error parsing file "${fileName}": ${err.message}`);
+        }
+      };
+
+      reader.readAsText(file);
+    }
+
+    // Helper to generate rich multi-chapter content tailored to specific department & book topic
+    function generateRichChapters(title, dept) {
+      const t = title || "Academic Engineering";
+
+      if (dept === "CSE") {
+        return [
+          {
+            title: `Chapter 1: Theoretical Foundations & Algorithmic Analysis of ${t}`,
+            content: `
+              <div class="reader-chapter-title">Chapter 1: Theoretical Foundations & Algorithmic Analysis</div>
+              <p>Modern computing paradigms rely on formal mathematical models, data structures, and computational complexity theory. In this chapter, we establish formal proofs for time and space bounds under asymptotic notation.</p>
+              <div class="reader-callout">
+                <strong>Asymptotic Notation Definition:</strong><br>
+                \\( f(n) = O(g(n)) \\iff \\exists c > 0, n_0 > 0 \\text{ s.t. } 0 \\le f(n) \\le c \\cdot g(n) \\, \\forall n \\ge n_0 \\)
+              </div>
+              <div class="reader-section-title">1.1 Core Algorithm Implementation</div>
+              <div class="reader-code-block">
+                <button class="copy-code-btn" onclick="copyCode(this)">Copy</button>
+// Asymptotic Complexity Optimization Algorithm
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+template<typename T>
+void optimizeExecutionGraph(std::vector<T>& nodes) {
+    std::sort(nodes.begin(), nodes.end(), [](const T& a, const T& b) {
+        return a.priority > b.priority;
+    });
+    std::cout << "[INFO] Graph optimization completed in O(N log N) time." << std::endl;
+}
+              </div>
+              <p>By leveraging dynamic programming and memoization, sub-problem computations are cached, reducing exponential time bounds to polynomial bounds.</p>
+            `
+          },
+          {
+            title: `Chapter 2: Distributed Systems & Parallel Execution`,
+            content: `
+              <div class="reader-chapter-title">Chapter 2: Distributed Systems & Parallel Execution</div>
+              <p>Parallel processing divides computational workloads across multi-core CPUs and GPU clusters to achieve high-throughput execution.</p>
+              <div class="reader-callout">
+                <strong>Amdahl's Law Speedup Formula:</strong><br>
+                \\( S_{\\text{latency}}(s) = \\frac{1}{(1 - p) + \\frac{p}{s}} \\)
+              </div>
+              <div class="reader-code-block">
+                <button class="copy-code-btn" onclick="copyCode(this)">Copy</button>
+import multiprocessing as mp
+
+def parallel_mapper(data_chunk):
+    return [x ** 2 for x in data_chunk]
+
+if __name__ == "__main__":
+    with mp.Pool(mp.cpu_count()) as pool:
+        results = pool.map(parallel_mapper, [[1, 2, 3], [4, 5, 6]])
+        print("Distributed Results:", results)
+              </div>
+            `
+          },
+          {
+            title: `Chapter 3: Security, Optimization & System Verification`,
+            content: `
+              <div class="reader-chapter-title">Chapter 3: Security, Optimization & System Verification</div>
+              <p>Ensuring system integrity requires cryptographic hashing, zero-knowledge proofs, and formal software verification.</p>
+              <div class="reader-section-title">Summary & Key Takeaways</div>
+              <ul>
+                <li>Algorithmic complexity guarantees deterministic performance scaling.</li>
+                <li>Distributed concurrency requires deadlock avoidance and atomic memory locks.</li>
+                <li>Formal software verification mitigates zero-day attack surfaces.</li>
+              </ul>
+            `
+          }
+        ];
+      } else if (dept === "ECE") {
+        return [
+          {
+            title: `Chapter 1: Semiconductor Physics & CMOS Integrated Circuits`,
+            content: `
+              <div class="reader-chapter-title">Chapter 1: Semiconductor Physics & CMOS Integrated Circuits</div>
+              <p>CMOS digital integrated circuits operate by controlling charge carrier transport across MOSFET channels. High-frequency digital IC design balances propagation delay and dynamic power dissipation.</p>
+              <div class="reader-callout">
+                <strong>MOSFET Current Equation (Saturation Region):</strong><br>
+                \\( I_{DS} = \\frac{1}{2} \\mu_n C_{ox} \\frac{W}{L} (V_{GS} - V_{TH})^2 (1 + \\lambda V_{DS}) \\)
+              </div>
+              <div class="reader-section-title">1.1 Verilog HDL Synthesizable Inverter</div>
+              <div class="reader-code-block">
+                <button class="copy-code-btn" onclick="copyCode(this)">Copy</button>
+module CMOS_Inverter(
+    input wire in,
+    output wire out
+);
+    assign out = ~in;
+endmodule
+              </div>
+            `
+          },
+          {
+            title: `Chapter 2: Signal Processing & Frequency Domain Analysis`,
+            content: `
+              <div class="reader-chapter-title">Chapter 2: Signal Processing & Frequency Domain Analysis</div>
+              <p>Fourier analysis transforms discrete-time signals into frequency spectrum representations for digital filtering and noise reduction.</p>
+              <div class="reader-callout">
+                <strong>Discrete Fourier Transform (DFT):</strong><br>
+                \\( X[k] = \\sum_{n=0}^{N-1} x[n] \\cdot e^{-j 2\\pi k n / N} \\)
+              </div>
+            `
+          },
+          {
+            title: `Chapter 3: RF Antenna Systems & Wireless Transceivers`,
+            content: `
+              <div class="reader-chapter-title">Chapter 3: RF Antenna Systems & Wireless Transceivers</div>
+              <p>Modern wireless transceivers utilize Quadrature Amplitude Modulation (QAM) and MIMO antenna arrays to achieve multi-gigabit throughput.</p>
+            `
+          }
+        ];
+      } else if (dept === "EEE") {
+        return [
+          {
+            title: `Chapter 1: Power System Dynamics & Grid Stability`,
+            content: `
+              <div class="reader-chapter-title">Chapter 1: Power System Dynamics & Grid Stability</div>
+              <p>High-voltage transmission grids require steady-state power flow analysis, swing equations for synchronous generator dynamics, and reactive power compensation.</p>
+              <div class="reader-callout">
+                <strong>Synchronous Machine Swing Equation:</strong><br>
+                \\( \\frac{2H}{\\omega_s} \\frac{d^2 \\delta}{dt^2} = P_m - P_e \\)
+              </div>
+            `
+          },
+          {
+            title: `Chapter 2: Smart Microgrids & Renewable Energy Inverters`,
+            content: `
+              <div class="reader-chapter-title">Chapter 2: Smart Microgrids & Renewable Inverters</div>
+              <p>Solar PV and wind turbine generators integrate into smart grids using Maximum Power Point Tracking (MPPT) boost converters and grid-tied inverters.</p>
+            `
+          }
+        ];
+      } else if (dept === "MECH") {
+        return [
+          {
+            title: `Chapter 1: Kinematic Synthesis & Robotic Linkages`,
+            content: `
+              <div class="reader-chapter-title">Chapter 1: Kinematic Synthesis & Robotic Linkages</div>
+              <p>Spatial modeling of robotic arms relies on 4x4 homogeneous transformation matrices based on Denavit-Hartenberg (D-H) parameter conventions.</p>
+              <div class="reader-callout">
+                <strong>D-H Transformation Matrix:</strong><br>
+                \\( A_i = \\text{Rot}_z(\\theta_i) \\cdot \\text{Trans}_z(d_i) \\cdot \\text{Trans}_x(a_i) \\cdot \\text{Rot}_x(\\alpha_i) \\)
+              </div>
+            `
+          },
+          {
+            title: `Chapter 2: Finite Element Analysis (FEA) & Thermal Stress`,
+            content: `
+              <div class="reader-chapter-title">Chapter 2: Finite Element Analysis (FEA) & Thermal Stress</div>
+              <p>Discretizing solid continuum mechanics into finite element meshes enables stress and deformation analysis under thermal and mechanical loading.</p>
+            `
+          }
+        ];
+      } else if (dept === "CIVIL") {
+        return [
+          {
+            title: `Chapter 1: Structural Mechanics & Reinforced Concrete Design`,
+            content: `
+              <div class="reader-chapter-title">Chapter 1: Structural Mechanics & Reinforced Concrete</div>
+              <p>Reinforced concrete design utilizes limit state methods to balance tensile steel reinforcement and compressive concrete strength under bending moments.</p>
+              <div class="reader-callout">
+                <strong>Ultimate Bending Moment Capacity:</strong><br>
+                \\( M_u = 0.36 f_{ck} b x_u (d - 0.42 x_u) \\)
+              </div>
+            `
+          },
+          {
+            title: `Chapter 2: Geotechnical Soil Dynamics & Foundation Engineering`,
+            content: `
+              <div class="reader-chapter-title">Chapter 2: Geotechnical Soil Dynamics & Foundations</div>
+              <p>Evaluates Terzaghi ultimate bearing capacity for shallow and deep pile foundations under seismic shear forces.</p>
+            `
+          }
+        ];
+      } else if (dept === "PHARM") {
+        return [
+          {
+            title: `Chapter 1: Medicinal Chemistry & Receptor Binding Dynamics`,
+            content: `
+              <div class="reader-chapter-title">Chapter 1: Medicinal Chemistry & Receptor Binding</div>
+              <p>Quantitative Structure-Activity Relationship (QSAR) models analyze drug-receptor binding kinetics and pharmacophore conformations.</p>
+              <div class="reader-callout">
+                <strong>Michaelis-Menten Enzyme Kinetics:</strong><br>
+                \\( v = \\frac{V_{\\max} [S]}{K_m + [S]} \\)
+              </div>
+            `
+          },
+          {
+            title: `Chapter 2: Novel Drug Delivery Systems & Nanocarriers`,
+            content: `
+              <div class="reader-chapter-title">Chapter 2: Novel Drug Delivery Systems & Nanocarriers</div>
+              <p>Polymeric nanoparticles and liposomes encapsulate active pharmaceutical ingredients (APIs) for targeted drug delivery.</p>
+            `
+          }
+        ];
+      } else {
+        // MBA
+        return [
+          {
+            title: `Chapter 1: Strategic Financial Management & Portfolio Analytics`,
+            content: `
+              <div class="reader-chapter-title">Chapter 1: Strategic Financial Management & Analytics</div>
+              <p>Financial decision-making balances Risk and Expected Return using the Capital Asset Pricing Model (CAPM) and Discounted Cash Flow (DCF).</p>
+              <div class="reader-callout">
+                <strong>Capital Asset Pricing Model (CAPM):</strong><br>
+                \\( E(R_i) = R_f + \\beta_i (E(R_m) - R_f) \\)
+              </div>
+            `
+          },
+          {
+            title: `Chapter 2: Global Supply Chain & Operations Optimization`,
+            content: `
+              <div class="reader-chapter-title">Chapter 2: Global Supply Chain & Operations</div>
+              <p>Optimizes Economic Order Quantity (EOQ) and just-in-time inventory systems across global supply chain networks.</p>
+            `
+          }
+        ];
+      }
+    }
+
+    // Global helper function to add multiple books in bulk programmatically or via UI
+    window.addBooksBulk = function (newBooks) {
+      if (!Array.isArray(newBooks) || newBooks.length === 0) {
+        showToast("Please provide a valid non-empty array of book objects!");
+        return 0;
+      }
+
+      let maxId = booksData.reduce((max, b) => Math.max(max, b.id || 0), 0);
+      const depts = ["CSE", "ECE", "EEE", "MECH", "CIVIL", "PHARM", "MBA"];
+      const styles = ["book-cover-style-1", "book-cover-style-2", "book-cover-style-3", "book-cover-style-4"];
+      const types = ["textbook", "journal", "reference", "gate"];
+
+      let addedCount = 0;
+      newBooks.forEach(b => {
+        maxId++;
+        const deptVal = depts.includes(b.dept) ? b.dept : depts[Math.floor(Math.random() * depts.length)];
+        const styleVal = b.style || styles[Math.floor(Math.random() * styles.length)];
+        const typeVal = b.type || types[Math.floor(Math.random() * types.length)];
+        const yearVal = b.year || 2026;
+        const ratingVal = b.rating || (Math.random() * 0.4 + 4.6).toFixed(1);
+
+        const hasValidChapters = (Array.isArray(b.chapters) && b.chapters.length > 0);
+        const chaptersList = hasValidChapters ? b.chapters : generateRichChapters(b.title, deptVal);
+
+        const formattedBook = {
+          id: maxId,
+          title: b.title || `Academic Volume ${maxId}`,
+          author: b.author || `Faculty Author ${maxId}`,
+          dept: deptVal,
+          type: typeVal,
+          style: styleVal,
+          rating: String(ratingVal),
+          edition: b.edition || `${yearVal} Edition`,
+          year: yearVal,
+          pagesCount: b.pagesCount || Math.floor(Math.random() * 200 + 150),
+          desc: b.desc || `A comprehensive academic reference textbook covering core principles, mathematical modeling, practical design implementations, and research advancements in ${deptVal} at DR. RVR NRI Institute of Technology.`,
+          chapters: chaptersList
+        };
+
+        booksData.push(formattedBook);
+        addedCount++;
+      });
+
+      // Update Department Filter Counts
+      depts.forEach(d => {
+        const countEl = document.getElementById(`count${d}`);
+        if (countEl) {
+          countEl.innerText = booksData.filter(b => b.dept === d).length;
+        }
+      });
+      const totalCountEl = document.getElementById('countAll');
+      if (totalCountEl) totalCountEl.innerText = booksData.length;
+
+      renderBooks(searchInput ? searchInput.value : '');
+      showToast(`Successfully added ${addedCount} new book(s) in bulk with full chapters & details! Total catalog: ${booksData.length} books.`);
+      return addedCount;
+    };
+
+    // UI Handler for Quick Auto Generator
+    function handleBulkGenerate() {
+      const targetDept = document.getElementById('bulkDeptSelect').value;
+      const count = parseInt(document.getElementById('bulkCountSelect').value, 10) || 10;
+
+      const titlesPool = {
+        CSE: ["Quantum Computing & Parallel Architectures", "Modern Compiler Optimization & LLVM", "Blockchain Protocols & Smart Contracts", "Distributed Cloud Infrastructure", "Autonomous Robotics & Computer Vision"],
+        ECE: ["5G & 6G Wireless Communication Engineering", "Nanoscale CMOS & FinFET VLSI Design", "Embedded Systems & ARM Architecture", "Digital Signal Processing & Machine Learning", "RF & Microwave Antenna Systems"],
+        EEE: ["Smart Grid Technology & Power Systems", "Solar PV Systems & Microgrid Dynamics", "High Voltage Power Electronics", "Electric Vehicle Drives & Battery Management", "Adaptive Control Theory & Robotics"],
+        MECH: ["Additive Manufacturing & 3D Printing", "CFD Modeling & Thermal Management", "Automotive Systems & Propulsion", "Robotics Dynamics & Kinematics", "Finite Element Method in Solid Mechanics"],
+        CIVIL: ["Earthquake Resistant Structure Design", "Advanced Concrete Technology & Materials", "Geotechnical & Soil Mechanics Engineering", "Sustainable Urban Water Infrastructure", "Highway Engineering & Traffic Modeling"],
+        PHARM: ["Novel Drug Delivery Systems & Nanomedicine", "Targeted Cancer Chemotherapy & Biologics", "Pharmaceutical Spectroscopy & HPLC", "Clinical Toxicology & Pharmacovigilance", "Computer-Aided Drug Design & Docking"],
+        MBA: ["Strategic Financial Analytics & Fintech", "Global Supply Chain & Logistics Optimization", "Digital Marketing Strategy & AI", "Corporate Governance & Sustainable Business", "Behavioral Economics & Leadership"]
+      };
+
+      const authorsPool = [
+        "Dr. K. V. Sharma & Prof. R. Rao",
+        "Dr. M. Chaitanya & Dr. P. Ramana",
+        "Prof. S. N. Murthy & Dr. A. Sudhakar",
+        "Dr. G. Lakshmi & Dr. V. Srinivas",
+        "Prof. R. K. Varma & Dr. N. Prasad"
+      ];
+
+      const depts = ["CSE", "ECE", "EEE", "MECH", "CIVIL", "PHARM", "MBA"];
+      const generatedList = [];
+
+      for (let i = 0; i < count; i++) {
+        const d = (targetDept === 'ALL') ? depts[i % depts.length] : targetDept;
+        const pool = titlesPool[d] || titlesPool["CSE"];
+        const titleBase = pool[i % pool.length];
+        const title = `${titleBase} (Vol. ${Math.floor(i / pool.length) + 1})`;
+        const author = authorsPool[i % authorsPool.length];
+
+        generatedList.push({
+          title: title,
+          author: author,
+          dept: d,
+          type: (i % 2 === 0) ? 'textbook' : 'reference'
+        });
+      }
+
+      window.addBooksBulk(generatedList);
+      if (bulkAddModal) bulkAddModal.classList.remove('active');
+    }
+
+    // UI Handler for Custom JSON Array Import
+    function handleBulkJsonImport() {
+      const rawJson = document.getElementById('bulkJsonInput').value.trim();
+      if (!rawJson) {
+        showToast("Please paste a JSON array of books into the text box!");
+        return;
+      }
+
+      try {
+        const parsed = JSON.parse(rawJson);
+        if (!Array.isArray(parsed)) {
+          showToast("JSON must be an array of book objects e.g. [{...}, {...}]");
+          return;
+        }
+        window.addBooksBulk(parsed);
+        if (bulkAddModal) bulkAddModal.classList.remove('active');
+      } catch (err) {
+        showToast("Invalid JSON syntax! Please check formatting.");
+      }
     }
 
     function setAiPrompt(text) {
@@ -6447,6 +7173,35 @@ int binarySearch(const vector<int>& arr, int target) {
         ScrollTrigger.refresh();
       });
     }
+
+    // Drag & Drop Listener Setup for Direct File Upload
+    document.addEventListener('DOMContentLoaded', () => {
+      const dropZone = document.getElementById('dragDropArea');
+      if (dropZone) {
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+          dropZone.addEventListener(eventName, (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+          }, false);
+        });
+
+        dropZone.addEventListener('dragover', () => {
+          dropZone.style.borderColor = 'var(--accent-orange-bright)';
+          dropZone.style.background = 'rgba(237, 107, 16, 0.12)';
+        });
+
+        dropZone.addEventListener('dragleave', () => {
+          dropZone.style.borderColor = 'var(--accent-orange)';
+          dropZone.style.background = 'rgba(237, 107, 16, 0.04)';
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+          dropZone.style.borderColor = 'var(--accent-orange)';
+          dropZone.style.background = 'rgba(237, 107, 16, 0.04)';
+          handleDirectFileUpload(e);
+        });
+      }
+    });
   </script>
 </body>
 
