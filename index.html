@@ -15,15 +15,17 @@
     href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Fira+Code:wght@400;500&family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,600;1,400&family=Merriweather:ital,wght@0,400;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap"
     rel="stylesheet">
 
-  <!-- Vercel Analytics -->
-  <script type="module">
-    import { inject } from './node_modules/@vercel/analytics/dist/index.mjs';
-    inject();
-  </script>
+  <!-- Vercel Analytics (Guarded for file:// and HTTP/HTTPS production) -->
   <script>
     window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    if (window.location.protocol.startsWith('http')) {
+      const vaScript = document.createElement('script');
+      vaScript.defer = true;
+      vaScript.src = '/_vercel/insights/script.js';
+      vaScript.onerror = function () {};
+      document.head.appendChild(vaScript);
+    }
   </script>
-  <script defer src="/_vercel/insights/script.js"></script>
 
   <!-- GSAP CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -135,6 +137,11 @@
     body {
       min-height: 100vh;
       isolation: isolate;
+    }
+
+    body.no-scroll {
+      overflow: hidden !important;
+      touch-action: none;
     }
 
     /* Branded watermark background — visible site-wide */
@@ -3124,21 +3131,26 @@
       }
 
       .brand-title {
-        font-size: 1.08rem;
+        font-size: clamp(0.85rem, 2vw, 1.05rem);
         font-weight: 800;
         line-height: 1.25;
-        white-space: normal;
+        white-space: nowrap;
         display: block;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
 
       .brand-subtitle {
         display: block !important;
-        font-size: 0.7rem;
+        font-size: 0.68rem;
         font-weight: 700;
         color: var(--accent-orange-bright);
         letter-spacing: 0.5px;
         text-transform: uppercase;
         margin-top: 2px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
 
       .hero-grid {
@@ -3252,20 +3264,28 @@
         display: flex !important;
       }
 
+      .brand-logo-img {
+        width: 58px;
+        height: 58px;
+      }
+
       .brand-title {
-        font-size: 0.88rem;
+        font-size: clamp(0.82rem, 2.5vw, 0.96rem);
         font-weight: 800;
         line-height: 1.25;
-        white-space: normal;
+        white-space: nowrap;
         display: block;
+        letter-spacing: -0.2px;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
 
       .brand-subtitle {
         display: block !important;
-        font-size: 0.64rem;
+        font-size: clamp(0.58rem, 1.7vw, 0.68rem);
         font-weight: 700;
         color: var(--accent-orange-bright);
-        letter-spacing: 0.4px;
+        letter-spacing: 0.3px;
         text-transform: uppercase;
         margin-top: 2px;
         white-space: nowrap;
@@ -3352,9 +3372,9 @@
 
       .nav-container {
         height: auto;
-        min-height: 64px;
-        padding: 6px 10px;
-        gap: 8px;
+        min-height: 68px;
+        padding: 6px 8px;
+        gap: 6px;
         width: 100%;
         max-width: 100vw;
         box-sizing: border-box;
@@ -3372,8 +3392,8 @@
       }
 
       .brand-logo-img {
-        width: 42px;
-        height: 42px;
+        width: 52px;
+        height: 52px;
         flex-shrink: 0;
       }
 
@@ -3385,25 +3405,28 @@
       }
 
       .brand-title {
-        font-size: clamp(0.72rem, 3.4vw, 0.8rem);
+        font-size: clamp(0.7rem, 2.95vw, 0.84rem);
         font-weight: 800;
-        line-height: 1.18;
-        white-space: normal;
+        line-height: 1.2;
+        white-space: nowrap;
         display: block;
-        word-break: break-word;
+        letter-spacing: -0.35px;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
 
       .brand-subtitle {
         display: block !important;
-        font-size: clamp(0.5rem, 2.1vw, 0.56rem);
+        font-size: clamp(0.5rem, 2.1vw, 0.6rem);
         font-weight: 700;
         color: var(--accent-orange-bright);
-        letter-spacing: 0.15px;
+        letter-spacing: 0.1px;
         text-transform: uppercase;
-        margin-top: 1px;
-        white-space: normal;
-        line-height: 1.15;
-        word-break: break-word;
+        margin-top: 2px;
+        white-space: nowrap;
+        line-height: 1.2;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
 
       .nav-actions {
@@ -5757,11 +5780,24 @@ int binarySearch(const vector<int>& arr, int target) {
     const navDropdown = document.getElementById('navDropdown');
     const navDropdownOverlay = document.getElementById('navDropdownOverlay');
 
+    // Modal & Background Scroll Lock Helper
+    function setScrollLock(isLocked) {
+      if (isLocked) {
+        document.body.classList.add('no-scroll');
+      } else {
+        const hasActiveModal = document.querySelector('.modal-overlay.active, .reader-modal-overlay.active, .shelf-drawer.active');
+        if (!hasActiveModal) {
+          document.body.classList.remove('no-scroll');
+        }
+      }
+    }
+
     // Initialize Page
     document.addEventListener('DOMContentLoaded', () => {
       renderBooks();
       updateShelfUI();
-      initGSAPAnimations();
+      if (typeof initHeroParticleCanvas === 'function') initHeroParticleCanvas();
+      if (typeof initGSAPAnimations === 'function') initGSAPAnimations();
       initScrollProgress();
       initDropdownNav();
       initThemeToggle();
@@ -5797,25 +5833,27 @@ int binarySearch(const vector<int>& arr, int target) {
       window.addEventListener('scroll', () => {
         const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
         const progress = totalHeight > 0 ? (window.scrollY / totalHeight) : 0;
-        progressBar.style.transform = `scaleX(${progress})`;
+        if (progressBar) progressBar.style.transform = `scaleX(${progress})`;
 
         if (window.scrollY > 300) {
-          backToTopBtn.classList.add('visible');
+          if (backToTopBtn) backToTopBtn.classList.add('visible');
         } else {
-          backToTopBtn.classList.remove('visible');
+          if (backToTopBtn) backToTopBtn.classList.remove('visible');
         }
-      });
+      }, { passive: true });
 
-      backToTopBtn.addEventListener('click', () => {
-        if (window.gsap && gsap.plugins && gsap.plugins.scrollTo) {
-          gsap.to(window, { duration: 0.8, scrollTo: 0, ease: 'power3.inOut' });
-        } else {
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-      });
+      if (backToTopBtn) {
+        backToTopBtn.addEventListener('click', () => {
+          if (window.gsap && gsap.plugins && gsap.plugins.scrollTo) {
+            gsap.to(window, { duration: 0.8, scrollTo: 0, ease: 'power3.inOut' });
+          } else {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }
+        });
+      }
     }
 
-    // Hero Canvas Mesh Particles
+    // Hero Canvas Mesh Particles (Optimized with IntersectionObserver)
     function initHeroParticleCanvas() {
       const canvas = document.getElementById('heroCanvas');
       if (!canvas) return;
@@ -5825,24 +5863,38 @@ int binarySearch(const vector<int>& arr, int target) {
       let height = canvas.height = canvas.offsetHeight;
 
       window.addEventListener('resize', () => {
+        if (!canvas) return;
         width = canvas.width = canvas.offsetWidth;
         height = canvas.height = canvas.offsetHeight;
-      });
+      }, { passive: true });
 
       const particles = [];
-      const particleCount = window.innerWidth < 600 ? 18 : 35;
+      const particleCount = window.innerWidth < 600 ? 14 : 28;
 
       for (let i = 0; i < particleCount; i++) {
         particles.push({
           x: Math.random() * width,
           y: Math.random() * height,
-          vx: (Math.random() - 0.5) * 0.8,
-          vy: (Math.random() - 0.5) * 0.8,
+          vx: (Math.random() - 0.5) * 0.6,
+          vy: (Math.random() - 0.5) * 0.6,
           radius: Math.random() * 2 + 1
         });
       }
 
+      let isHeroVisible = true;
+      if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            isHeroVisible = entry.isIntersecting;
+            if (isHeroVisible) requestAnimationFrame(draw);
+          });
+        }, { threshold: 0.1 });
+        const heroSec = document.getElementById('hero');
+        if (heroSec) observer.observe(heroSec);
+      }
+
       function draw() {
+        if (!isHeroVisible) return;
         ctx.clearRect(0, 0, width, height);
 
         for (let i = 0; i < particleCount; i++) {
@@ -5864,11 +5916,11 @@ int binarySearch(const vector<int>& arr, int target) {
             const dy = p.y - p2.y;
             const dist = Math.sqrt(dx * dx + dy * dy);
 
-            if (dist < 130) {
+            if (dist < 110) {
               ctx.beginPath();
               ctx.moveTo(p.x, p.y);
               ctx.lineTo(p2.x, p2.y);
-              ctx.strokeStyle = `rgba(237, 107, 16, ${0.2 * (1 - dist / 130)})`;
+              ctx.strokeStyle = `rgba(237, 107, 16, ${0.18 * (1 - dist / 110)})`;
               ctx.lineWidth = 0.8;
               ctx.stroke();
             }
@@ -6012,13 +6064,54 @@ int binarySearch(const vector<int>& arr, int target) {
       if (e.key === 'Enter') renderBooks(searchInput.value);
     });
 
+    // Filter by department and scroll to catalog
+    function filterByDeptAndScroll(dept) {
+      currentDept = dept;
+      
+      // Highlight matching department tab
+      document.querySelectorAll('#deptTabs .tab-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.dept === dept);
+      });
+
+      // Update search dropdown filter
+      if (departmentFilter) {
+        departmentFilter.value = dept;
+      }
+
+      // Re-render books catalog
+      renderBooks(searchInput ? searchInput.value : '');
+
+      // Close modal
+      if (bookDetailsModal) {
+        bookDetailsModal.classList.remove('active');
+      }
+
+      // Smooth scroll to catalog section
+      setTimeout(() => {
+        const catalogEl = document.getElementById('catalog');
+        if (catalogEl) {
+          if (window.gsap && gsap.plugins && gsap.plugins.scrollTo) {
+            gsap.to(window, { duration: 0.8, scrollTo: '#catalog', ease: 'power3.inOut' });
+          } else {
+            catalogEl.scrollIntoView({ behavior: 'smooth' });
+          }
+        }
+      }, 100);
+    }
+
     // INTERACTIVE DEMO E-BOOK READER FUNCTIONS
     function createSuggestedBookCard(book) {
       const card = document.createElement('div');
       card.className = 'suggested-book-card dept-poster-card-mini';
-      card.onclick = () => {
-        bookDetailsModal.classList.remove('active');
-        setTimeout(() => openBookDetails(book.id), 300);
+      card.onclick = (e) => {
+        e.stopPropagation();
+        openBookDetails(book.id);
+        const modalInfo = document.querySelector('.book-details-info');
+        if (modalInfo) modalInfo.scrollTop = 0;
+        const modalContent = document.querySelector('.book-details-content');
+        if (modalContent) modalContent.scrollTop = 0;
+        const modalCard = document.querySelector('.book-details-modal-card');
+        if (modalCard) modalCard.scrollTop = 0;
       };
 
       card.innerHTML = `
@@ -6074,12 +6167,34 @@ int binarySearch(const vector<int>& arr, int target) {
       }
 
       if (document.getElementById('coverDisplayDept')) {
-        document.getElementById('coverDisplayDept').innerText = `${book.dept} DEPARTMENT`;
+        const coverDeptEl = document.getElementById('coverDisplayDept');
+        coverDeptEl.innerText = `${book.dept} DEPARTMENT`;
+        coverDeptEl.style.cursor = 'pointer';
+        coverDeptEl.onclick = (e) => {
+          e.stopPropagation();
+          filterByDeptAndScroll(book.dept);
+        };
+      }
+
+      // Bind EXPLORE DEPARTMENT button on left poster card
+      const posterExploreDeptBtn = document.querySelector('.poster-cta-btn');
+      if (posterExploreDeptBtn) {
+        posterExploreDeptBtn.onclick = (e) => {
+          e.stopPropagation();
+          filterByDeptAndScroll(book.dept);
+        };
       }
 
       if (detailsBookTitle) detailsBookTitle.innerText = book.title;
       if (detailsBookAuthor) detailsBookAuthor.innerText = book.author;
-      if (detailsBookDept) detailsBookDept.innerText = book.dept;
+      if (detailsBookDept) {
+        detailsBookDept.innerText = book.dept;
+        detailsBookDept.style.cursor = 'pointer';
+        detailsBookDept.onclick = (e) => {
+          e.stopPropagation();
+          filterByDeptAndScroll(book.dept);
+        };
+      }
       if (detailsBookDeptBadge) detailsBookDeptBadge.innerText = book.dept;
       if (detailsBookRating) detailsBookRating.innerText = `★ ${book.rating} / 5.0`;
       if (detailsBookEdition) detailsBookEdition.innerText = book.edition;
@@ -6143,6 +6258,14 @@ int binarySearch(const vector<int>& arr, int target) {
         });
       }
 
+      // Reset scroll position of details modal containers
+      const modalInfo = document.querySelector('.book-details-info');
+      if (modalInfo) modalInfo.scrollTop = 0;
+      const modalContent = document.querySelector('.book-details-content');
+      if (modalContent) modalContent.scrollTop = 0;
+      const modalCard = document.querySelector('.book-details-modal-card');
+      if (modalCard) modalCard.scrollTop = 0;
+
       // Update bookmark button state
       const isSaved = savedBooks.some(b => b.id === book.id);
       detailsBookmarkBtn.innerHTML = `
@@ -6158,8 +6281,6 @@ int binarySearch(const vector<int>& arr, int target) {
         openInteractiveReader(book.id);
       };
 
-
-
       detailsBookmarkBtn.onclick = () => {
         toggleSaveBook(book.id);
         const newlySaved = savedBooks.some(b => b.id === book.id);
@@ -6172,6 +6293,7 @@ int binarySearch(const vector<int>& arr, int target) {
       };
 
       bookDetailsModal.classList.add('active');
+      setScrollLock(true);
     }
 
     function openInteractiveReader(id) {
@@ -6240,6 +6362,7 @@ int binarySearch(const vector<int>& arr, int target) {
 
       renderReaderPage();
       interactiveReaderModal.classList.add('active');
+      setScrollLock(true);
       showToast(`Opened Interactive Reader: "${book.title}"`);
     }
 
@@ -6288,7 +6411,10 @@ int binarySearch(const vector<int>& arr, int target) {
 
     function initReaderControls() {
       closeReaderBtn.addEventListener('click', closeInteractiveReader);
-      closeBookDetailsBtn.addEventListener('click', () => bookDetailsModal.classList.remove('active'));
+      closeBookDetailsBtn.addEventListener('click', () => {
+        bookDetailsModal.classList.remove('active');
+        setScrollLock(false);
+      });
 
       prevPageBtn.addEventListener('click', () => goToReaderPage(currentReaderPage - 1));
       nextPageBtn.addEventListener('click', () => goToReaderPage(currentReaderPage + 1));
@@ -6436,6 +6562,7 @@ int binarySearch(const vector<int>& arr, int target) {
       if (readerWin) readerWin.classList.remove('is-fullscreen');
 
       interactiveReaderModal.classList.remove('active');
+      setScrollLock(false);
       if (isNarratorPlaying) stopAudioNarrator();
 
       // Re-open Book Details Modal like a Back button
@@ -6577,6 +6704,7 @@ int binarySearch(const vector<int>& arr, int target) {
     openShelfBtn.addEventListener('click', () => {
       shelfDrawer.classList.add('active');
       drawerOverlay.classList.add('active');
+      setScrollLock(true);
     });
     const mobileShelfBtn = document.getElementById('mobileShelfBtn');
     if (mobileShelfBtn) {
@@ -6585,15 +6713,18 @@ int binarySearch(const vector<int>& arr, int target) {
         closeDropdown();
         shelfDrawer.classList.add('active');
         drawerOverlay.classList.add('active');
+        setScrollLock(true);
       });
     }
     closeShelfBtn.addEventListener('click', () => {
       shelfDrawer.classList.remove('active');
       drawerOverlay.classList.remove('active');
+      setScrollLock(false);
     });
     drawerOverlay.addEventListener('click', () => {
       shelfDrawer.classList.remove('active');
       drawerOverlay.classList.remove('active');
+      setScrollLock(false);
     });
 
     // Theme Toggle Handler
@@ -6615,8 +6746,14 @@ int binarySearch(const vector<int>& arr, int target) {
     }
 
     // Student & Admin Login Modal Handler
-    loginModalTrigger.addEventListener('click', () => loginModal.classList.add('active'));
-    closeLoginBtn.addEventListener('click', () => loginModal.classList.remove('active'));
+    loginModalTrigger.addEventListener('click', () => {
+      loginModal.classList.add('active');
+      setScrollLock(true);
+    });
+    closeLoginBtn.addEventListener('click', () => {
+      loginModal.classList.remove('active');
+      setScrollLock(false);
+    });
 
     ['loginRollInput', 'loginPasswordInput'].forEach(id => {
       const el = document.getElementById(id);
@@ -6639,6 +6776,7 @@ int binarySearch(const vector<int>& arr, int target) {
 
       if (rollVal.toUpperCase() === 'NRIA23' && passVal === 'lib@123') {
         loginModal.classList.remove('active');
+        setScrollLock(false);
         const bulkBtn = document.getElementById('bulkModalTrigger');
         if (bulkBtn) bulkBtn.style.display = 'inline-flex';
 
@@ -6681,16 +6819,23 @@ int binarySearch(const vector<int>& arr, int target) {
     const closeBulkModalBtn = document.getElementById('closeBulkModalBtn');
 
     if (bulkModalTrigger && bulkAddModal) {
-      bulkModalTrigger.addEventListener('click', () => bulkAddModal.classList.add('active'));
+      bulkModalTrigger.addEventListener('click', () => {
+        bulkAddModal.classList.add('active');
+        setScrollLock(true);
+      });
     }
     if (mobileBulkModalTrigger && bulkAddModal) {
       mobileBulkModalTrigger.addEventListener('click', () => {
         if (typeof closeDropdown === 'function') closeDropdown();
         bulkAddModal.classList.add('active');
+        setScrollLock(true);
       });
     }
     if (closeBulkModalBtn && bulkAddModal) {
-      closeBulkModalBtn.addEventListener('click', () => bulkAddModal.classList.remove('active'));
+      closeBulkModalBtn.addEventListener('click', () => {
+        bulkAddModal.classList.remove('active');
+        setScrollLock(false);
+      });
     }
 
     function switchBulkTab(tab) {
